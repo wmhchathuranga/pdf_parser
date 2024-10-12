@@ -17,18 +17,30 @@ class PDFController extends Controller
         ]);
 
         // Store the PDF file
-        $filePath = $request->file('pdf')->store('pdfs');
+        $pdfFilePath = storage_path('app/private/') .  $request->file('pdf')->store('pdfs');
+        $textFilePath = $pdfFilePath . '.txt';
+        file_put_contents($textFilePath, "");
+        // echo $textFilePath;
 
-        // Parse the PDF
-        $parser = new Parser();
-        $pdf = $parser->parseFile(storage_path('app/private/' . $filePath));
-        $text = $pdf->getText();
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+
+        exec($pythonScript, $output, $return_var);
+
+        if ($return_var !== 0) {
+            return response()->json(['error' => $output], 500);
+        }
+
+        $text = file_get_contents($textFilePath);
+
         $lines = explode("\n", $text);  // Split the text into an array of lines
-        $arr_lines = array_map('trim', $lines);
-        // for ($i = 0; $i < count($arr_lines); $i++) {
-        //     print ( $i . ": " . $arr_lines[$i] . "<br>");
-        // }
-        // die();
+        $lines = array_map('trim', $lines);
+        $filtered_lines = array_filter($lines, 'strlen');
+        $arr_lines = array_values($filtered_lines);
+
+        for ($i = 0; $i < count($arr_lines); $i++) {
+            print($i . ": " . $arr_lines[$i] . "<br>");
+        }
+        die();
 
         $companyName = $arr_lines[7];
         $abn_with_date = explode(" ", $arr_lines[9]);
@@ -448,5 +460,11 @@ class PDFController extends Controller
     {
         $reports = PDFReport::all();
         return view('reports', ['reports' => $reports]);
+    }
+
+    public function showReport($id)
+    {
+        $pdfReport = PDFReport::with(['operatingDetails', 'investingDetails', 'financingDetails', 'cashDetails'])->findOrFail($id);
+        return view('report', compact('pdfReport'));
     }
 }
