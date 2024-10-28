@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Report Details')
+
+
 @section('content')
     <div class="container mt-5">
         <h1 class="text-center mb-4">PDF Report Details</h1>
@@ -270,7 +273,7 @@
                 <tr>
                     <td>Beginning Cash</td>
                     <td>{{ $pdfReport->cashDetails->beginning_cash_c_q }}</td>
-                    <td>{{ $pdfReport->cashDetails->begining_cash_y_t_d }}</td>
+                    <td>{{ $pdfReport->cashDetails->beginning_cash_y_t_d }}</td>
                 </tr>
                 <tr>
                     <td>Operating Cash Flow</td>

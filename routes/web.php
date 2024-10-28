@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/reports', [PDFController::class, 'showReports'])->name('reports');
 Route::get('/report/{id}', [PDFController::class, 'showReport'])->name('report');
+Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('report_h');
 
 Route::get('/upload-pdf', function () {
     return view('upload_pdf');

@@ -33,7 +33,7 @@
     </nav>
 
     <!-- Content Section -->
-    <main class="py-4 vh-100">
+    <main class="py-4">
         @yield('content')
     </main>
 

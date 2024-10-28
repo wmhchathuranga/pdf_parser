@@ -7,7 +7,7 @@
         <div class="alert alert-danger pb-0" id="error-alert">
             <ul>
 
-                <li>Report Seems to be not Following the Template!</li>
+                <li>Report Seems to be not Matching the Template!</li>
 
             </ul>
         </div>
@@ -28,7 +28,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('upload-pdf') }}" method="POST" enctype="multipart/form-data">
+                        <form  action="/upload-pdf" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="pdf">Select PDF File</label>
