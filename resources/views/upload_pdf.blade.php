@@ -53,6 +53,23 @@
                 </div>
             </div>
         </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/upload-pdf-2" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="pdf">Select PDF File</label>
+                                <input type="file" class="form-control-file" id="pdf" name="pdf" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Upload PDF</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
