@@ -19,21 +19,43 @@ class PDFReport extends Model
 
     public function operatingDetails()
     {
-        return $this->hasOne(PDFReportDetailsOperating::class);
+        return $this->hasMany(OperatingDetail::class);
     }
 
-    public function investingDetails()
+    public function relatedPartyPayments()
     {
-        return $this->hasOne(PDFReportDetailsInvesting::class);
+        return $this->hasMany(RelatedPartyPayment::class);
     }
 
     public function financingDetails()
     {
-        return $this->hasOne(PDFReportDetailsFinancing::class);
+        return $this->hasMany(FinancingDetail::class);
+    }
+
+    public function financingFacilities()
+    {
+        return $this->hasMany(FinancingFacility::class);
     }
 
     public function cashDetails()
     {
-        return $this->hasOne(PDFReportDetailsCash::class);
+        return $this->hasMany(CashDetail::class);
+    }
+
+    public function investingDetails()
+    {
+        return $this->hasMany(InvestingDetail::class);
+    }
+
+    public function reconciliationDetails()
+    {
+        return $this->hasMany(ReconciliationDetail::class);
+    }
+
+    // In PDFReport.php
+
+    public function estimatedCashAvailabilities()
+    {
+        return $this->hasMany(EstimatedCashAvailability::class);
     }
 }

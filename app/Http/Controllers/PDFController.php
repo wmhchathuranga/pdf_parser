@@ -244,7 +244,7 @@ class PDFController extends Controller
         for ($i = 0; $i < count($second_table_content); $i++) {
 
             // print($i . ":" . $second_table_content[$i] . "<br>");
-            
+
             switch ($second_table_content[$i]) {
                 case Str::contains($second_table_content[$i], 'Proceeds'):
                     $is_proceeds = true;
@@ -728,7 +728,7 @@ class PDFController extends Controller
         $abn_with_date = explode(" ", $arr_lines[7]);
         $quarterEnding = implode(" ", array_slice($abn_with_date, -3));
         $abn = implode(" ", array_slice($abn_with_date, 0, -3));
-        
+
 
 
         // Save extracted data to the database
@@ -840,6 +840,10 @@ class PDFController extends Controller
             'effect_of_movement_y_t_d' => $this->convertBracketedToNegative($effectOfMovement_y_t_d),
             'end_cash_c_q' => $this->convertBracketedToNegative($endCash_c_q),
             'end_cash_y_t_d' => $this->convertBracketedToNegative($endCash_y_t_d),
+        ]);
+
+        // 5. Reconciliation of cash and cash equivalents
+        $pdfReport->reconciliationDetails()->create([
             'bank_balance_c_q' => $this->convertBracketedToNegative($bankBalance_c_q),
             'bank_balance_y_t_d' => $this->convertBracketedToNegative($bankBalance_y_t_d),
             'call_deposits_c_q' => $this->convertBracketedToNegative($callDepostes_c_q),
@@ -850,8 +854,17 @@ class PDFController extends Controller
             'other_4_y_t_d' => $this->convertBracketedToNegative($other_4_y_t_d),
             'cash_equivalents_end_period_c_q' => $this->convertBracketedToNegative($cashEquivalentsEndPeriod_c_q),
             'cash_equivalents_end_period_y_t_d' => $this->convertBracketedToNegative($cashEquivalentsEndPeriod_y_t_d),
+        ]);
+
+        // 6. Payments to related parties of the entity and their associates
+        $pdfReport->relatedPartyPayments()->create([
             'aggregated_1_c_q' => $this->convertBracketedToNegative($aggregated_1_c_q),
             'aggregated_2_c_q' => $this->convertBracketedToNegative($aggregated_2_c_q),
+        ]);
+
+
+        // 7. Financing facilities
+        $pdfReport->financingFacilities()->create([
             'loans_c_q' => $this->convertBracketedToNegative($loans_c_q),
             'loans_y_t_d' => $this->convertBracketedToNegative($loans_y_t_d),
             'credit_standby_c_q' => $this->convertBracketedToNegative($creditStandby_c_q),
@@ -861,6 +874,11 @@ class PDFController extends Controller
             'total_financing_c_q' => $this->convertBracketedToNegative($totalFinancing_c_q),
             'total_financing_y_t_d' => $this->convertBracketedToNegative($totalFinancing_y_t_d),
             'unused_financing_facilities_y_t_d' => $this->convertBracketedToNegative($unusedFinancingFacilities_y_t_d),
+        ]);
+
+
+        // 8. Estimated cash available for future operating activities
+        $pdfReport->estimatedCashAvailabilities()->create([
             'net_cash_operating_c_q' => $this->convertBracketedToNegative($netCashOperating_c_q),
             'future_payments_for_exploration_evaluation_c_q' => $this->convertBracketedToNegative($paymentsForExplorationEvaluation_c_q),
             'total_relevant_payments_c_q' => $this->convertBracketedToNegative($totalRelevantPayments_c_q),
@@ -874,12 +892,20 @@ class PDFController extends Controller
     }
 
     public function convertBracketedToNegative($value)
-{
-    if (preg_match('/\((\-?[\d,]+)\)/', $value, $matches)) {
-        return '-' . str_replace(',', '', $matches[1]);  // Remove commas before converting to negative
+    {
+        // Remove commas
+        $value = str_replace(',', '', $value);
+
+        if (preg_match('/\((\-?[\d,]+)\)/', $value, $matches)) {
+            return '-' . str_replace(',', '', $matches[1]);  // Remove commas before converting to negative
+        }
+        
+        // if $value = '-' then return null
+        if ($value == '-') {
+            return null;
+        }
+        return $value;
     }
-    return $value;
-}
     // Extract value between two known phrases
     private function extractValue($text, $start, $end)
     {
@@ -905,6 +931,4 @@ class PDFController extends Controller
         $pdfReport = PDFReport::with(['operatingDetails', 'investingDetails', 'financingDetails', 'cashDetails'])->findOrFail($id);
         return view('report_h', compact('pdfReport'));
     }
-
-
 }
