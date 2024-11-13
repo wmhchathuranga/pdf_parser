@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Part1;
+use App\Models\Part2;
+use App\Models\Part3;
+use App\Models\Appendix3X;
 use Illuminate\Http\Request;
 use App\Mail\ExceptionOccurredMail;
 use Illuminate\Support\Facades\Mail;
@@ -65,6 +69,18 @@ class PDFController2 extends Controller
             if ($date_of_appointment == "" || $date_of_appointment == "Date of appointment")
                 $date_of_appointment = $page_1[5];
 
+            $appendix3X = Appendix3X::create([
+                'document_number' => $document_number,
+                'document_title' => $document_title,
+                'name_of_entity' => $name_of_entity,
+                'stock_code' => $stock_code,
+                'abn' => $abn,
+                'name_of_director' => $name_of_director,
+                'date_of_appointment' => $date_of_appointment,
+            ]);
+
+
+
             // Part 1
             $part_1 = array();
             $part_1_start_point = 0;
@@ -87,6 +103,13 @@ class PDFController2 extends Controller
             }
 
             // dd($part_1);
+
+            $part1 = Part1::create([
+                'appendix3_x_id' => $appendix3X->id,
+                'number_class_of_securities' => $part_1,
+            ]);
+
+
 
             // Part 2
             $part_2 = array();
@@ -203,7 +226,15 @@ class PDFController2 extends Controller
 
             $part_2_left_records = array_values(array_filter($part_2_left_records));
 
-            dd($part_2_left_records, $part_2_right_records);
+            // dd($part_2_left_records, $part_2_right_records);
+
+
+            $part2 = Part2::create([
+                'appendix3_x_id' => $appendix3X->id,
+                'name_of_holder_nature_of_interest' => $part_2_left_records,
+                'number_class_of_securities' => $part_2_right_records,
+            ]);
+
 
             // Part 3
             $part_3 = array();
@@ -273,9 +304,19 @@ class PDFController2 extends Controller
                 $interest_relates = trim(preg_replace("/interest relates/", "", $interest_relates));
                 $interest_relates = trim(preg_replace("/No. and class of securities to which/", "", $interest_relates));
             }
+
+            $part3 = Part3::create([
+                'appendix3_x_id' => $appendix3X->id,
+                'detail_of_contract' => $detail_of_contract,
+                'nature_of_interest' => $nature_of_interest,
+                'name_of_registered_holder' => $name_of_registered_holder,
+                'no_and_class_of_securities_to_which_interest_relates' => $interest_relates,
+            ]);
         } catch (\Throwable $th) {
             // send an email to admin
             Mail::to('wmhchathuranga@gmail.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
+            Mail::to('john@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
+            Mail::to('anthony@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
 
             // Optionally, rethrow the exception or log it
             // throw $th;
