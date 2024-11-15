@@ -20,6 +20,7 @@
         <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
 
+
     <div class="row justify-content-center">
         <div class="card col-auto">
             <div class="card-header">
@@ -50,13 +51,29 @@
 
 
     <div class="row">
-        
-        <div class="card">
+        <div class="card col-6">
             <div class="card-body">
+                <div>
+                    <canvas class="form-control" id="pdf-canvas"></canvas>
+                    <div id="navigation" class="mt-3">
+                        <button class="btn btn-primary btn-sm" id="prev-page">
+                            << Previous Page</button>
+                                <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+                                <button class="btn btn-primary btn-sm" id="next-page">Next Page >></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="card col-6">
+            <div class="card-body" style="max-height: 800px; overflow-y: scroll">
                 <div class="table-responsive">
-                    <table id="buttons-datatable1" class="table table-striped table-bordered">
+                    <table id="buttons-datatable1"
+                        class="table table-hover table-bordered dt-responsive nowrap align-middle mdl-data-table" data-editable="true"
+                        style="height: 400px">
                         <thead class="thead-dark">
-                            <tr class="table-dark text-white">
+                            <tr class="table-dark text-white" style="max-height: 30px">
                                 <th>Details</th>
                                 <th>Current Quarter</th>
                                 <th>Year to Date</th>
@@ -65,6 +82,8 @@
                         <tbody>
                             <tr>
                                 <td class="table-warning fs-15" colspan="3">Cash Flows from Operating Activities</td>
+                                
+                                
                             </tr>
                             <tr>
                                 <td>Receipts from Customers</td>
@@ -134,6 +153,8 @@
 
                             <tr>
                                 <td class="table-warning fs-15" colspan="3">Cash Flows from Investing Activities</td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -214,7 +235,9 @@
 
 
                             <tr>
-                                <td  class="table-warning fs-15" colspan="3">Cash Flows from Financing Activities</td>
+                                <td class="table-warning fs-15" colspan="3">Cash Flows from Financing Activities</td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -270,6 +293,8 @@
 
                             <tr>
                                 <td class="table-warning fs-15" colspan="3">Cash Flow Summary</td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -306,7 +331,10 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Reconciliation of Cash and Cash Equivalents</td>
+                                <td class="table-warning fs-15" colspan="3">Reconciliation of Cash and Cash Equivalents
+                                </td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -338,6 +366,8 @@
 
                             <tr>
                                 <td class="table-warning fs-15" colspan="3">Payments to Related Parties</td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -353,6 +383,8 @@
 
                             <tr>
                                 <td class="table-warning fs-15" colspan="3">Financing and Credit Facilities</td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -383,6 +415,8 @@
 
                             <tr>
                                 <td class="table-warning fs-15" colspan="3">Cash Flow and Funding</td>
+                                
+                                
                             </tr>
 
                             <tr>
@@ -428,82 +462,126 @@
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <!-- Link to PDF.js library via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
     <script>
-        //buttons examples
-        let buttonsDataTable1 = new DataTable('#buttons-datatable1', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
+        const url = "<?php echo e(URL::asset('storage/pdfs/report01.pdf')); ?>"; // Replace with the actual PDF file path
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        const scale = 1;
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.min.js';
+
+        /**
+         * Render the current page.
+         */
+        function renderPage(num) {
+            pageRendering = true;
+
+            // Fetch the page
+            pdfDoc.getPage(num).then(page => {
+                const viewport = page.getViewport({
+                    scale
+                });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render PDF page into canvas context
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                const renderTask = page.render(renderContext);
+
+                // Wait for rendering to finish
+                renderTask.promise.then(() => {
+                    pageRendering = false;
+
+                    if (pageNumPending !== null) {
+                        // New page rendering is pending
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+
+                // Update page counters
+                document.getElementById('page-num').textContent = pageNum;
+            });
+        }
+
+        /**
+         * If another page is currently rendering, wait until the rendering is
+         * finished. Otherwise, execute immediately.
+         */
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        /**
+         * Display the previous page.
+         */
+        function onPrevPage() {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        /**
+         * Display the next page.
+         */
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        // Load the PDF document
+        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page-count').textContent = pdfDoc.numPages;
+
+            // Initial page rendering
+            renderPage(pageNum);
         });
-        //buttons examples
-        let buttonsDataTable2 = new DataTable('#buttons-datatable2', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
-        //buttons examples
-        let buttonsDataTable3 = new DataTable('#buttons-datatable3', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
-        //buttons examples
-        let buttonsDataTable4 = new DataTable('#buttons-datatable4', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
-        //buttons examples
-        let buttonsDataTable5 = new DataTable('#buttons-datatable5', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
-        //buttons examples
-        let buttonsDataTable6 = new DataTable('#buttons-datatable6', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
-        //buttons examples
-        let buttonsDataTable7 = new DataTable('#buttons-datatable7', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
-        //buttons examples
-        let buttonsDataTable8 = new DataTable('#buttons-datatable8', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ]
-        });
+
+        // Button events
+        document.getElementById('prev-page').addEventListener('click', onPrevPage);
+        document.getElementById('next-page').addEventListener('click', onNextPage);
     </script>
-    
+
+    <script>
+        var tds = document.getElementsByTagName("td");
+        for(var i = 0; i < tds.length; i++){
+            tds[i].addEventListener("dblclick", editCellValue);
+        }
+        function editCellValue(){
+            this.innerHTML = "<input type='text' value='" + this.innerHTML + "' />";
+            var input = this.querySelector("input");
+            input.select();
+            input.focus();
+            input.onblur = function(){
+                this.parentNode.innerHTML = this.value;
+            }
+        }
+    </script>
 
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>

@@ -33,7 +33,9 @@ Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('repor
 //     return view('upload-pdf');
 // });
 
-
+Route::get('/charts', function () {
+    return view('charts');
+})->name('charts');
 
 // Routes for developers
 Route::middleware(['auth', 'userPermissions'])->prefix('dev')->group(function () {

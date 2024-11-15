@@ -135,13 +135,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="all-reports">
+                        <a class="nav-link menu-link" href="report">
                             <i class="mdi mdi-file"></i> <span>Report</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="dashboard-analytics">
+                        <a class="nav-link menu-link" href="<?php echo e(route('charts')); ?>">
                             <i class="mdi mdi-chart-arc"></i> <span>Analytics</span>
                         </a>
                     </li>
