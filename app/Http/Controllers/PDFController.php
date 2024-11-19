@@ -18,12 +18,12 @@ class PDFController extends Controller
         ]);
 
         // Store the PDF file
-        $pdfFilePath = storage_path('app/private/') .  $request->file('pdf')->store('pdfs');
+        $pdfFilePath = storage_path('app/public/') .  $request->file('pdf')->store('pdfs');
         $textFilePath = $pdfFilePath . '.txt';
         file_put_contents($textFilePath, "");
         // echo $textFilePath;
 
-        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/public/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
 
         exec($pythonScript, $output, $return_var);
 

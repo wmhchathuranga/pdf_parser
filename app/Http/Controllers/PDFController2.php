@@ -20,12 +20,12 @@ class PDFController2 extends Controller
         ]);
 
         // Store the PDF file
-        $pdfFilePath = storage_path('app/private/') .  $request->file('pdf')->store('pdfs');
+        $pdfFilePath = storage_path('app/public/') .  $request->file('pdf')->store('pdfs');
         $textFilePath = $pdfFilePath . '.txt';
         file_put_contents($textFilePath, "");
         // echo $textFilePath;
 
-        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/public/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
 
         exec($pythonScript, $output, $return_var);
 
@@ -76,7 +76,7 @@ class PDFController2 extends Controller
                 'stock_code' => $stock_code,
                 'abn' => $abn,
                 'name_of_director' => $name_of_director,
-                'date_of_appointment' => $date_of_appointment,
+                'date_of_appointment' => date('Y-m-d', strtotime($date_of_appointment))
             ]);
 
 
@@ -103,12 +103,12 @@ class PDFController2 extends Controller
             }
 
             // dd($part_1);
-
-            $part1 = Part1::create([
-                'appendix3_x_id' => $appendix3X->id,
-                'number_class_of_securities' => $part_1,
-            ]);
-
+            for ($i = 0; $i < count($part_1); $i++) {
+                Part1::create([
+                    'appendix3_x_id' => $appendix3X->id,
+                    'number_class_of_securities' => $part_1[$i],
+                ]);
+            }
 
 
             // Part 2
@@ -226,14 +226,22 @@ class PDFController2 extends Controller
 
             $part_2_left_records = array_values(array_filter($part_2_left_records));
 
+            if (count($part_2_right_records) > count($part_2_left_records)) {
+                $part_2_right_records = array_pad($part_2_right_records, count($part_2_left_records), "");
+            } else {
+                $part_2_left_records = array_pad($part_2_left_records, count($part_2_right_records), "");
+            }
+
+            for ($i = 0; $i < count($part_2_left_records); $i++) {
+                Part2::create([
+                    'appendix3_x_id' => $appendix3X->id,
+                    'name_of_holder_nature_of_interest' => $part_2_left_records[$i],
+                    'number_class_of_securities' => $part_2_right_records[$i],
+                ]);
+            }
             // dd($part_2_left_records, $part_2_right_records);
 
 
-            $part2 = Part2::create([
-                'appendix3_x_id' => $appendix3X->id,
-                'name_of_holder_nature_of_interest' => $part_2_left_records,
-                'number_class_of_securities' => $part_2_right_records,
-            ]);
 
 
             // Part 3
@@ -314,12 +322,12 @@ class PDFController2 extends Controller
             ]);
         } catch (\Throwable $th) {
             // send an email to admin
-            Mail::to('wmhchathuranga@gmail.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
-            Mail::to('john@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
-            Mail::to('anthony@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
+            // Mail::to('wmhchathuranga@gmail.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
+            // Mail::to('john@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
+            // Mail::to('anthony@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
 
             // Optionally, rethrow the exception or log it
-            // throw $th;
+            throw $th;
         }
     }
 }

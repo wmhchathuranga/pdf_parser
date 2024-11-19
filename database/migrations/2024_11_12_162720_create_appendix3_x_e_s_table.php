@@ -8,7 +8,7 @@ class CreateAppendix3XesTable extends Migration
 {
     public function up()
     {
-        Schema::create('appendix3_xes', function (Blueprint $table) {
+        Schema::create('appendix3_x_e_s', function (Blueprint $table) {
             $table->id();
             $table->string('document_number');
             $table->string('document_title');
@@ -17,12 +17,13 @@ class CreateAppendix3XesTable extends Migration
             $table->string('abn')->nullable();
             $table->string('name_of_director')->nullable();
             $table->date('date_of_appointment')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('appendix3_xes');
+        Schema::dropIfExists('appendix3_x_e_s');
     }
 }

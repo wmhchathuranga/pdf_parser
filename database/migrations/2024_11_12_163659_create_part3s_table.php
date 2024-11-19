@@ -10,7 +10,7 @@ class CreatePart3sTable extends Migration
     {
         Schema::create('part3s', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('appendix3_x_id')->constrained()->onDelete('cascade');
+            $table->foreignId('appendix3_x_id')->constrained('appendix3_x_e_s')->onDelete('cascade');
             $table->string('detail_of_contract');
             $table->string('nature_of_interest');
             $table->string('name_of_registered_holder');
