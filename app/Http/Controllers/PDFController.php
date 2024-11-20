@@ -18,12 +18,13 @@ class PDFController extends Controller
         ]);
 
         // Store the PDF file
-        $pdfFilePath = storage_path('app/public/') .  $request->file('pdf')->store('pdfs');
+        $relativePath = $request->file('pdf')->store('pdfs', 'public');
+        $pdfFilePath = storage_path('app/public/') .  $relativePath;
         $textFilePath = $pdfFilePath . '.txt';
         file_put_contents($textFilePath, "");
         // echo $textFilePath;
 
-        $pythonScript = "/usr/bin/python3 " . storage_path('app/public/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
 
         exec($pythonScript, $output, $return_var);
 
@@ -736,6 +737,7 @@ class PDFController extends Controller
             'quarter_ending' => $quarterEnding,
             'company_name' => $companyName,
             'abn' => $abn,
+            'pdf' => $relativePath
         ]);
 
         // 1. Cash flows from operating activities
@@ -888,7 +890,7 @@ class PDFController extends Controller
             'estimated_quarterly_funding_c_q' => $this->convertBracketedToNegative($estimatedQuarterlyFunding_c_q),
         ]);
 
-        return redirect()->back()->with('success', 'PDF data extracted successfully!');
+        return response()->json(['success' => true]);
     }
 
     public function convertBracketedToNegative($value)

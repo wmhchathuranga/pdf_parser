@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('quarter_ending');
             $table->string('company_name');
             $table->string('abn');
+            $table->string('pdf');
             $table->softDeletes();
             $table->timestamps();
         });

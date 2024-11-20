@@ -20,12 +20,13 @@ class PDFController2 extends Controller
         ]);
 
         // Store the PDF file
-        $pdfFilePath = storage_path('app/public/') .  $request->file('pdf')->store('pdfs');
+        $relativePath = $request->file('pdf')->store('pdfs', 'public');
+        $pdfFilePath = storage_path('app/public/') .  $relativePath;
         $textFilePath = $pdfFilePath . '.txt';
         file_put_contents($textFilePath, "");
         // echo $textFilePath;
 
-        $pythonScript = "/usr/bin/python3 " . storage_path('app/public/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
 
         exec($pythonScript, $output, $return_var);
 
@@ -76,7 +77,8 @@ class PDFController2 extends Controller
                 'stock_code' => $stock_code,
                 'abn' => $abn,
                 'name_of_director' => $name_of_director,
-                'date_of_appointment' => date('Y-m-d', strtotime($date_of_appointment))
+                'date_of_appointment' => date('Y-m-d', strtotime($date_of_appointment)),
+                'pdf' => $relativePath,
             ]);
 
 

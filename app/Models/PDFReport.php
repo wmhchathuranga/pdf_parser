@@ -15,6 +15,7 @@ class PDFReport extends Model
         'quarter_ending',
         'company_name',
         'abn',
+        'pdf'
     ];
 
     public function operatingDetails()

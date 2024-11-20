@@ -12,6 +12,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/pdfs/{filename}', function ($filename) {
+    $path = storage_path('/app/public/pdfs/' . $filename);
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
+    if ($extension != 'pdf') {
+        dd($extension);
+        abort(404);
+    }
+    if (!file_exists($path)) {
+        dd($path);
+        abort(404);
+    }
+
+    return response()->file($path);
+})->where('filename', '[A-Za-z0-9]+.pdf');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -42,4 +57,4 @@ Route::get('/tokens/create', function (Request $request) {
     ]);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
