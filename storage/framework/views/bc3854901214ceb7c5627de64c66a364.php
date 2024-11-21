@@ -670,6 +670,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
     <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let htmlTag = document.getElementsByTagName('html')[0];
+            htmlTag.setAttribute('data-sidebar-size', 'sm');
+        })
+    </script>
 
     <script>
         let pdfDoc = null;
