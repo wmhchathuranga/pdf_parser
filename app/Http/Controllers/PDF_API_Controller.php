@@ -95,7 +95,9 @@ class PDF_API_Controller extends Controller
 
     public function showCompanies()
     {
-        $companies = PDFReport::select('id','company_name','abn')->distinct()->get();
+        $companies = PDFReport::selectRaw('MIN(id) as id, company_name, abn')
+        ->groupBy('abn', 'company_name')
+        ->get();        
         return response()->json($companies);
     }
 }

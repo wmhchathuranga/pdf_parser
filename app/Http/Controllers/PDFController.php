@@ -424,6 +424,7 @@ class PDFController extends Controller
         // print($proceedsFromDebt_c_q . " " . $proceedsFromDebt_y_t_d . "<br>");
 
         $proceedsFromExcercise = explode(" ", $third_table_content[4]);
+        // dd($third_table_content);
         $proceedsFromExcercise_c_q = $proceedsFromExcercise[count($proceedsFromExcercise) - 2];
         $proceedsFromExcercise_y_t_d = $proceedsFromExcercise[count($proceedsFromExcercise) - 1];
 
