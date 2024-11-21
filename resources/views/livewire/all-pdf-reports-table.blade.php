@@ -1,16 +1,10 @@
 <div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="mb-3">
-                <h2 class="">Quarterly Reports</h2>
-                <p class="text-muted mb-0">Browse through our quarterly reports and view details about each
-                    company’s financial status.
-                </p>
-            </div>
             <div class="card">
                 <div class="card-body d-flex justify-content-end">
                     <div class="col-3 col-lg-4 pe-3">
-                        <select onchange="loadTable(this)" class="form-control my-auto" data-choices name="choices-single-default" id="choices-single-default" wire:change="changeCompany($event.target.value)">
+                        <select class="form-control my-auto" data-choices name="choices-single-default" id="choices-single-default" wire:change="changeCompany($event.target.value)">
                             <option value="">Search by ABN</option>
                             @if ($companies != null)
                                 @foreach ($companies as $company)

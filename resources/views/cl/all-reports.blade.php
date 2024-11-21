@@ -33,17 +33,8 @@
         </script>
     @endif
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        @livewire('fetch-report')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @livewire('fetch-report')
+
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"

@@ -28,7 +28,8 @@
         </div>
     </div>
 
-    <div class="row g-3 pb-5 pt-4">
+    @livewire('single-pdf-chart')
+    {{-- <div class="row g-3 pb-5 pt-4">
         <div class="col-sm-4">
             <select class="form-control" id="choices-multiple-remove-button">
                 @if (!empty($companiesArray) && is_array($companiesArray))
@@ -89,7 +90,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 @section('script')
     <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
@@ -353,6 +354,14 @@
             alert("clearChart");
             document.getElementById("choices-multiple-remove-button");
             drawChart();
+        }
+    </script>
+
+    <script>
+
+        function getDateRange(selectTag) {
+
+            console.log(selectTag.value);
         }
     </script>
     {{-- <script src="{{ URL::asset('build/js/pages/apexcharts-column.init.js') }}"></script> --}}

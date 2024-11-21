@@ -1,12 +1,6 @@
 <div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="mb-3">
-                <h2 class="">Quarterly Reports</h2>
-                <p class="text-muted mb-0">Browse through our quarterly reports and view details about each
-                    company’s financial status.
-                </p>
-            </div>
             <div class="card">
                 <div class="card-body d-flex justify-content-end">
                     <div class="col-3 col-lg-4 pe-3">

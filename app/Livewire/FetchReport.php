@@ -9,28 +9,80 @@ use Livewire\Component;
 class FetchReport extends Component
 {
 
-    public $jsonData = [];
-
-    public function loadData(){
-        try{
+    public $companies;
+    public $selectedCompany;
+    public $allReports;
+    
+    public function mount()
+    {
+        try {
             $response = Http::withHeaders([
                 'Authorization' => env('API_TOKEN'),
-            ])->get(env('API_URL').'/api/reports_5b');
+            ])->get(env('API_URL') . '/api/companies');
 
-            if($response->successful()){
+            if ($response->successful()) {
                 // dd($response->json());
-                $this->jsonData = $response->json();
-                // dd($this->jsonData[0]['abn']);
+                $this->companies = $response->json();
+            } else {
+                throw new Exception('Failed to fetch companies');
             }
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             dd($e->getMessage());
+        }
+
+        if (!empty($this->companies)) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => env('API_TOKEN'),
+                ])->get(env('API_URL') . '/api/reports_5b/'.$this->companies[0]['abn']);
+
+                if ($response->successful()) {
+                    $this->selectedCompany = $this->companies[0]['abn'];
+                    $this->allReports = $response->json();
+                } else {
+                    throw new Exception('Failed to fetch reports');
+                }
+            } catch (Exception $e) {
+                dd($e->getMessage());
+            }
+        } else {
+            dd('No companies available.');
+        }
+    }
+
+    public function changeCompany($abn){
+        $selectedCompany = $abn;
+        $this->loadData();
+    }
+
+    public function loadData(){
+        if (!empty($this->companies)) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => env('API_TOKEN'),
+                ])->get(env('API_URL') . '/api/reports_5b/'.$this->selectedCompany);
+
+                if ($response->successful()) {
+                    $this->selectedCompany = $this->companies[0]['abn'];
+                    $this->allReports = $response->json();
+                } else {
+                    throw new Exception('Failed to fetch reports');
+                }
+            } catch (Exception $e) {
+                dd($e->getMessage());
+            }
+        } else {
+            dd('No companies available.');
         }
     }
 
     public function render()
     {
+        // dd($this->allReports);
         $this->loadData();
-        return view('livewire.fetch-report');
+        return view('livewire.fetch-report', [
+            'allReports' => $this->allReports,
+            'companies' => $this->companies
+        ]);
     }
 }

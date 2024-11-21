@@ -33,12 +33,7 @@
         </script>
     <?php endif; ?>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <?php
+    <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
@@ -54,11 +49,7 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"

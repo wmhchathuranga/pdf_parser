@@ -85,12 +85,6 @@
         });
     </script>
 
-    <script>
-        function loadTable(select){
-            
-        }
-    </script>
-
     {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}
 
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
