@@ -44,10 +44,10 @@ class PDFController extends Controller
 
         // Step 5: Return the response from the other API or handle as needed
         if ($response->successful()) {
-            return view('cl\appendix-5b-upload', ['success' => 'PDF forwarded successfully']);
+            return view('cl/appendix-5b-upload', ['success' => 'PDF forwarded successfully']);
             // return response()->json(['message' => 'PDF forwarded successfully'], 200);
         } else {
-            return view('cl\appendix-5b-upload', ['error' => $response]);
+            return view('cl/appendix-5b-upload', ['error' => $response]);
             // return response()->json(['error' => $response], $response->status());
         }
     }
