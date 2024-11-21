@@ -24,7 +24,7 @@ class PDFController extends Controller
         file_put_contents($textFilePath, "");
         // echo $textFilePath;
 
-        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/public/') . "extract.py {$pdfFilePath} {$textFilePath}";
 
         exec($pythonScript, $output, $return_var);
 
