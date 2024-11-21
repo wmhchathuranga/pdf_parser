@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 class PDF_API_Controller extends Controller
 {
 
-    public function showReports()
+    public function showReports($abn)
     {
-        $reports = PDFReport::all();
+        $reports = PDFReport::all() ->where('abn', str_replace(' ', '', $abn));
+        foreach ($reports as $report) {
+            $report->load(['operatingDetails', 'investingDetails', 'financingDetails', 'cashDetails', 'reconciliationDetails', 'relatedPartyPayments',  'financingFacilities', 'estimatedCashAvailabilities']);
+        }
         return response()->json($reports);
     }
 
@@ -88,5 +91,11 @@ class PDF_API_Controller extends Controller
         $report = PDFReport::find($id);
         $report->delete();
         return response()->json(null, 204);
+    }
+
+    public function showCompanies()
+    {
+        $companies = PDFReport::select('id','company_name','abn')->distinct()->get();
+        return response()->json($companies);
     }
 }

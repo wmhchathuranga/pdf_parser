@@ -736,7 +736,7 @@ class PDFController extends Controller
         $pdfReport = PDFReport::create([
             'quarter_ending' => $quarterEnding,
             'company_name' => $companyName,
-            'abn' => $abn,
+            'abn' => str_replace(' ', '', $abn),
             'pdf' => $relativePath
         ]);
 
