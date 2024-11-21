@@ -118,12 +118,27 @@
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>
                         </a>
                     </li>
-
+                    
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('cl-charts')); ?>">
-                            <i class="mdi mdi-chart-arc"></i> <span>Analytics</span>
+                        <a class="nav-link menu-link" href="<?php echo e(route('cl-comperission-table')); ?>">
+                            <i class="mdi mdi-table"></i> <span>Comperission Table</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#analytics-charts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">
+                            <i class="mdi mdi-chart-arc"></i> <span>Analytics</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="analytics-charts">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<?php echo e(route('cl-single-pdf-chart')); ?>" class="nav-link">Single PDF Chart</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    
 
                 </ul>
             </div>

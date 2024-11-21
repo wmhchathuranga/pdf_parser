@@ -168,7 +168,7 @@
     </script>
 
 
-    {{-- <script src="{{ URL::asset('build/libs/choicesjs/choices.min.js') }}"></script> --}}
+    <script src="{{ URL::asset('build/libs/choicesjs/choices.min.js') }}"></script>
 
     <script>
         var chartOptions = [{
@@ -420,11 +420,12 @@
 
         function clearChart() {
             alert("clearChart");
-            document.querySelector(".choices__list choices__list--multiple").innerHTML = "";
+            document.querySelector(".choices__list.choices__list--multiple").innerHTML = "";
             drawChart();
         }
 
     </script>
     {{-- <script src="{{ URL::asset('build/js/pages/apexcharts-column.init.js') }}"></script> --}}
+    
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

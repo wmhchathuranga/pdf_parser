@@ -45,6 +45,12 @@ class userPermissions
             'client' => '/cl',
         ];
 
+        $pathExtention = $request->path();
+        $extention = pathinfo($pathExtention, PATHINFO_EXTENSION);
+        if ($extention == 'js' || $extention == 'css') {
+            return $next($request);
+        } 
+
         // Check if current prefix matches role's target prefix
         $currentPrefix = $request->route()->getPrefix();
 

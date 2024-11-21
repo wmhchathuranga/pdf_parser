@@ -37,7 +37,7 @@
             @if (isset($error))
                 <div class="alert alert-danger pb-0" id="error-alert">
                     <ul>
-                        <li>{{ session('error') }}</li>
+                        <li>PDF Upload Failed. Something went wrong</li>
                     </ul>
                 </div>
                 <script>

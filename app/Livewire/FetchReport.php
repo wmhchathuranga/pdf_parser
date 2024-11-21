@@ -14,7 +14,7 @@ class FetchReport extends Component
     public function loadData(){
         try{
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer 1|C4OuAgYlEpMo6XHA5Powq21v3RC4E3JBA3wCgX2p5f86ecf0',
+                'Authorization' => env('API_TOKEN'),
             ])->get(env('API_URL').'/api/reports_5b');
 
             if($response->successful()){

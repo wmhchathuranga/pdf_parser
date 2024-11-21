@@ -1,27 +1,27 @@
-@extends('layouts.master')
-@section('title')
-    @lang('translation.datatables')
-@endsection
-@section('css')
+
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('translation.datatables'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <!--datatable responsive css-->
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Reports
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             All Reports
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
 
-    @php
+    <?php
         // $companies = [];
         // try {
         //     $response = Http::withHeaders([
@@ -49,12 +49,27 @@
         //     dd($e->getMessage());
         // }
         
-    @endphp
+    ?>
 
-    @livewire('all-pdf-reports-table')
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('all-pdf-reports-table');
 
-@endsection
-@section('script')
+$__html = app('livewire')->mount($__name, $__params, 'lw-1732214873-0', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -91,7 +106,9 @@
         }
     </script>
 
-    {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}
+    
 
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
-@endsection
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Projects\Laravel\pdf_extract\resources\views/ad/all-reports.blade.php ENDPATH**/ ?>

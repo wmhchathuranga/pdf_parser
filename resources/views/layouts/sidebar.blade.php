@@ -1271,12 +1271,51 @@
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>
                         </a>
                     </li>
-
+                    
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('cl-charts') }}">
-                            <i class="mdi mdi-chart-arc"></i> <span>Analytics</span>
+                        <a class="nav-link menu-link" href="{{ route('cl-comperission-table') }}">
+                            <i class="mdi mdi-table"></i> <span>Comperission Table</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#analytics-charts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">
+                            <i class="mdi mdi-chart-arc"></i> <span>Analytics</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="analytics-charts">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('cl-single-pdf-chart') }}" class="nav-link">Single PDF Chart</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    {{-- <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarTables" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTables">
+                            <i class="mdi mdi-grid-large"></i> <span>@lang('translation.tables')
+                            </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarTables">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="tables-basic" class="nav-link">@lang('translation.basic-tables')
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="tables-gridjs" class="nav-link">@lang('translation.grid-js')
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="tables-listjs" class="nav-link">@lang('translation.list-js')
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="tables-datatables" class="nav-link">@lang('translation.datatables')</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li> --}}
 
                 </ul>
             </div>

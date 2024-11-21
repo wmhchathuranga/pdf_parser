@@ -4,6 +4,8 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +33,6 @@ Route::get('/report/{id}', [PDFController::class, 'showReport'])->name('report')
 Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('report_h');
 
 
-
 // menu routes
 // client --
 {
@@ -44,10 +45,27 @@ Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('repor
     Route::get('cl/all-reports', function () {
         return view('cl.all-reports');
     })->name('cl-all-reports');
+    Route::get('cl/comperission-table', function () {
+        return view('cl.comperission-table');
+    })->name('cl-comperission-table');
 
-    Route::get('cl/charts', function () {
-        return view('cl.charts');
-    })->name('cl-charts');
+    Route::get('cl/single-pdf-charts', function () {
+        $companies = [];
+        try{
+            $response = Http::withHeaders([
+                'Authorization' => env('API_TOKEN'),
+            ])->get(env('API_URL').'/api/companies');
+
+            if($response->successful()){
+                $companies = $response->json();
+            }
+        }
+        catch(Exception $e){
+            dd($e->getMessage());
+        }
+        return view('cl.single-pdf-chart', ['comapaniesArray', $companies]);
+        
+    })->name('cl-single-pdf-chart');
 }
 
 // admin --
@@ -91,7 +109,7 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
     Route::get('/', [App\Http\Controllers\Client\HomeController::class, 'index'])->name('all-reports');
     Route::post('/upload-pdf', [PDFController::class, 'uploadAndForward'])->name('upload-pdf');
 
-    Route::get('report_edit/{id}', [ReportController::class, 'editReport'])->name('report-edit');
+    Route::get('/report_edit/{id}', [ReportController::class, 'editReport'])->name('report-edit');
     Route::get('/report_5b/{id}', [ReportController::class, 'showReport'])->name('single-report');
     Route::post('/save-report', [ReportController::class, 'saveReport'])->name('save-report');
 

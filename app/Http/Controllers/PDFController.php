@@ -29,7 +29,7 @@ class PDFController extends Controller
 
         // Send the file to the internal or external API
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer 1|C4OuAgYlEpMo6XHA5Powq21v3RC4E3JBA3wCgX2p5f86ecf0',
+            'Authorization' => env('API_TOKEN'),
         ])->attach(
             'pdf',
             $fileContent,

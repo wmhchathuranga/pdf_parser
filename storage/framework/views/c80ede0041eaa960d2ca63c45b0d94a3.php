@@ -1,24 +1,24 @@
-@extends('layouts.master')
-@section('title')
-    @lang('translation.datatables')
-@endsection
-@section('css')
+
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('translation.datatables'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <!--datatable responsive css-->
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Charts
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Charts
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-12 pb-3">
@@ -28,88 +28,19 @@
         </div>
     </div>
 
-    {{-- <div class="row">
-        <div class="col-12 py-5">
-            <div class="row">
-                <div class="col-12">
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <select onchange="drawChart(this)" class="form-control" id="choices-multiple-remove-button"
-                                data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-                                <option value="0">Dividends Received</option>
-                                <option value="1">Government Tax Paid</option>
-                                <option value="2">Income Tax Paid</option>
-                                <option value="3">Interest Paid</option>
-                                <option value="4">Interest Received</option>
-                                <option value="5">Net Cash from Operating Activities</option>
-                                <option value="6">Payments for Admin Costs</option>
-                                <option value="7">Payments for Development</option>
-                                <option value="8">Payments for Exploration & Evaluation</option>
-                                <option value="9">Other</option>
-                            </select>
-                            <button class="btn btn-primary" onclick="clearChart()">clear</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-auto">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0 dash-filter-picker shadow flatpickr-input active"
-                            data-provider="flatpickr" data-range-date="true" data-date-format="d M, Y"
-                            data-deafult-date="01 Jan 2022 to 31 Jan 2022" readonly="readonly">
-                        <div class="input-group-text bg-primary border-primary text-white">
-                            <i class="ri-calendar-2-line"></i>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div> --}}
-
-    {{-- <div class="row">
-        <div class="col-12 py-5">
-            <div class="row">
-                <!-- Dropdown with Clear Button -->
-                <div class="col-6">
-                    <div class="mb-3">
-                        <select onchange="drawChart(this)" class="form-control" id="choices-multiple-remove-button"
-                            data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-                            <option value="0">Dividends Received</option>
-                            <option value="1">Government Tax Paid</option>
-                            <option value="2">Income Tax Paid</option>
-                            <option value="3">Interest Paid</option>
-                            <option value="4">Interest Received</option>
-                            <option value="5">Net Cash from Operating Activities</option>
-                            <option value="6">Payments for Admin Costs</option>
-                            <option value="7">Payments for Development</option>
-                            <option value="8">Payments for Exploration & Evaluation</option>
-                            <option value="9">Other</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="clearChart()">Clear</button>
-                    </div>
-                </div>
-
-                <!-- Date Picker -->
-                <div class="col-sm-auto">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0 dash-filter-picker shadow flatpickr-input active"
-                            data-provider="flatpickr" data-range-date="true" data-date-format="d M, Y"
-                            data-default-date="01 Jan 2024 to 31 Jan 2024" readonly="readonly">
-                        <div class="input-group-text bg-primary border-primary text-white">
-                            <i class="ri-calendar-2-line"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-
-
-
     <div class="row g-3 pb-5 pt-4">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
+            <select class="form-control" id="choices-multiple-remove-button">
+                <?php if(!empty($companiesArray) && is_array($companiesArray)): ?>
+                <?php endif; ?>
+                <option value="0" selected disabled>Company</option>
+                <option value="1">company 01</option>
+                <option value="2">company 02</option>
+                <option value="3">company 03</option>
+            </select>
+        </div>
+
+        <div class="col-sm-4">
             <select onchange="drawChart(this)" class="form-control" id="choices-multiple-remove-button" data-choices
                 data-choices-removeItem name="choices-multiple-remove-button" multiple>
                 <option value="0">Dividends Received</option>
@@ -123,11 +54,13 @@
                 <option value="8">Payments for Exploration & Evaluation</option>
                 <option value="9">Other</option>
             </select>
-        </div><!--end col-->
+        </div>
+
         <div class="col-auto">
             <button class="btn btn-primary" onclick="clearChart()">Clear</button>
-        </div><!--end col-->
-        <div class="col-sm-4">
+        </div>
+
+        <div class="col-sm-3">
             <div class="input-group">
                 <input type="text" class="form-control border-0 dash-filter-picker shadow flatpickr-input active"
                     data-provider="flatpickr" data-range-date="true" data-date-format="d M, Y"
@@ -136,10 +69,8 @@
                     <i class="ri-calendar-2-line"></i>
                 </div>
             </div>
-        </div><!--end col-->
+        </div>
     </div><!--end row-->
-
-
 
 
     <div class="row">
@@ -159,16 +90,16 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+    <script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
 
-    <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/dayjs.min.js') }}"></script>
-    <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/plugin/quarterOfYear.min.js') }}">
+    <script src="<?php echo e(URL::asset('https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/dayjs.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/plugin/quarterOfYear.min.js')); ?>">
     </script>
 
 
-    {{-- <script src="{{ URL::asset('build/libs/choicesjs/choices.min.js') }}"></script> --}}
+    
 
     <script>
         var chartOptions = [{
@@ -383,7 +314,7 @@
                 },
                 yaxis: {
                     title: {
-                        text: 'Temperature'
+                        text: 'value'
                     },
                     min: 5,
                     max: 40
@@ -420,11 +351,12 @@
 
         function clearChart() {
             alert("clearChart");
-            document.querySelector(".choices__list choices__list--multiple").innerHTML = "";
+            document.getElementById("choices-multiple-remove-button");
             drawChart();
         }
-
     </script>
-    {{-- <script src="{{ URL::asset('build/js/pages/apexcharts-column.init.js') }}"></script> --}}
-    {{-- <script src="{{ URL::asset('build/js/app.js') }}"></script> --}}
-@endsection
+    
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Projects\Laravel\pdf_extract\resources\views/cl/single-pdf-chart.blade.php ENDPATH**/ ?>
