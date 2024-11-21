@@ -50,7 +50,7 @@ class AllPdfReportsTable extends Component
     }
 
     public function changeCompany($abn){
-        $selectedCompany = $abn;
+        $this->selectedCompany = $abn;
         $this->loadData();
     }
 

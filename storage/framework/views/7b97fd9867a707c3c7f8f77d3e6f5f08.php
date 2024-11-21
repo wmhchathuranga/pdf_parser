@@ -100,12 +100,6 @@ if (isset($__slots)) unset($__slots);
         });
     </script>
 
-    <script>
-        function loadTable(select){
-            
-        }
-    </script>
-
     
 
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>

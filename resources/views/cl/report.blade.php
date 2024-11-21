@@ -22,27 +22,26 @@
 
     <div class="row justify-content-center">
         <div class="card col-auto">
-            <div class="card-header">
-                <h2 class="text-center">Appendix 5B</h2>
-            </div>
+            <h2 class="text-center mt-3 mb-0">Appendix 5B</h2>
             <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <th>Quarter Ending</th>
-                            <td>{{ $reportData['quarter_ending'] }}</td>
-                        </tr>
-                        <tr>
-                            <th>Company Name</th>
-                            <td>{{ $reportData['company_name'] }}</td>
-                        </tr>
+                <table class="table table-bordered dt-responsive nowrap align-middle mdl-data-table">
+                    <thead>
                         <tr>
                             <th>ABN</th>
+                            <th>Quarter Ending</th>
+                            <th>Quarter Ending</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
                             <td>{{ $reportData['abn'] }}</td>
+                            <td>{{ $reportData['quarter_ending'] }}</td>
+                            <td>{{ $reportData['company_name'] }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
@@ -598,7 +597,7 @@
     <!-- Link to PDF.js library via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
-    <script>
+    {{-- <script>
         const url = "{{ URL::asset('storage/pdfs/report01.pdf') }}"; // Replace with the actual PDF file path
 
         let pdfDoc = null;
@@ -711,7 +710,7 @@
                 this.parentNode.innerHTML = this.value;
             }
         }
-    </script>
+    </script> --}}
 
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body d-flex justify-content-end">
                     <div class="col-3 col-lg-4 pe-3">
-                        <select onchange="loadTable(this)" class="form-control my-auto" data-choices name="choices-single-default" id="choices-single-default" wire:change="changeCompany($event.target.value)">
+                        <select class="form-control my-auto" data-choices name="choices-single-default" id="choices-single-default" wire:change="changeCompany($event.target.value)">
                             <option value="">Search by ABN</option>
                             <!--[if BLOCK]><![endif]--><?php if($companies != null): ?>
                                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

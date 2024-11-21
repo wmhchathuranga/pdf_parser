@@ -22,27 +22,26 @@
 
     <div class="row justify-content-center">
         <div class="card col-auto">
-            <div class="card-header">
-                <h2 class="text-center">Appendix 5B</h2>
-            </div>
+            <h2 class="text-center mt-3 mb-0">Appendix 5B</h2>
             <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <th>Quarter Ending</th>
-                            <td><?php echo e($reportData['quarter_ending']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Company Name</th>
-                            <td><?php echo e($reportData['company_name']); ?></td>
-                        </tr>
+                <table class="table table-bordered dt-responsive nowrap align-middle mdl-data-table">
+                    <thead>
                         <tr>
                             <th>ABN</th>
+                            <th>Quarter Ending</th>
+                            <th>Quarter Ending</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
                             <td><?php echo e($reportData['abn']); ?></td>
+                            <td><?php echo e($reportData['quarter_ending']); ?></td>
+                            <td><?php echo e($reportData['company_name']); ?></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
@@ -625,120 +624,7 @@
     <!-- Link to PDF.js library via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
-    <script>
-        const url = "<?php echo e(URL::asset('storage/pdfs/report01.pdf')); ?>"; // Replace with the actual PDF file path
-
-        let pdfDoc = null;
-        let pageNum = 1;
-        let pageRendering = false;
-        let pageNumPending = null;
-        const scale = 1;
-        const canvas = document.getElementById('pdf-canvas');
-        const ctx = canvas.getContext('2d');
-
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.min.js';
-
-        /**
-         * Render the current page.
-         */
-        function renderPage(num) {
-            pageRendering = true;
-
-            // Fetch the page
-            pdfDoc.getPage(num).then(page => {
-                const viewport = page.getViewport({
-                    scale
-                });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                // Render PDF page into canvas context
-                const renderContext = {
-                    canvasContext: ctx,
-                    viewport: viewport
-                };
-                const renderTask = page.render(renderContext);
-
-                // Wait for rendering to finish
-                renderTask.promise.then(() => {
-                    pageRendering = false;
-
-                    if (pageNumPending !== null) {
-                        // New page rendering is pending
-                        renderPage(pageNumPending);
-                        pageNumPending = null;
-                    }
-                });
-
-                // Update page counters
-                document.getElementById('page-num').textContent = pageNum;
-            });
-        }
-
-        /**
-         * If another page is currently rendering, wait until the rendering is
-         * finished. Otherwise, execute immediately.
-         */
-        function queueRenderPage(num) {
-            if (pageRendering) {
-                pageNumPending = num;
-            } else {
-                renderPage(num);
-            }
-        }
-
-        /**
-         * Display the previous page.
-         */
-        function onPrevPage() {
-            if (pageNum <= 1) {
-                return;
-            }
-            pageNum--;
-            queueRenderPage(pageNum);
-        }
-
-        /**
-         * Display the next page.
-         */
-        function onNextPage() {
-            if (pageNum >= pdfDoc.numPages) {
-                return;
-            }
-            pageNum++;
-            queueRenderPage(pageNum);
-        }
-
-        // Load the PDF document
-        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
-            pdfDoc = pdfDoc_;
-            document.getElementById('page-count').textContent = pdfDoc.numPages;
-
-            // Initial page rendering
-            renderPage(pageNum);
-        });
-
-        // Button events
-        document.getElementById('prev-page').addEventListener('click', onPrevPage);
-        document.getElementById('next-page').addEventListener('click', onNextPage);
-    </script>
-
-    <script>
-        var tds = document.getElementsByTagName("td");
-        for (var i = 0; i < tds.length; i++) {
-            tds[i].addEventListener("dblclick", editCellValue);
-        }
-
-        function editCellValue() {
-            this.innerHTML = "<input type='text' value='" + this.innerHTML + "' />";
-            var input = this.querySelector("input");
-            input.select();
-            input.focus();
-            input.onblur = function() {
-                this.parentNode.innerHTML = this.value;
-            }
-        }
-    </script>
+    
 
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
