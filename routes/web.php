@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -29,13 +30,47 @@ Route::get('/reports', [PDFController::class, 'showReports'])->name('reports');
 Route::get('/report/{id}', [PDFController::class, 'showReport'])->name('report');
 Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('report_h');
 
-// Route::get('/upload-pdf', function () {
-//     return view('upload-pdf');
-// });
 
-Route::get('/charts', function () {
-    return view('charts');
-})->name('charts');
+
+// menu routes
+// client --
+{
+    Route::get('cl/appendix-5b-upload', function () {
+        return view('cl.appendix-5b-upload');
+    })->name('cl-appendix-5b-upload');
+    Route::get('cl/appendix-3x-upload', function () {
+        return view('cl.appendix-3x-upload');
+    })->name('cl-appendix-3x-upload');
+    Route::get('cl/all-reports', function () {
+        return view('cl.all-reports');
+    })->name('cl-all-reports');
+
+    Route::get('cl/charts', function () {
+        return view('cl.charts');
+    })->name('cl-charts');
+}
+
+// admin --
+{
+    Route::get('ad/all-reports', function () {
+        return view('ad.all-reports');
+    })->name('ad-all-reports');
+
+    Route::get('ad/all-clients', function () {
+        return view('ad.all-clients');
+    })->name('ad-all-clients');
+}
+
+// developer --
+{
+    Route::get('dev/all-reports', function () {
+        return view('dev.all-reports');
+    })->name('dev-all-reports');
+
+    Route::get('dev/all-clients', function () {
+        return view('dev.all-clients');
+    })->name('dev-all-clients');
+}
 
 // Routes for developers
 Route::middleware(['auth', 'userPermissions'])->prefix('dev')->group(function () {
@@ -52,24 +87,15 @@ Route::middleware(['auth', 'userPermissions'])->prefix('ad')->group(function () 
 });
 
 // Routes for clients
-Route::middleware(['auth', 'userPermissions'])->prefix('cl')->group(function () {
-    Route::get('/', [App\Http\Controllers\Client\HomeController::class, 'index'])->name('client.all-reports');
+Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Client\HomeController::class, 'index'])->name('all-reports');
+    Route::post('/upload-pdf', [PDFController::class, 'uploadAndForward'])->name('upload-pdf');
+
+    Route::get('report_edit/{id}', [ReportController::class, 'editReport'])->name('report-edit');
+    Route::get('/report_5b/{id}', [ReportController::class, 'showReport'])->name('single-report');
+    Route::post('/save-report', [ReportController::class, 'saveReport'])->name('save-report');
+
     Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'prefixIndex'])->name('prefixIndex');
 });
-
-// Route::get('/all-reports', function () {
-//     return view('all-reports');
-// })-> name('all-reports')->middleware('isAdmin');
-
-// Route::get('/dashboard-analytics', function () {
-//     return view('dashboard-analytics');
-// })-> name('dashboard-analytics')->middleware('isDeveloper');
-
-// Route::get('/pdf-upload', function () {
-//     return view('pdf-upload');
-// })-> name('pdf-upload')->middleware('isAdmin');
-
-
-Route::post('/upload-pdf', [PDFController::class, 'uploadAndForward'])->name('upload-pdf');
 
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index')->middleware('userPermissions');

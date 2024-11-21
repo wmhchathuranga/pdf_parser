@@ -37,7 +37,7 @@
                 </script>
             <?php endif; ?>
     
-            <form action="<?php echo e(route('upload-pdf')); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo e(route('client.upload-pdf')); ?>" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
                 <div class="col-lg-12">
                     <div class="card">

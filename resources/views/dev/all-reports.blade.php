@@ -1,24 +1,24 @@
-
-<?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('translation.datatables'); ?>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('css'); ?>
+@extends('layouts.master')
+@section('title')
+    @lang('translation.datatables')
+@endsection
+@section('css')
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <!--datatable responsive css-->
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
-    <?php $__env->startComponent('components.breadcrumb'); ?>
-        <?php $__env->slot('li_1'); ?>
+@endsection
+@section('content')
+    @component('components.breadcrumb')
+        @slot('li_1')
             Reports
-        <?php $__env->endSlot(); ?>
-        <?php $__env->slot('title'); ?>
+        @endslot
+        @slot('title')
             All Reports
-        <?php $__env->endSlot(); ?>
-    <?php echo $__env->renderComponent(); ?>
+        @endslot
+    @endcomponent
 
 
     <div class="row">
@@ -65,7 +65,25 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    
+                    {{-- <div class="table-responsive">
+                        <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>ABN</th>
+                                    <th>Quarter Ending</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td class="text-center"><button class="btn btn-sm btn-secondary">view</button></td>
+                                </tr>
+                        </table>
+                    </div> --}}
 
                     <div class="table-responsive pb-4">
                         <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
@@ -566,8 +584,8 @@
             </div>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -592,9 +610,7 @@
         });
     </script>
 
-    
+    {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}
 
-    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Projects\Laravel\pdf_extract\resources\views/ad/all-reports.blade.php ENDPATH**/ ?>
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+@endsection

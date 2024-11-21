@@ -20,40 +20,48 @@
 
     <div class="row">
 
-        <div class="col-12>
-            <?php if($errors->any()): ?>
-                <div class="alert alert-danger pb-0" id="error-alert">
+        <div class="col-12">
+            <?php if(isset($success)): ?>
+                <div class="alert alert-success pb-0" id="success-alert">
                     <ul>
-    
-                        <li>Report Seems to be not Matching the Template!</li>
-    
+                        <li>PDF Uploaded Successfully</li>
                     </ul>
                 </div>
-    
+                <script>
+                    setTimeout(() => {
+                        document.getElementById('success-alert').style.display = 'none';
+                    }, 3000);
+                </script>
+            <?php endif; ?>
+
+            <?php if(isset($error)): ?>
+                <div class="alert alert-danger pb-0" id="error-alert">
+                    <ul>
+                        <li><?php echo e(session('error')); ?></li>
+                    </ul>
+                </div>
                 <script>
                     setTimeout(() => {
                         document.getElementById('error-alert').style.display = 'none';
                     }, 3000);
                 </script>
             <?php endif; ?>
-    
-            <form action="<?php echo e(route('upload-pdf')); ?>" method="POST" enctype="multipart/form-data">
+
+            <form action="<?php echo e(route('client.upload-pdf')); ?>" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title mb-0">APPENDIX 5B UPLOAD</h4>
                         </div><!-- end card header -->
-    
+
                         <div class="card-body">
                             <p class="text-muted">Upload a PDF file to the system for further processing.</p>
-    
+
                             <div class="">
                                 <input class="form-control" name="pdf" type="file" multiple="multiple">
                             </div>
-    
-                            
-    
+
                             <div class="pt-4 text-end">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">Upload</button>
                             </div>

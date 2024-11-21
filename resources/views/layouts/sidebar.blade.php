@@ -1188,21 +1188,15 @@
                 <li class="menu-title"><span>@lang('translation.menu')
                     </span>
                 </li>
-
+                
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="dashboard-analytics">
-                        <i class="mdi mdi-file-document"></i> <span>Analitics</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="all-reports">
+                    <a class="nav-link menu-link" href="{{ route('dev-all-reports') }}">
                         <i class="mdi mdi-file-pdf-box"></i> <span>All Reports</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="all-clients">
+                    <a class="nav-link menu-link" href="{{ route('dev-all-clients')}}">
                         <i class="mdi mdi-group"></i> <span>All clients</span>
                     </a>
                 </li>
@@ -1232,29 +1226,16 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="dashboard-analytics">
-                        <i class="mdi mdi-file-document"></i> <span>Analitics</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="all-reports">
+                    <a class="nav-link menu-link" href="{{ route('ad-all-reports')}}">
                         <i class="mdi mdi-file-pdf-box"></i> <span>All Reports</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="all-clients">
+                    <a class="nav-link menu-link" href="{{ route('ad-all-clients')}}">
                         <i class="mdi mdi-group"></i> <span>All clients</span>
                     </a>
                 </li>
-
-                {{-- <li class="nav-item">
-                <a class="nav-link menu-link" href="cl/all-reports">
-                    <i class="mdi mdi-file-document"></i> <span>Reports</span>
-                </a>
-            </li> --}}
-
             </ul>
         </div>
         <!-- Sidebar -->
@@ -1274,40 +1255,28 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="appendix-5b-upload">
+                        <a class="nav-link menu-link" href="{{ route('cl-appendix-5b-upload') }}">
                             <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 5B</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="appendix-3x-upload">
+                        <a class="nav-link menu-link" href="{{ route('cl-appendix-3x-upload') }}">
                             <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 3X</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="all-reports">
+                        <a class="nav-link menu-link" href="{{ route('cl-all-reports') }}">
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="report">
-                            <i class="mdi mdi-file"></i> <span>Report</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('charts') }}">
+                        <a class="nav-link menu-link" href="{{ route('cl-charts') }}">
                             <i class="mdi mdi-chart-arc"></i> <span>Analytics</span>
                         </a>
                     </li>
-
-                    {{-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="cl/all-reports">
-                        <i class="mdi mdi-file-document"></i> <span>Reports</span>
-                    </a>
-                </li> --}}
 
                 </ul>
             </div>

@@ -20,48 +20,45 @@
         <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
 
+    <?php if(isset($message) && $message == 'No Report Found'): ?>
+        <div class="alert alert-danger pb-0" id="missing-alert">
+            <ul>
+                <li><?php echo e($message); ?></li>
+            </ul>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.getElementById('missing-alert').style.display = 'none';
+            }, 3000);
+        </script>
+    <?php endif; ?>
+
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ABN</th>
-                                    <th>Upload Date</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Report Type</th>
-                                    <th class="text-center">View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>75633936526</td>
-                                    <td>31 December 2023</td>
-                                    <td class="text-center"><span class="badge bg-success">Success</span></td>
-                                    <td class="text-center">Appendix 5B</td>
-                                    <td class="text-center"><button class="btn btn-sm btn-outline-success"><i
-                                                class="ri-eye-fill align-bottom"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>75633936530</td>
-                                    <td>31 December 2023</td>
-                                    <td class="text-center"><span class="badge bg-danger">Failed</span></td>
-                                    <td class="text-center">Appendix 3X</td>
-                                    <td class="text-center"><button class="btn btn-sm btn-outline-success"><i
-                                                class="ri-eye-fill align-bottom"></i></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('fetch-report');
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3200061296-0', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -79,13 +76,7 @@
 
     <script>
         //buttons examples
-        let buttonsDataTables = new DataTable('#buttons-datatables', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ],
-            paging: false
-        });
+        let buttonsDataTables = new DataTable('#buttons-datatables');
     </script>
 
     

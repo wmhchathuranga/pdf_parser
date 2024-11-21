@@ -29,12 +29,12 @@ class PDFController extends Controller
 
         // Send the file to the internal or external API
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer 1|DJhm2NMqjeWjfT0OR7Jc2hSf67ZhY5ZN4XFoMXQQ5565fe6a',
+            'Authorization' => 'Bearer 1|C4OuAgYlEpMo6XHA5Powq21v3RC4E3JBA3wCgX2p5f86ecf0',
         ])->attach(
             'pdf',
             $fileContent,
             $pdfFile->getClientOriginalName()
-        )->post('https://7950-112-134-199-79.ngrok-free.app/api/upload-pdf');
+        )->post(env('API_URL').'/api/upload-pdf');
 
         // Close the file after sending it
         // fclose($fileContent);
@@ -44,9 +44,12 @@ class PDFController extends Controller
 
         // Step 5: Return the response from the other API or handle as needed
         if ($response->successful()) {
-            return response()->json(['message' => 'PDF forwarded successfully'], 200);
+            return view('cl\appendix-5b-upload', ['success' => 'PDF forwarded successfully']);
+            // return response()->json(['message' => 'PDF forwarded successfully'], 200);
         } else {
-            return response()->json(['error' => $response], $response->status());
+            return view('cl\appendix-5b-upload', ['error' => $response]);
+            // return response()->json(['error' => $response], $response->status());
         }
     }
+    
 }

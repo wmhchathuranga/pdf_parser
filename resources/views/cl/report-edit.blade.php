@@ -9,6 +9,8 @@
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -20,72 +22,112 @@
         @endslot
     @endcomponent
 
+    {{-- <button id="sa-position">click</button> --}}
     <div class="row justify-content-center">
         <div class="card col-auto">
-            <div class="card-header">
-                <h2 class="text-center">Appendix 5B</h2>
-            </div>
+            <h2 class="text-center my-2">Appendix 5B</h2>
             <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <th>Quarter Ending</th>
-                            <td>{{ $reportData['quarter_ending'] }}</td>
-                        </tr>
-                        <tr>
-                            <th>Company Name</th>
-                            <td>{{ $reportData['company_name'] }}</td>
-                        </tr>
+                <table class="table table-bordered dt-responsive nowrap align-middle mdl-data-table">
+                    <thead>
                         <tr>
                             <th>ABN</th>
+                            <th>Quarter Ending</th>
+                            <th>Quarter Ending</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
                             <td>{{ $reportData['abn'] }}</td>
+                            <td>{{ $reportData['quarter_ending'] }}</td>
+                            <td>{{ $reportData['company_name'] }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
+    <div class="floating-button">
+        <a onclick="saveData()" class="btn btn-primary"><i class="mdi mdi-content-save-outline"></i></a>
+        <style>
+            .floating-button {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 1000;
+            }
+
+            .floating-button .btn {
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .floating-button .btn:hover {
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            }
+        </style>
+
+    </div>
+
+
     <div class="row">
-        <div class="card col-12">
-            <div class="card-header text-end">
+        <div class="card col-6">
+            <div class="card-body">
                 <div class="">
-                    <a class="btn btn-primary waves-effect waves-light" target="_blank" href="{{ route('client.report-edit', ['id' => $reportData['id']]) }}">Edit <i
-                            class="mdi mdi-pencil"></i></a>
+                    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <div id="navigation" style="height: 60px;"
+                        class="position-absolute w-100 d-flex justify-content-between">
+                        <button class="btn btn-primary btn-sm" id="prev-page">
+                            << </button>
+                                <button class="btn btn-primary btn-sm" id="next-page"> >> </button>
+                    </div>
+                    <canvas class="form-control" path="{{ env('API_URL') }}/{{ $reportData['pdf'] }}"
+                        id="pdf-canvas"></canvas>
                 </div>
             </div>
-            <div class="card-body">
+        </div>
+
+        <div class="card col-6">
+            <div class="card-body" style="max-height: 800px; overflow-y: scroll">
                 <div class="table-responsive">
                     <table id="buttons-datatable1"
-                        class="table table-hover table-bordered dt-responsive nowrap align-middle mdl-data-table"
+                        class="table table-hover table-striped table-bordered dt-responsive nowrap align-middle mdl-data-table"
                         data-editable="true" style="height: 400px">
                         <thead class="thead-dark">
                             <tr class="table-light text-dark" style="max-height: 30px">
-                                <th>Details</th>
-                                <th>Current Quarter</th>
-                                <th>Year to Date</th>
+                                <th>Consolidated Statement Of cash Flows</th>
+                                <th class="text-center">Current Quarter</th>
+                                <th class="text-center">Year to Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flows from Operating Activities</td>
+                                <td class="table-warning text-center fs-15 " colspan="3">Cash Flows from Operating
+                                    Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
 
                             <tr>
                                 <td>Receipts from Customers</td>
-                                <td class="text-center">
+                                <td class="text-center" data-name="operating_details-receipts_from_customers_c_q">
                                     {{ $reportData['operating_details'][0]['receipts_from_customers_c_q'] ?? '-' }}</td>
-                                <td class="text-center">
+                                <td class="text-center" data-name="operating_details-receipts_from_customers_y_t_d">
                                     {{ $reportData['operating_details'][0]['receipts_from_customers_y_t_d'] ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Payments for Exploration &amp; Evaluation</td>
-                                <td class="text-center">
+                                <td class="text-center" data-name="operating_details-payments_exploration_evaluation_c_q">
                                     {{ $reportData['operating_details'][0]['payments_exploration_evaluation_c_q'] ?? '-' }}
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" data-name="operating_details-payments_exploration_evaluation_y_t_d">
                                     {{ $reportData['operating_details'][0]['payments_exploration_evaluation_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
@@ -168,7 +210,8 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flows from Investing Activities</td>
+                                <td class="table-warning text-center fs-15" colspan="3">Cash Flows from Investing
+                                    Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -283,7 +326,8 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flows from Financing Activities</td>
+                                <td class="table-warning text-center fs-15" colspan="3">Cash Flows from Financing
+                                    Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -366,7 +410,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flow Summary</td>
+                                <td class="table-warning text-center fs-15" colspan="3">Cash Flow Summary</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -418,7 +462,8 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Reconciliation of Cash and Cash Equivalents
+                                <td class="table-warning text-center fs-15" colspan="3">Reconciliation of Cash and Cash
+                                    Equivalents
                                 </td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -465,7 +510,8 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Payments to Related Parties</td>
+                                <td class="table-warning text-center fs-15" colspan="3">Payments to Related Parties
+                                </td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -484,7 +530,8 @@
                             </tr>
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Financing and Credit Facilities</td>
+                                <td class="table-warning text-center fs-15" colspan="3">Financing and Credit Facilities
+                                </td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -527,7 +574,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flow and Funding</td>
+                                <td class="table-warning text-center fs-15" colspan="3">Cash Flow and Funding</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -583,8 +630,6 @@
                             </tr>
 
 
-
-
                         </tbody>
                     </table>
                 </div>
@@ -592,21 +637,26 @@
         </div>
 
     </div>
-
 @endsection
 @section('script')
     <!-- Link to PDF.js library via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
+    <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
 
     <script>
-        const url = "{{ URL::asset('storage/pdfs/report01.pdf') }}"; // Replace with the actual PDF file path
-
         let pdfDoc = null;
         let pageNum = 1;
         let pageRendering = false;
         let pageNumPending = null;
-        const scale = 1;
-        const canvas = document.getElementById('pdf-canvas');
+        const scale = 2;
+        let canvas = document.getElementById('pdf-canvas');
+        let path = canvas.getAttribute('path');
+
+        let url = path;
+
+        console.log(url);
+
         const ctx = canvas.getContext('2d');
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.min.js';
@@ -699,17 +749,102 @@
     <script>
         var tds = document.getElementsByTagName("td");
         for (var i = 0; i < tds.length; i++) {
-            tds[i].addEventListener("dblclick", editCellValue);
+            if (tds[i].getAttribute('data-name')) {
+                tds[i].addEventListener("dblclick", editCellValue);
+            }
         }
 
+        let reportData = @json($reportData);
+
         function editCellValue() {
-            this.innerHTML = "<input type='text' value='" + this.innerHTML + "' />";
+            // check this.innerHTML already has a input tag 
+            if (this.querySelector("input")) {
+                return;
+            }
+            this.innerHTML = "<input class='form-control-sm' type='text' value='" + getvalue(this.innerHTML) + "' />";
+
+            var oldVallue;
+
+            function getvalue(value) {
+                oldVallue = value;
+                // remove unnecessary spaces
+                return value.replace(/\s+/g, '');
+            }
             var input = this.querySelector("input");
             input.select();
             input.focus();
             input.onblur = function() {
+                valueCheck(this);
                 this.parentNode.innerHTML = this.value;
             }
+
+            // if enter button press 
+            input.onkeydown = function(e) {
+                if (e.keyCode == 13) {
+                    valueCheck(this);
+                }
+            };
+
+            // when focusout input save cell 
+            // input.onblur = function() {
+            //     valueCheck(this);
+            // };
+
+            function valueCheck(inputTag) {
+                if (/^-?\d*(\.\d+)?$|^-$/.test(inputTag.value)) {
+                    updateJson(inputTag.parentNode.getAttribute('data-name'), inputTag.value);
+                    inputTag.blur();
+                } else {
+                    inputTag.value = oldVallue;
+                    inputTag.blur();
+                }
+            }   
+
+
+
+
+            function updateJson(dataName, value) {
+                console.log(dataName, value); //t1-receipts_from_customers_c_q 33
+                splitDataName = dataName.split('-');
+                tableName = splitDataName[0];
+                cellName = splitDataName[1];
+                reportData[tableName][0][cellName] = value;
+
+                // console.log(reportData);
+            }
+
+        }
+
+        function saveData() {
+            // console.log(JSON.stringify(reportData));
+            var request = new XMLHttpRequest();
+            request.open("POST", "{{ route('client.save-report') }}");
+            request.setRequestHeader("Content-Type", "application/json");
+            request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
+            request.send(JSON.stringify(reportData));
+
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // alert("Report Saved Successfully");
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Report has been saved',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        showCloseButton: true
+                    });
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Something went wrong',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        showCloseButton: true
+                    });
+                }
+            };
         }
     </script>
 

@@ -37,7 +37,7 @@
                 </script>
             @endif
     
-            <form action="{{ route('upload-pdf') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('client.upload-pdf') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col-lg-12">
                     <div class="card">

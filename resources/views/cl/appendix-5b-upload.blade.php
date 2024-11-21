@@ -20,78 +20,48 @@
 
     <div class="row">
 
-        <div class="col-12>
-            @if ($errors->any())
-                <div class="alert alert-danger pb-0" id="error-alert">
+        <div class="col-12">
+            @if (isset($success))
+                <div class="alert alert-success pb-0" id="success-alert">
                     <ul>
-    
-                        <li>Report Seems to be not Matching the Template!</li>
-    
+                        <li>PDF Uploaded Successfully</li>
                     </ul>
                 </div>
-    
+                <script>
+                    setTimeout(() => {
+                        document.getElementById('success-alert').style.display = 'none';
+                    }, 3000);
+                </script>
+            @endif
+
+            @if (isset($error))
+                <div class="alert alert-danger pb-0" id="error-alert">
+                    <ul>
+                        <li>{{ session('error') }}</li>
+                    </ul>
+                </div>
                 <script>
                     setTimeout(() => {
                         document.getElementById('error-alert').style.display = 'none';
                     }, 3000);
                 </script>
             @endif
-    
-            <form action="{{ route('upload-pdf') }}" method="POST" enctype="multipart/form-data">
+
+            <form action="{{ route('client.upload-pdf') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title mb-0">APPENDIX 5B UPLOAD</h4>
                         </div><!-- end card header -->
-    
+
                         <div class="card-body">
                             <p class="text-muted">Upload a PDF file to the system for further processing.</p>
-    
+
                             <div class="">
                                 <input class="form-control" name="pdf" type="file" multiple="multiple">
                             </div>
-    
-                            {{-- <div class="dropzone">
-                                <div class="fallback">
-                                    <input name="pdf" type="file" multiple="multiple">
-                                </div>
-                                <div class="dz-message needsclick">
-                                    <div class="mb-3">
-                                        <i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
-                                    </div>
-    
-                                    <h4>Drop files here or click to upload.</h4>
-                                </div>
-                            </div>
-    
-                            <ul class="list-unstyled mb-0" id="dropzone-preview">
-                                <li class="mt-2" id="dropzone-preview-list">
-                                    <!-- This is used as the file preview template -->
-                                    <div class="border rounded">
-                                        <div class="d-flex p-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <div class="avatar-sm bg-light rounded">
-                                                    <img data-dz-thumbnail class="img-fluid rounded d-block"
-                                                        src="{{ URL::asset('build/images/new-document.png') }}"
-                                                        alt="Dropzone-Image" />
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <div class="pt-1">
-                                                    <h5 class="fs-14 mb-1" data-dz-name>&nbsp;</h5>
-                                                    <p class="fs-13 text-muted mb-0" data-dz-size></p>
-                                                    <strong class="error text-danger" data-dz-errormessage></strong>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-0 ms-3">
-                                                <button data-dz-remove class="btn btn-sm btn-danger">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul> --}}
-    
+
                             <div class="pt-4 text-end">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">Upload</button>
                             </div>
