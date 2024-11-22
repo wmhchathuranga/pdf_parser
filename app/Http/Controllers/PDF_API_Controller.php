@@ -11,7 +11,7 @@ class PDF_API_Controller extends Controller
 
     public function showReports($abn)
     {
-        $reports = PDFReport::all() ->where('abn', str_replace(' ', '', $abn));
+        $reports = PDFReport::all()->where('abn', str_replace(' ', '', $abn));
         foreach ($reports as $report) {
             $report->load(['operatingDetails', 'investingDetails', 'financingDetails', 'cashDetails', 'reconciliationDetails', 'relatedPartyPayments',  'financingFacilities', 'estimatedCashAvailabilities']);
         }
@@ -38,11 +38,11 @@ class PDF_API_Controller extends Controller
         $opertingDetails = $json_object['operating_details'][0];
         $opertingDetails['created_at'] = Carbon::parse($opertingDetails['created_at'])->format('Y-m-d H:i:s');
         $opertingDetails['updated_at'] = now();
-       
+
         $investingDetails = $json_object['investing_details'][0];
         $investingDetails['created_at'] = Carbon::parse($investingDetails['created_at'])->format('Y-m-d H:i:s');
         $investingDetails['updated_at'] = now();
-        
+
         $financingDetails = $json_object['financing_details'][0];
         $financingDetails['created_at'] = Carbon::parse($financingDetails['created_at'])->format('Y-m-d H:i:s');
         $financingDetails['updated_at'] = now();
@@ -59,7 +59,7 @@ class PDF_API_Controller extends Controller
         $relatedPartyPayments['created_at'] = Carbon::parse($relatedPartyPayments['created_at'])->format('Y-m-d H:i:s');
         $relatedPartyPayments['updated_at'] = now();
 
-        $financingFacilities = $json_object['financing_facilities'][0]; 
+        $financingFacilities = $json_object['financing_facilities'][0];
         $financingFacilities['created_at'] = Carbon::parse($financingFacilities['created_at'])->format('Y-m-d H:i:s');
         $financingFacilities['updated_at'] = now();
 
@@ -77,7 +77,7 @@ class PDF_API_Controller extends Controller
         $report->financingFacilities()->update($financingFacilities);
         $report->estimatedCashAvailabilities()->update($estimatedCashAvailabilities);
         $report->save();
-        
+
         $report = PDFReport::find($report_id);
         if (!$report || $report->deleted_at) {
             return response()->json(null, 404);
@@ -95,9 +95,10 @@ class PDF_API_Controller extends Controller
 
     public function showCompanies()
     {
-        $companies = PDFReport::selectRaw('MIN(id) as id, company_name, abn')
-        ->groupBy('abn', 'company_name')
-        ->get();        
+        $companies = PDFReport::selectRaw('MIN(id) as id, MAX(company_name) as company_name, abn')
+            ->groupBy('abn')
+            ->get();
+
         return response()->json($companies);
     }
 }
