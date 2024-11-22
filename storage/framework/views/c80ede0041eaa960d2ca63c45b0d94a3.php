@@ -44,9 +44,29 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"></h4>
+                    <div id="chart">
+                        <div class="card-body">
+                            <div id="line_chart_datalabel"
+                                data-colors='["--vz-primary", "--vz-success", "--vz-danger",
+                                "--vz-warning", "--vz-info", "--vz-dark", "--vz-secondary", "--vz-light"]'
+                                class="apex-charts" dir="ltr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
+    
     <script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
 
     <script src="<?php echo e(URL::asset('https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/dayjs.min.js')); ?>"></script>
@@ -99,7 +119,13 @@ if (isset($__slots)) unset($__slots);
             }
         ];
 
-        function drawChart(selectTag) {
+        window.addEventListener('call-chart-draw-function', function(event) {
+            // alert("ok");
+            drawChart(event.detail[0].data);
+        });
+
+        function drawChart(dataArray) {
+
             var options = {
                 chart: {
                     height: 380,
@@ -119,7 +145,7 @@ if (isset($__slots)) unset($__slots);
                     width: [3, 3],
                     curve: 'straight'
                 },
-                series: [],
+                series: [], // Will be populated dynamically
                 title: {
                     text: '',
                     align: 'left',
@@ -129,7 +155,7 @@ if (isset($__slots)) unset($__slots);
                 },
                 grid: {
                     row: {
-                        colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                        colors: ['transparent', 'transparent'], // takes an array which will be repeated on rows
                         opacity: 0.2
                     },
                     borderColor: '#f1f1f1'
@@ -139,7 +165,7 @@ if (isset($__slots)) unset($__slots);
                     size: 6
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    categories: [], // Will be populated with dataArray.x_axis
                     title: {
                         text: 'Month'
                     }
@@ -149,7 +175,6 @@ if (isset($__slots)) unset($__slots);
                         text: 'Values'
                     },
                     min: 5,
-                    // max: 40
                 },
                 legend: {
                     position: 'top',
@@ -171,28 +196,127 @@ if (isset($__slots)) unset($__slots);
                         },
                     }
                 }]
-            }
+            };
 
             series = [];
-            Array.from(selectTag.children).forEach(element => {
-                series.push(
-                    chartOptions[element.value]
-                )
-
-            });
-
+            options.xaxis.categories = dataArray.x_axis || [];
+            for (let key in dataArray) {
+                if (key !== "x_axis") { // Exclude x_axis from the series data
+                    series.push({
+                        name: key.replace(/_/g, ' '), // Replace underscores with spaces for readability
+                        data: dataArray[key].map(Number)
+                    });
+                }
+            }
             options.series = series;
+            console.log(options.series[0].data);
 
+            // Clear previous chart and render the new one
+            
             document.getElementById("line_chart_datalabel").innerHTML = "";
             var chart = new ApexCharts(
                 document.querySelector("#line_chart_datalabel"),
                 options
             );
             chart.render();
-
-            // console.log(options);
-
         }
+
+
+
+        // function drawChart(selectTag) {
+        //     var options = {
+        //         chart: {
+        //             height: 380,
+        //             type: 'line',
+        //             zoom: {
+        //                 enabled: false
+        //             },
+        //             toolbar: {
+        //                 show: false
+        //             }
+        //         },
+        //         colors: linechartDatalabelColors,
+        //         dataLabels: {
+        //             enabled: false,
+        //         },
+        //         stroke: {
+        //             width: [3, 3],
+        //             curve: 'straight'
+        //         },
+        //         series: [],
+        //         title: {
+        //             text: '',
+        //             align: 'left',
+        //             style: {
+        //                 fontWeight: 500,
+        //             },
+        //         },
+        //         grid: {
+        //             row: {
+        //                 colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+        //                 opacity: 0.2
+        //             },
+        //             borderColor: '#f1f1f1'
+        //         },
+        //         markers: {
+        //             style: 'inverted',
+        //             size: 6
+        //         },
+        //         xaxis: {
+        //             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        //             title: {
+        //                 text: 'Month'
+        //             }
+        //         },
+        //         yaxis: {
+        //             title: {
+        //                 text: 'Values'
+        //             },
+        //             min: 5,
+        //             // max: 40
+        //         },
+        //         legend: {
+        //             position: 'top',
+        //             horizontalAlign: 'right',
+        //             floating: true,
+        //             offsetY: -25,
+        //             offsetX: -5
+        //         },
+        //         responsive: [{
+        //             breakpoint: 600,
+        //             options: {
+        //                 chart: {
+        //                     toolbar: {
+        //                         show: false
+        //                     }
+        //                 },
+        //                 legend: {
+        //                     show: false
+        //                 },
+        //             }
+        //         }]
+        //     }
+
+        //     series = [];
+        //     Array.from(selectTag.children).forEach(element => {
+        //         series.push(
+        //             chartOptions[element.value]
+        //         )
+
+        //     });
+
+        //     options.series = series;
+
+        //     document.getElementById("line_chart_datalabel").innerHTML = "";
+        //     var chart = new ApexCharts(
+        //         document.querySelector("#line_chart_datalabel"),
+        //         options
+        //     );
+        //     chart.render();
+
+        //     // console.log(options);
+
+        // }
 
         function getChartColorsArray(chartId) {
             if (document.getElementById(chartId) !== null) {
@@ -222,102 +346,90 @@ if (isset($__slots)) unset($__slots);
 
         //  Line chart datalabel
         var linechartDatalabelColors = getChartColorsArray("line_chart_datalabel");
-        if (linechartDatalabelColors) {
-            var options = {
-                chart: {
-                    height: 380,
-                    type: 'line',
-                    zoom: {
-                        enabled: false
-                    },
-                    toolbar: {
-                        show: false
-                    }
-                },
-                colors: linechartDatalabelColors,
-                dataLabels: {
-                    enabled: false,
-                },
-                stroke: {
-                    width: [3, 3],
-                    curve: 'straight'
-                },
-                series: [],
-                title: {
-                    text: '',
-                    align: 'left',
-                    style: {
-                        fontWeight: 500,
-                    },
-                },
-                grid: {
-                    row: {
-                        colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-                        opacity: 0.2
-                    },
-                    borderColor: '#f1f1f1'
-                },
-                markers: {
-                    style: 'inverted',
-                    size: 6
-                },
-                xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    title: {
-                        text: 'Month'
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'value'
-                    },
-                    min: 5,
-                    max: 40
-                },
-                legend: {
-                    position: 'top',
-                    horizontalAlign: 'right',
-                    floating: true,
-                    offsetY: -25,
-                    offsetX: -5
-                },
-                responsive: [{
-                    breakpoint: 600,
-                    options: {
-                        chart: {
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        legend: {
-                            show: false
-                        },
-                    }
-                }]
-            }
+        // if (linechartDatalabelColors) {
+        //     var options = {
+        //         chart: {
+        //             height: 380,
+        //             type: 'line',
+        //             zoom: {
+        //                 enabled: false
+        //             },
+        //             toolbar: {
+        //                 show: false
+        //             }
+        //         },
+        //         colors: linechartDatalabelColors,
+        //         dataLabels: {
+        //             enabled: false,
+        //         },
+        //         stroke: {
+        //             width: [3, 3],
+        //             curve: 'straight'
+        //         },
+        //         series: [],
+        //         title: {
+        //             text: '',
+        //             align: 'left',
+        //             style: {
+        //                 fontWeight: 500,
+        //             },
+        //         },
+        //         grid: {
+        //             row: {
+        //                 colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+        //                 opacity: 0.2
+        //             },
+        //             borderColor: '#f1f1f1'
+        //         },
+        //         markers: {
+        //             style: 'inverted',
+        //             size: 6
+        //         },
+        //         xaxis: {
+        //             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        //             title: {
+        //                 text: 'Month'
+        //             }
+        //         },
+        //         yaxis: {
+        //             title: {
+        //                 text: 'value'
+        //             },
+        //             min: 5,
+        //             max: 40
+        //         },
+        //         legend: {
+        //             position: 'top',
+        //             horizontalAlign: 'right',
+        //             floating: true,
+        //             offsetY: -25,
+        //             offsetX: -5
+        //         },
+        //         responsive: [{
+        //             breakpoint: 600,
+        //             options: {
+        //                 chart: {
+        //                     toolbar: {
+        //                         show: false
+        //                     }
+        //                 },
+        //                 legend: {
+        //                     show: false
+        //                 },
+        //             }
+        //         }]
+        //     }
 
-            var chart = new ApexCharts(
-                document.querySelector("#line_chart_datalabel"),
-                options
-            );
-            chart.render();
-        }
+        //     var chart = new ApexCharts(
+        //         document.querySelector("#line_chart_datalabel"),
+        //         options
+        //     );
+        //     chart.render();
+        // }
 
-
-        function clearChart() {
-            alert("clearChart");
-            document.getElementById("choices-multiple-remove-button");
-            drawChart();
-        }
     </script>
 
-    <script>
 
-        function getDateRange(selectTag) {
-
-            console.log(selectTag.value);
-        }
-    </script>
     
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>

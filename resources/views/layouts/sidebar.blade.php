@@ -1273,8 +1273,8 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('cl-comperission-table') }}">
-                            <i class="mdi mdi-table"></i> <span>Comperission Table</span>
+                        <a class="nav-link menu-link" href="{{ route('cl-comparison-table') }}">
+                            <i class="mdi mdi-table"></i> <span>Comparison Table</span>
                         </a>
                     </li>
 

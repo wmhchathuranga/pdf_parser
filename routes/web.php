@@ -45,9 +45,9 @@ Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('repor
     Route::get('cl/all-reports', function () {
         return view('cl.all-reports');
     })->name('cl-all-reports');
-    Route::get('cl/comperission-table', function () {
-        return view('cl.comperission-table');
-    })->name('cl-comperission-table');
+    Route::get('cl/comparison-table', function () {
+        return view('cl.comparison-table');
+    })->name('cl-comparison-table');
 
     Route::get('cl/single-pdf-charts', function () {
         $companies = [];
