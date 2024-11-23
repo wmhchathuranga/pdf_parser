@@ -20,5 +20,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/report_5b/{id}', [PDF_API_Controller::class, 'showReport'])->name('report')->where('id', '[0-9]+');
     Route::POST('/report_5b', [PDF_API_Controller::class, 'updateReport'])->name('report-update');
     Route::get('/report_5b/delete/{id}', [PDF_API_Controller::class, 'deleteReport'])->name('report')->where('id', '[0-9]+');
+
+    Route::post('chart/1', [PDF_API_Controller::class, 'chart1'])->name('chart-1');
     
 });

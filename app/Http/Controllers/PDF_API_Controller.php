@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\PDFReport;
 use Illuminate\Http\Request;
+use stdClass;
 
 class PDF_API_Controller extends Controller
 {
 
+    private $table_names = ['operatingDetails', 'investingDetails', 'financingDetails', 'cashDetails', 'reconciliationDetails', 'relatedPartyPayments',  'financingFacilities', 'estimatedCashAvailabilities'];
     public function showReports($abn)
     {
         $reports = PDFReport::all()->where('abn', str_replace(' ', '', $abn));
@@ -100,5 +102,49 @@ class PDF_API_Controller extends Controller
             ->get();
 
         return response()->json($companies);
+    }
+
+    public function chart1(Request $request)
+    {
+        $request_data = $request->all();
+        $abn = $request_data['abn'];
+        $date_start = $request_data['date_start'];
+        $date_start = Carbon::parse($date_start)->format('Y-m-d');
+        $date_end = $request_data['date_end'];
+        $date_end = Carbon::parse($date_end)->format('Y-m-d');
+        $data = PDFReport::where('abn', $abn)->whereBetween('quarter_ending', [$date_start, $date_end])->get();
+        $table_index = $request_data['table_index'];
+        foreach ($data as $report) {
+            $report->load($this->table_names[$table_index]);
+        }
+        $chart_data = new stdClass();
+
+        $quarter_ending = [];
+        $table_name = $this->table_names[$table_index];
+        foreach ($data as $report) {
+            $quarter_ending[] = $report->quarter_ending;
+        }
+        $chart_data->x_axis = $quarter_ending;
+
+        $columns_requested = $request_data['columns'];
+
+        foreach ($columns_requested as $column) {
+            $column_data = [];
+            foreach ($data as $report) {
+                $column_data[] = $report[$this->table_names[$table_index]][0][$column]??0;
+            }
+            $chart_data->{$column} = $column_data;
+        }
+
+
+        // if (isset($report[$table_name])) {
+        //     // Filter the columns in the table
+        //     $report[$table_name] = collect($report[$table_name])->map(function ($table_entry) use ($columns_requested) {
+        //         return collect($table_entry)->only($columns_requested);
+        //     })->toArray();
+        // }
+
+
+        return response()->json($chart_data);
     }
 }

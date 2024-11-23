@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
         
             // General Information
-            $table->string('quarter_ending');
+            $table->date('quarter_ending');
             $table->string('company_name');
             $table->string('abn');
             $table->string('pdf');

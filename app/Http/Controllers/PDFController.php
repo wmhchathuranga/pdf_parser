@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PDFReport;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Smalot\PdfParser\Parser;
@@ -735,7 +736,7 @@ class PDFController extends Controller
 
         // Save extracted data to the database
         $pdfReport = PDFReport::create([
-            'quarter_ending' => $quarterEnding,
+            'quarter_ending' => Carbon::parse($quarterEnding)->format('Y-m-d'),
             'company_name' => $companyName,
             'abn' => str_replace(' ', '', $abn),
             'pdf' => $relativePath
