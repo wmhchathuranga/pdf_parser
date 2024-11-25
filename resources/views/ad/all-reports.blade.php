@@ -51,7 +51,7 @@
         
     @endphp
 
-    @livewire('all-pdf-reports-table')
+    @livewire('comparison-table')
 
 @endsection
 @section('script')

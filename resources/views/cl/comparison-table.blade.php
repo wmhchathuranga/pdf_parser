@@ -9,6 +9,8 @@
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
         type="text/css" />
     <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -48,11 +50,9 @@
         // } catch (Exception $e) {
         //     dd($e->getMessage());
         // }
-        
     @endphp
 
-    @livewire('all-pdf-reports-table')
-
+    @livewire('comparison-table')
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -75,14 +75,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
+    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+
+
     <script>
+        refreshTableJs();
         //buttons examples
-        let buttonsDataTables = new DataTable('#buttons-datatables', {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'print', 'pdf'
-            ],
-        });
+        function refreshTableJs() {
+            setTimeout(() => {
+                let buttonsDataTables = new DataTable('#buttons-datatables', {
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'csv', 'excel', 'print', 'pdf'],
+                    scrollX: true, // Enable horizontal scrolling
+                    fixedColumns: {
+                        leftColumns: 4 // Fix the first 4 columns
+                    }
+                });
+
+
+            }, 500);
+        }
     </script>
 
     {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}

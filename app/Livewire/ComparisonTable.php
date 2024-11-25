@@ -6,11 +6,14 @@ use Exception;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
-class AllPdfReportsTable extends Component
+class ComparisonTable extends Component
+
+
 {
     public $allReports;
     public $companies;
     public $selectedCompany;
+    public $tableTopic;
 
     public function mount()
     {
@@ -47,11 +50,17 @@ class AllPdfReportsTable extends Component
         } else {
             // dd('No companies available.');
         }
+
+        $this->tableTopic = 'all';
     }
 
     public function changeCompany($abn){
         $this->selectedCompany = $abn;
         $this->loadData();
+    }
+
+    public function changeTableTopic($tableTopic){
+        $this->tableTopic = $tableTopic;
     }
 
     public function loadData(){
@@ -77,7 +86,7 @@ class AllPdfReportsTable extends Component
 
     public function render()
     {
-        return view('livewire.all-pdf-reports-table', [
+        return view('livewire.comparison-table', [
             'allReports' => $this->allReports,
             'companies' => $this->companies
         ]);

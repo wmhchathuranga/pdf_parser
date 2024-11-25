@@ -17,6 +17,7 @@ class PDFController extends Controller
         // ]);
         
 
+        dd($request->all());
         // Step 2: Get the uploaded file
         $pdfFile = $request->file('pdf');
 
