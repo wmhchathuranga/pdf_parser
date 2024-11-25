@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('abn');
             $table->string('pdf');
+            $table->boolean('is_upload_completed')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
