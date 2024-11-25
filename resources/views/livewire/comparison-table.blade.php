@@ -334,7 +334,7 @@
                                 @if ($allReports != null)
                                     @foreach ($allReports as $report)
                                         <tr>
-                                            <td class="text-center"><a href="report"
+                                            <td class="text-center"><a href="{{ route('client.single-report', $report['id']) }}"
                                                     class="btn btn-sm btn-secondary">view</a></td>
                                             <td>{{ $report['quarter_ending'] }}</td>
                                             <td>{{ $report['company_name'] }}</td>
