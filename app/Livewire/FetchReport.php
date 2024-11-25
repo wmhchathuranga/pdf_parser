@@ -13,6 +13,8 @@ class FetchReport extends Component
     public $selectedCompany;
     public $allReports;
 
+    public $selectedStatus;
+
     public function mount()
     {
         try {
@@ -48,11 +50,34 @@ class FetchReport extends Component
         } else {
             // dd('No companies available.');
         }
+
+        $this->selectedStatus = 'all';
     }
 
     public function changeCompany($abn)
     {
         $this->selectedCompany = $abn;
+        $this->loadData();
+    }
+
+    public function changeStatus($status){
+        $this->selectedStatus = $status;
+    }
+
+    public function deleteReport($id){
+        // dd($id);
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('API_TOKEN'),
+            ])->get(env('API_URL') . '/api/report_5b/delete/' . $id);
+
+            if ($response->successful()) {
+                $this->loadData();
+            }
+        }catch (Exception $e) {
+            dd($e);
+            abort(500, 'Something went wrong');
+        }
         $this->loadData();
     }
 

@@ -51,8 +51,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
+        refreshTableJs();
         //buttons examples
-        let buttonsDataTables = new DataTable('#buttons-datatables');
+        function refreshTableJs() {
+            setTimeout(() => {
+                new DataTable('#all-reports-table', {
+                    dom: 'Bfrtip',
+                });
+            }, 2000);
+        }
     </script>
 
     {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}

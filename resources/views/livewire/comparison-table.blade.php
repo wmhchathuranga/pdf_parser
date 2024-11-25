@@ -51,43 +51,43 @@
                         <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th colspan="4" class="staticcols"></th>
+                                    <th colspan="4" class="bg-white" style="left: 0px; position: sticky;"></th>
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
-                                        <th colspan="26" class="table-dark text-white">Cash Flows from Operating
+                                        <th colspan="26" class="text-center table-dark text-white">Cash Flows from Operating
                                             Activities</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
-                                        <th colspan="30" class="table-dark text-white">Cash Flows from Investing
+                                        <th colspan="30" class="text-center table-dark text-white">Cash Flows from Investing
                                             Activities</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
-                                        <th colspan="20" class="table-dark text-white">Cash Flows from Financing
+                                        <th colspan="20" class="text-center table-dark text-white">Cash Flows from Financing
                                             Activities</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
-                                        <th colspan="12" class="table-dark text-white">Cash Flow Summary</th>
+                                        <th colspan="12" class="text-center table-dark text-white">Cash Flow Summary</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
-                                        <th colspan="10" class="table-dark text-white">Reconciliation of Cash and Cash
+                                        <th colspan="10" class="text-center table-dark text-white">Reconciliation of Cash and Cash
                                             Equivalents</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '5')
-                                        <th colspan="4" class="table-dark text-white">Payments to Related Parties
+                                        <th colspan="4" class="text-center table-dark text-white">Payments to Related Parties
                                         </th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '6')
-                                        <th colspan="10" class="table-dark text-white">Financing and Credit Facilities
+                                        <th colspan="10" class="text-center table-dark text-white">Financing and Credit Facilities
                                         </th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '7')
-                                        <th colspan="14" class="table-dark text-white">Cash Flow and Funding</th>
+                                        <th colspan="14" class="text-center table-dark text-white">Cash Flow and Funding</th>
                                     @endif
                                 </tr>
                                 <tr>
-                                    <th rowspan="2" class="staticcols">Action</th>
-                                    <th rowspan="2" class="staticcols">Quarter Ending</th>
-                                    <th rowspan="2" class="staticcols">Name of Entity</th>
-                                    <th rowspan="2" class="staticcols">ABN</th>
+                                    <th rowspan="2">Action</th>
+                                    <th rowspan="2">Quarter Ending</th>
+                                    <th rowspan="2">Name of Entity</th>
+                                    <th rowspan="2" class="">ABN</th>
 
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
                                         <th colspan="2">Receipts from Customers</th>
@@ -102,7 +102,7 @@
                                         <th colspan="2">Income Tax Paid</th>
                                         <th colspan="2">Government Tax Paid</th>
                                         <th colspan="2">Other</th>
-                                        <th colspan="2">Net Cash from Operating Activities</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Net Cash from Operating Activities</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
@@ -120,7 +120,7 @@
                                         <th colspan="2">Cash Flow from Loans</th>
                                         <th colspan="2">Dividends Received</th>
                                         <th colspan="2">Other</th>
-                                        <th colspan="2">Net Cash from Investing Activitie</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Net Cash from Investing Activitie</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
@@ -133,7 +133,7 @@
                                         <th colspan="2">Transaction Costs for Borrowing</th>
                                         <th colspan="2">Dividends Paid</th>
                                         <th colspan="2">Other Financing Activities</th>
-                                        <th colspan="2">Net Cash from Financing Activities</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Net Cash from Financing Activities</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
@@ -142,7 +142,7 @@
                                         <th colspan="2">Investing Cash Flow</th>
                                         <th colspan="2">Financing Cash Flow</th>
                                         <th colspan="2">Effect of Movement on Cash</th>
-                                        <th colspan="2">Ending Cash</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Ending Cash</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
@@ -150,12 +150,12 @@
                                         <th colspan="2">Call Deposits</th>
                                         <th colspan="2">Bank Overdrafts</th>
                                         <th colspan="2">Other</th>
-                                        <th colspan="2">Cash Equivalents at End of Period</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Cash Equivalents at End of Period</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '5')
                                         <th colspan="2">Aggregated Payment 1</th>
-                                        <th colspan="2">Aggregated Payment 2</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Aggregated Payment 2</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '6')
@@ -163,7 +163,7 @@
                                         <th colspan="2">Credit Standby Arrangements</th>
                                         <th colspan="2">Other Financing</th>
                                         <th colspan="2">Total Financing</th>
-                                        <th colspan="2">Unused Financing Facilities</th>
+                                        <th colspan="2" style="border-right:solid 2px #380092;">Unused Financing Facilities</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '7')
@@ -205,7 +205,7 @@
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
@@ -238,7 +238,7 @@
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
@@ -261,7 +261,7 @@
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
@@ -276,7 +276,7 @@
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
@@ -289,14 +289,14 @@
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '5')
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '6')
@@ -309,7 +309,7 @@
                                         <th>Current quarter $A’000</th>
                                         <th>Year to date (6 months) $A’000</th>
                                         <th>Current quarter $A’000</th>
-                                        <th>Year to date (6 months) $A’000</th>
+                                        <th style="border-right:solid 2px #380092;">Year to date (6 months) $A’000</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '7')
@@ -417,7 +417,7 @@
                                                 <td class="text-end">
                                                     {{ $report['operating_details'][0]['net_cash_from_operating_c_q'] ?? '-' }}
                                                 </td>
-                                                <td class="text-end">
+                                                <td class="text-end" style="border-right:solid 2px #380092;">
                                                     {{ $report['operating_details'][0]['net_cash_from_operating_y_t_d'] ?? '-' }}
                                                 </td>
                                             @endif
@@ -511,7 +511,7 @@
                                                 <td class="text-end">
                                                     {{ $report['investing_details'][0]['net_cash_from_investing_c_q'] ?? '-' }}
                                                 </td>
-                                                <td class="text-end">
+                                                <td class="text-end" style="border-right:solid 2px #380092;">
                                                     {{ $report['investing_details'][0]['net_cash_from_investing_y_t_d'] ?? '-' }}
                                                 </td>
                                             @endif
@@ -575,7 +575,7 @@
                                                 <td class="text-end">
                                                     {{ $report['financing_details'][0]['net_cash_from_financing_c_q'] ?? '-' }}
                                                 </td>
-                                                <td class="text-end">
+                                                <td class="text-end" style="border-right:solid 2px #380092;">
                                                     {{ $report['financing_details'][0]['net_cash_from_financing_y_t_d'] ?? '-' }}
                                                 </td>
                                             @endif
@@ -614,7 +614,7 @@
                                                 </td>
                                                 <td class="text-end">
                                                     {{ $report['cash_details'][0]['end_cash_c_q'] ?? '-' }}</td>
-                                                <td class="text-end">
+                                                <td class="text-end" style="border-right:solid 2px #380092;">
                                                     {{ $report['cash_details'][0]['end_cash_y_t_d'] ?? '-' }}
                                                 </td>
                                             @endif
@@ -648,7 +648,7 @@
                                                 <td class="text-end">
                                                     {{ $report['reconciliation_details'][0]['cash_equivalents_end_period_c_q'] ?? '-' }}
                                                 </td>
-                                                <td class="text-end">
+                                                <td class="text-end" style="border-right:solid 2px #380092;">
                                                     {{ $report['reconciliation_details'][0]['cash_equivalents_end_period_y_t_d'] ?? '-' }}
                                                 </td>
                                             @endif
@@ -662,7 +662,7 @@
                                                 <td class="text-end">
                                                     {{ $report['related_party_payments'][0]['aggregated_2_c_q'] ?? '-' }}
                                                 </td>
-                                                <td class="text-end">--</td>
+                                                <td class="text-end" style="border-right:solid 2px #380092;">--</td>
                                             @endif
 
                                             {{-- financing_facilities --}}
@@ -692,7 +692,7 @@
                                                     {{ $report['financing_facilities'][0]['total_financing_y_t_d'] ?? '-' }}
                                                 </td>
                                                 <td class="text-end">--</td>
-                                                <td class="text-end">
+                                                <td class="text-end" style="border-right:solid 2px #380092;">
                                                     {{ $report['financing_facilities'][0]['unused_financing_facilities_y_t_d'] ?? '-' }}
                                                 </td>
                                             @endif
@@ -754,12 +754,11 @@
         .dataTables_wrapper .dataTables_scroll .dataTables_scrollHeadInner {
             width: 100% !important;
         }
-/* 
-        .dataTables_wrapper .dataTables_scroll .dataTables_scrollHeadInner th {
+
+        /* .dataTables_wrapper .dataTables_scroll .dataTables_scrollHeadInner th {
             white-space: nowrap;
         } */
     </style>
 
-    <script></script>
 
 </div>

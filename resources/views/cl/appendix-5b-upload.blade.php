@@ -21,31 +21,51 @@
     <div class="row">
 
         <div class="col-12">
-            @if (isset($success))
-                <div class="alert alert-success pb-0" id="success-alert">
-                    <ul>
-                        <li>PDF Uploaded Successfully</li>
-                    </ul>
+
+            @if (session('responses'))
+                <div id="response-alerts">
+                    @foreach (session('responses') as $response)
+                    {{-- @php
+                        // $response = json_decode($response, true);
+                        dd($response);
+                    @endphp --}}
+                        {{-- @if ($response['status'] === 'success')
+                            <div class="alert alert-success pb-0">
+                                <ul>
+                                    <li>{{ $response['file'] }}: {{ $response['message'] }}</li>
+                                </ul>
+                            </div>
+                        @else --}}
+                            <div class="alert {{ $response['status'] === 'success' ? 'alert-success' : 'alert-danger'}} pb-0">
+                                <ul>
+                                    <li>{{ $response['file'] }}: {{ str_replace('"', ' ', $response['message']) }}</li>
+                                </ul>
+                            </div>
+                        {{-- @endif --}}
+                    @endforeach
                 </div>
                 <script>
                     setTimeout(() => {
-                        document.getElementById('success-alert').style.display = 'none';
-                    }, 3000);
+                        document.getElementById('response-alerts').style.display = 'none';
+                    }, 5000);
                 </script>
             @endif
 
-            @if (isset($error))
-                <div class="alert alert-danger pb-0" id="error-alert">
+            @if (session('summary'))
+                <div class="alert alert-info pb-0" id="info-alert">
                     <ul>
-                        <li>PDF Upload Failed. Something went wrong</li>
+                        <li>{{ session('summary') }}</li>
                     </ul>
                 </div>
                 <script>
                     setTimeout(() => {
-                        document.getElementById('error-alert').style.display = 'none';
-                    }, 3000);
+                        document.getElementById('info-alert').style.display = 'none';
+                    }, 5000);
                 </script>
             @endif
+
+
+
 
             <form action="{{ route('client.upload-pdf') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -53,25 +73,36 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title mb-0">APPENDIX 5B UPLOAD</h4>
-                        </div><!-- end card header -->
+                        </div>
+                        <!-- end card header -->
 
                         <div class="card-body">
-                            <p class="text-muted">Upload a PDF file to the system for further processing.</p>
+                            <p class="text-muted">
+                                Upload one or more PDF files to the system for further processing.
+                            </p>
 
-                            <div class="">
-                                <input class="form-control" name="pdf" type="file" multiple="multiple">
+                            <!-- File input -->
+                            <div class="mb-3">
+                                <label for="pdfFiles" class="form-label">Select PDF files:</label>
+                                <input class="form-control" id="pdfFiles" name="pdfs[]" type="file" multiple="multiple"
+                                    accept=".pdf">
                             </div>
 
+                            <!-- Submit button -->
                             <div class="pt-4 text-end">
-                                <button type="submit" class="btn btn-primary waves-effect waves-light">Upload</button>
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                    Upload
+                                </button>
                             </div>
-                            <!-- end dropzon-preview -->
+                            <!-- end button group -->
                         </div>
                         <!-- end card body -->
                     </div>
                     <!-- end card -->
-                </div> <!-- end col -->
+                </div>
+                <!-- end col -->
             </form>
+
         </div>
     </div>
 @endsection
