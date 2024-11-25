@@ -39,7 +39,7 @@ class ReportController extends Controller
         $response = Http::withHeaders([
             'Authorization' => env('API_TOKEN'),
             'Content-Type' => 'application/json',
-        ])->post( env('API_URL').'/api/report_5b/', ['data' => $request->all()]);
+        ])->post( env('API_URL').'/api/report_5b', ['data' => $request->all()]);
 
         // dd($response->status());
         if($response->status() == 200){

@@ -41,13 +41,13 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('dev-all-reports')); ?>">
+                    <a class="nav-link menu-link" href="<?php echo e(route('developer.all-reports')); ?>">
                         <i class="mdi mdi-file-pdf-box"></i> <span>All Reports</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('dev-all-clients')); ?>">
+                    <a class="nav-link menu-link" href="<?php echo e(route('developer.all-clients')); ?>">
                         <i class="mdi mdi-group"></i> <span>All clients</span>
                     </a>
                 </li>
@@ -73,13 +73,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('ad-all-reports')); ?>">
+                    <a class="nav-link menu-link" href="<?php echo e(route('admin.all-reports')); ?>">
                         <i class="mdi mdi-file-pdf-box"></i> <span>All Reports</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('ad-all-clients')); ?>">
+                    <a class="nav-link menu-link" href="<?php echo e(route('admin.all-clients')); ?>">
                         <i class="mdi mdi-group"></i> <span>All clients</span>
                     </a>
                 </li>
@@ -102,25 +102,25 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('cl-appendix-5b-upload')); ?>">
+                        <a class="nav-link menu-link" href="<?php echo e(route('client.appendix-5b-upload')); ?>">
                             <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 5B</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('cl-appendix-3x-upload')); ?>">
+                        <a class="nav-link menu-link" href="<?php echo e(route('client.appendix-3x-upload')); ?>">
                             <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 3X</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('cl-all-reports')); ?>">
+                        <a class="nav-link menu-link" href="<?php echo e(route('client.all-reports')); ?>">
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('cl-comparison-table')); ?>">
+                        <a class="nav-link menu-link" href="<?php echo e(route('client.comparison-table')); ?>">
                             <i class="mdi mdi-table"></i> <span>Comparison Table</span>
                         </a>
                     </li>
@@ -132,7 +132,7 @@
                         <div class="collapse menu-dropdown" id="analytics-charts">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('cl-single-pdf-chart')); ?>" class="nav-link">Single PDF Chart</a>
+                                    <a href="<?php echo e(route('client.single-pdf-chart')); ?>" class="nav-link">Single PDF Chart</a>
                                 </li>
                             </ul>
                         </div>

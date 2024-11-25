@@ -3,9 +3,9 @@
         <div class="col-sm-4">
             {{-- data-choices name="choices-single-default"
                 id="choices-single-default-1"  --}}
-            <select class="form-control" wire:model.defer="selectedCompany">
+            <select class="form-control" id="abn" onchange="removeAlert()" wire:model.defer="selectedCompany">
                 <option value="">Select Company</option>
-                @foreach ($companiesArray as $company)
+                @foreach ($companies as $company)
                     <option value="{{ $company['abn'] }}">{{ $company['company_name'] }}</option>
                 @endforeach
             </select>
@@ -13,7 +13,7 @@
 
         <div class="col-sm-3">
             <div class="input-group">
-                <input wire:model.defer="selectedDateRange" type="text"
+                <input onchange="removeAlert()" wire:model.defer="selectedDateRange" type="text" id="dateRange"
                     class="form-control border-0 dash-filter-picker shadow flatpickr-input active"
                     value="{{ $selectedDateRange }}" {{-- data-default-date="01 Jan 2024 to 31 Jan 2024" --}} data-provider="flatpickr"
                     data-range-date="true" data-date-format="d M, Y" readonly="readonly">
@@ -25,7 +25,7 @@
 
         <div class="col-sm-4">
             {{-- data-choices name="choices-single-default" id="choices-single-default"  --}}
-            <select class="form-control" wire:model.defer="selectedTopic">
+            <select onchange="removeAlert()" class="form-control" wire:model.defer="selectedTopic" id="topic">
                 <option value="">Select Topic</option>
                 {{-- tb  01 --}}
                 <optgroup label="Cash flows from operating activities">
@@ -226,16 +226,162 @@
 
         <div class="col-auto">
             {{-- <button class="btn btn-primary" onclick="clearChart()">Clear</button> --}}
-            <button class="btn btn-outline-danger px-4" wire:click="analyzeChart()"><i
+            <button class="btn btn-outline-danger px-4" id="btn_analyze" wire:click="analyzeChart()"><i
                     class="mdi mdi-poll"></i></button>
         </div>
 
     </div>
-    @php
-    if ($chartData != null) {
-        // Dispatch a browser event to trigger JavaScript
-        $this->dispatch('call-chart-draw-function', ['data' => $chartData]);
-    }
-@endphp
+
+    @if (session('error'))
+        <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        @if ($tableIndex != '')
+                            {{ $tables[$tableIndex] }}
+                        @endif
+                    </h4>
+                    <div id="chart">
+                        <div class="card-body">
+                            <div id="line_chart_datalabel"
+                                data-colors='["--vz-primary", "--vz-success", "--vz-danger",
+                                "--vz-warning", "--vz-info", "--vz-dark", "--vz-secondary", "--vz-light"]'
+                                class="apex-charts" dir="ltr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function removeAlert() {
+            var alert = document.getElementById('error-alert');
+            if (alert) {
+                alert.classList.remove('show'); // Hides Bootstrap's fade show effect
+                alert.addEventListener('transitionend', () => alert
+                    .remove()); // Removes the alert after the fade-out transition
+            }
+        }
+
+        document.getElementById('btn_analyze').addEventListener('click', function() {
+            setTimeout(() => {
+                drawChart(@this.chartData);
+            }, 2000);
+        });
+
+        window.addEventListener('livewire:initialized', function() {
+            drawChart();
+        });
+
+        function drawChart(chartData) {
+            var chartData = @this.chartData;
+            var options = {
+                chart: {
+                    height: 380,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#0ab39c', '#f46a6a', '#f1b44c', '#556ee6', '#34c38f', '#50a5f1', '#f1b44c', '#0ab39c'],
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    width: [3, 3],
+                    curve: 'straight'
+                },
+                series: [], // Will be populated dynamically
+                title: {
+                    text: '',
+                    align: 'left',
+                    style: {
+                        fontWeight: 500,
+                    },
+                },
+                grid: {
+                    row: {
+                        colors: ['transparent', 'transparent'], // takes an array which will be repeated on rows
+                        opacity: 0.2
+                    },
+                    borderColor: '#f1f1f1'
+                },
+                markers: {
+                    style: 'inverted',
+                    size: 6
+                },
+                xaxis: {
+                    categories: [], // Will be populated with chartData.x_axis
+                    title: {
+                        text: 'Month'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Values'
+                    },
+                    min: 5,
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right',
+                    floating: true,
+                    offsetY: -25,
+                    offsetX: -5
+                },
+                responsive: [{
+                    breakpoint: 600,
+                    options: {
+                        chart: {
+                            toolbar: {
+                                show: false
+                            }
+                        },
+                        legend: {
+                            show: false
+                        },
+                    }
+                }]
+            };
+
+            series = [];
+            options.xaxis.categories = chartData.x_axis || [];
+            for (let key in chartData) {
+                if (key !== "x_axis") { // Exclude x_axis from the series data
+                    series.push({
+                        name: key.replace(/_/g, ' '), // Replace underscores with spaces for readability
+                        data: chartData[key].map(Number)
+                    });
+                }
+            }
+            options.series = series;
+            // console.log(options.series[0].data);
+
+            // Clear previous chart and render the new one
+            if (chart) {
+                chart.destroy();
+            }
+            document.getElementById("line_chart_datalabel").innerHTML = "";
+            var chart = new ApexCharts(
+                document.querySelector("#line_chart_datalabel"),
+                options
+            );
+            chart.render();
+        }
+    </script>
+
 
 </div>

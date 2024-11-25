@@ -13,7 +13,8 @@ class SinglePdfChart extends Component
     public $selectedCompany = '';
     public $selectedDateRange = '';
     public $selectedTopic = '';
-
+    public $tables = ["Cash flows from operating activities","Cash flows from investing activities","Cash flows from financing activities","Cash flow details","Reconciliation details","Related party payments","Financing facilities","Estimated cash availabilities"];
+    public $tableIndex;
     public $chartData = [];
 
     public function mount()
@@ -57,21 +58,24 @@ class SinglePdfChart extends Component
             dd($e->getMessage());
         }
     }
-    
+
     public function analyzeChart()
     {
         //vaidation
         if (empty($this->selectedCompany) || $this->selectedCompany == "") {
-            dd('1');
+            // dd('1');
+            return session()->flash('error', 'Please select a company.');
         } elseif (empty($this->selectedTopic) || $this->selectedTopic == "") {
-            dd('2');
+            // dd('2');
+            return session()->flash('error', 'Please select a topic.');
         }
         if (
             empty($this->selectedDateRange) ||
             $this->selectedDateRange == "" ||
             preg_match('/^\d{2} \w{3},? \d{4}( to \d{2} \w{3},? \d{4})?$/', $this->selectedDateRange) == false
         ) {
-            dd($this->selectedDateRange);
+            // dd($this->selectedDateRange);
+            return session()->flash('error', 'Please select a date range.');
         } else {
             // dd($this->selectedDateRange, $this->selectedTopic, $this->selectedCompany);
 
@@ -83,17 +87,17 @@ class SinglePdfChart extends Component
                 $dateStart = $this->selectedDateRange;
                 $dateEnd = "";
             }
-            list($tableIdex, $columnName) = explode('-', $this->selectedTopic);
+            list($this->tableIndex, $columnName) = explode('-', $this->selectedTopic);
 
             $requestBody = [
                 "abn" => $abn,
                 "date_start" => $dateStart,
                 "date_end" => $dateEnd,
-                "table_index" => $tableIdex,
+                "table_index" => $this->tableIndex,
                 "columns" => [$columnName . "_c_q", $columnName . "_y_t_d"],
 
             ];
-
+            
             $response = Http::withHeaders([
                 'Authorization' => env('API_TOKEN'),
             ])->post(env('API_URL') . '/api/chart/1', $requestBody);
@@ -101,6 +105,9 @@ class SinglePdfChart extends Component
             if ($response->successful()) {
                 // dd($requestBody ,$response->json());
                 $this->chartData = $response->json();
+                return view('livewire.single-pdf-chart', [
+                    'chartData' => $this->chartData
+                ]);
                 // json to string
                 // $this->chartData = json_encode($this->chartData);
             } else {
@@ -112,6 +119,6 @@ class SinglePdfChart extends Component
     public function render()
     {
         // dd($this->companies[0]['abn']);
-        return view('livewire.single-pdf-chart', ['companiesArray' => $this->companies, 'chartData' => $this->chartData]);
+        return view('livewire.single-pdf-chart');
     }
 }

@@ -57,7 +57,13 @@ class userPermissions
         $hrefPath = $request->path();
 
         if ($currentPrefix !== $targetPrefixes[$role]) {
-            return redirect($targetPrefixes[$role]."/".$hrefPath);  // Redirect to the correct prefix route
+
+            // check currentprefix has into targetPrefix array 
+            if (in_array($currentPrefix, $targetPrefixes)) {
+                abort(403, 'Unauthorized access.');
+            }else{
+                return redirect($targetPrefixes[$role]."/".$hrefPath);  // Redirect to the correct prefix route
+            }
         }
 
         return $next($request);
