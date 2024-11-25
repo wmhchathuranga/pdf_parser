@@ -16,7 +16,7 @@
             Reports
         @endslot
         @slot('title')
-            All Reports
+            Comparison Table
         @endslot
     @endcomponent
 

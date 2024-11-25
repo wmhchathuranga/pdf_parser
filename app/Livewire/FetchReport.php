@@ -12,7 +12,7 @@ class FetchReport extends Component
     public $companies;
     public $selectedCompany;
     public $allReports;
-    
+
     public function mount()
     {
         try {
@@ -27,14 +27,14 @@ class FetchReport extends Component
                 throw new Exception('Failed to fetch companies');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            abort(500, 'Something went wrong');
         }
 
         if (!empty($this->companies)) {
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_5b/'.$this->companies[0]['abn']);
+                ])->get(env('API_URL') . '/api/reports_5b/' . $this->companies[0]['abn']);
 
                 if ($response->successful()) {
                     $this->selectedCompany = $this->companies[0]['abn'];
@@ -43,24 +43,26 @@ class FetchReport extends Component
                     throw new Exception('Failed to fetch reports');
                 }
             } catch (Exception $e) {
-                dd($e->getMessage());
+                abort(500, 'Something went wrong');
             }
         } else {
-            dd('No companies available.');
+            // dd('No companies available.');
         }
     }
 
-    public function changeCompany($abn){
+    public function changeCompany($abn)
+    {
         $this->selectedCompany = $abn;
         $this->loadData();
     }
 
-    public function loadData(){
+    public function loadData()
+    {
         if (!empty($this->companies)) {
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_5b/'.$this->selectedCompany);
+                ])->get(env('API_URL') . '/api/reports_5b/' . $this->selectedCompany);
 
                 if ($response->successful()) {
                     $this->selectedCompany = $this->companies[0]['abn'];
@@ -69,10 +71,10 @@ class FetchReport extends Component
                     throw new Exception('Failed to fetch reports');
                 }
             } catch (Exception $e) {
-                dd($e->getMessage());
+                abort(500, 'Something went wrong');
             }
         } else {
-            dd('No companies available.');
+            // dd('No companies available.');
         }
     }
 

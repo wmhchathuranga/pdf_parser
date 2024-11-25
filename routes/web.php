@@ -173,4 +173,6 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
     Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'prefixIndex'])->name('prefixIndex');
 });
 
+// error route 
+
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index')->middleware('userPermissions');

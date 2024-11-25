@@ -5,9 +5,11 @@
                 id="choices-single-default-1"  --}}
             <select class="form-control" id="abn" onchange="removeAlert()" wire:model.defer="selectedCompany">
                 <option value="">Select Company</option>
-                @foreach ($companies as $company)
-                    <option value="{{ $company['abn'] }}">{{ $company['company_name'] }}</option>
-                @endforeach
+                @if ($companies != null)
+                    @foreach ($companies as $company)
+                        <option value="{{ $company['abn'] }}">{{ $company['company_name'] }}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
 
@@ -326,7 +328,7 @@
                 xaxis: {
                     categories: [], // Will be populated with chartData.x_axis
                     title: {
-                        text: 'Month'
+                        text: 'Quarter Ends',
                     }
                 },
                 yaxis: {

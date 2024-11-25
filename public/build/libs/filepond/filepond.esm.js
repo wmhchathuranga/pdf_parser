@@ -1009,7 +1009,7 @@ const createView =
                         shouldOptimize
                     );
 
-                    // we just added somthing to the dom, no rest
+                    // we just added Something to the dom, no rest
                     resting = false;
                 });
 

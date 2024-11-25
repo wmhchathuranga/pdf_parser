@@ -52,10 +52,10 @@ class SinglePdfChart extends Component
             if ($response->successful()) {
                 $this->companies = $response->json();
             } else {
-                dd($response->json());
+                abort(500, 'Something went wrong');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            throw new Exception('Failed to fetch companies');
         }
     }
 
@@ -111,7 +111,7 @@ class SinglePdfChart extends Component
                 // json to string
                 // $this->chartData = json_encode($this->chartData);
             } else {
-                dd($response->json());
+                abort(500, 'Something went wrong');
             }
         }
     }

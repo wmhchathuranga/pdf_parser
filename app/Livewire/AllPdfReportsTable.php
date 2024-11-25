@@ -26,7 +26,7 @@ class AllPdfReportsTable extends Component
                 throw new Exception('Failed to fetch companies');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            abort(500, 'Something went wrong');
         }
 
         if (!empty($this->companies)) {
@@ -42,10 +42,10 @@ class AllPdfReportsTable extends Component
                     throw new Exception('Failed to fetch reports');
                 }
             } catch (Exception $e) {
-                dd($e->getMessage());
+                abort(500, 'Something went wrong');
             }
         } else {
-            dd('No companies available.');
+            // dd('No companies available.');
         }
     }
 
@@ -68,10 +68,10 @@ class AllPdfReportsTable extends Component
                     throw new Exception('Failed to fetch reports');
                 }
             } catch (Exception $e) {
-                dd($e->getMessage());
+                abort(500, 'Something went wrong');
             }
         } else {
-            dd('No companies available.');
+            // dd('No companies available.');
         }
     }
 
