@@ -133,17 +133,9 @@ class PDF_API_Controller extends Controller
             foreach ($data as $report) {
                 $column_data[] = $report[$this->table_names[$table_index]][0][$column]??0;
             }
+
             $chart_data->{$column} = $column_data;
         }
-
-
-        // if (isset($report[$table_name])) {
-        //     // Filter the columns in the table
-        //     $report[$table_name] = collect($report[$table_name])->map(function ($table_entry) use ($columns_requested) {
-        //         return collect($table_entry)->only($columns_requested);
-        //     })->toArray();
-        // }
-
 
         return response()->json($chart_data);
     }
