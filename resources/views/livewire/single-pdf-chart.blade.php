@@ -335,7 +335,7 @@
                     title: {
                         text: 'Values'
                     },
-                    min: 5,
+                    // min: 5,
                 },
                 legend: {
                     position: 'top',
