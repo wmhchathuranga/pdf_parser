@@ -57,6 +57,7 @@
             setTimeout(() => {
                 new DataTable('#all-reports-table', {
                     dom: 'Bfrtip',
+                    pageLength: 12,
                 });
             }, 2000);
         }
