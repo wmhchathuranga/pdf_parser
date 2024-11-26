@@ -90,7 +90,7 @@
                     fixedColumns: {
                         leftColumns: 4 // Fix the first 4 columns
                     },
-                    pageLength: 5,
+                    pageLength: 4,
                     order: [[3, 'desc']], 
                 });
 

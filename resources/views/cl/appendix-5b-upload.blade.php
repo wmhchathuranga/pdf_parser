@@ -47,7 +47,7 @@
                 <script>
                     setTimeout(() => {
                         document.getElementById('response-alerts').style.display = 'none';
-                    }, 5000);
+                    }, 8000);
                 </script>
             @endif
 
@@ -60,7 +60,7 @@
                 <script>
                     setTimeout(() => {
                         document.getElementById('info-alert').style.display = 'none';
-                    }, 5000);
+                    }, 8000);
                 </script>
             @endif
 

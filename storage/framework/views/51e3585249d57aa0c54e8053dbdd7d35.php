@@ -40,7 +40,7 @@
                             <tr>
                                 <th>ABN</th>
                                 <th>Company Name</th>
-                                <th class="text-center">Quarter ended (“current quarter”)</th>
+                                <th class="text-center">Quarter ended</th>
                                 <th class="text-center">Upload Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
