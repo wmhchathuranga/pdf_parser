@@ -26,24 +26,26 @@ class PDFController2 extends Controller
         file_put_contents($textFilePath, "");
         // echo $textFilePath;
 
-        $pythonScript = "/usr/bin/python3 " . storage_path('app/private/') . "python/extract.py {$pdfFilePath} {$textFilePath}";
+        $pythonScript = "/usr/bin/python3 " . storage_path('app/public/') . "extract.py {$pdfFilePath} {$textFilePath}";
 
         exec($pythonScript, $output, $return_var);
 
+
         if ($return_var !== 0) {
-            return response()->json(['error' => $output], 500);
+            return response()->json(["Failed to extract data from PDF"], 500);
         }
 
-        $text = file_get_contents($textFilePath);
 
-        // dd($text);
-        $lines = explode("\n", $text);  // Split the text into an array of lines
-        $lines = array_map('trim', $lines);
-        $filtered_lines = array_filter($lines, 'strlen');
-
-        $page_count = 0;
         try {
+            $text = file_get_contents($textFilePath);
+
+            $lines = explode("\n", $text);  // Split the text into an array of lines
+            $lines = array_map('trim', $lines);
+            $filtered_lines = array_filter($lines, 'strlen');
+
+            $page_count = 0;
             $page[$page_count] = array();
+
             for ($i = 0; $i < count($filtered_lines); $i++) {
                 array_push($page[$page_count], $filtered_lines[$i]);
                 if (strpos($filtered_lines[$i], 'Name of entity') !== false) {
@@ -69,7 +71,7 @@ class PDFController2 extends Controller
             $date_of_appointment = preg_replace('/Date of appointment[ :]/', '', $page_1[4]);
             if ($date_of_appointment == "" || $date_of_appointment == "Date of appointment")
                 $date_of_appointment = $page_1[5];
-
+            
             $appendix3X = Appendix3X::create([
                 'document_number' => $document_number,
                 'document_title' => $document_title,
@@ -323,6 +325,8 @@ class PDFController2 extends Controller
                 'no_and_class_of_securities_to_which_interest_relates' => $interest_relates,
             ]);
         } catch (\Throwable $th) {
+            logger()->error($th->getMessage());
+            return response()->json(["Scrapping Failed"], 500);
             // send an email to admin
             // Mail::to('wmhchathuranga@gmail.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
             // Mail::to('john@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));

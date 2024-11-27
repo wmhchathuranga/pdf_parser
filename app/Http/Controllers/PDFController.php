@@ -14,10 +14,6 @@ class PDFController extends Controller
 {
     public function upload(Request $request)
     {
-        // handle multiple PDF files
-        if ($request->hasFile('pdf')) {
-            $files = $request->file('pdf');
-        }
 
         // Validate the uploaded PDF
         $request->validate([
@@ -38,6 +34,8 @@ class PDFController extends Controller
         if ($return_var !== 0) {
             return response()->json(["Failed to extract data from PDF"], 500);
         }
+
+        $extracted_table_count = 0;
         try {
 
             $text = file_get_contents($textFilePath);
@@ -179,12 +177,17 @@ class PDFController extends Controller
                         break;
                 }
             }
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        }
 
-            // first table content
 
-            // for ($i = 0; $i < count($first_table_content); $i++) {
-            //     print($i . ": " . $first_table_content[$i] . "<br>");
-            // }
+        // first table content
+
+        // for ($i = 0; $i < count($first_table_content); $i++) {
+        //     print($i . ": " . $first_table_content[$i] . "<br>");
+        // }
+        try {
             $receiptsFromCustomers = explode(" ", $first_table_content[0]);
             $receiptsFromCustomers_c_q = $receiptsFromCustomers[count($receiptsFromCustomers) - 2];
             $receiptsFromCustomers_y_t_d = $receiptsFromCustomers[count($receiptsFromCustomers) - 1];
@@ -302,9 +305,42 @@ class PDFController extends Controller
                 'net_cash_from_operating_c_q' => $this->convertBracketedToNegative($netCashFromOperating_c_q),
                 'net_cash_from_operating_y_t_d' => $this->convertBracketedToNegative($netCashFromOperating_y_t_d),
             ]);
+            $extracted_table_count++;
+        } catch (\Exception $e) {
+            // create with default values
+            $pdfReport->operatingDetails()->create([
+                'receipts_from_customers_c_q' => null,
+                'receipts_from_customers_y_t_d' => null,
+                'payments_exploration_evaluation_c_q' => null,
+                'payments_exploration_evaluation_y_t_d' => null,
+                'payments_development_c_q' => null,
+                'payments_development_y_t_d' => null,
+                'payments_production_c_q' => null,
+                'payments_production_y_t_d' => null,
+                'payments_staff_costs_c_q' => null,
+                'payments_staff_costs_y_t_d' => null,
+                'payments_admin_costs_c_q' => null,
+                'payments_admin_costs_y_t_d' => null,
+                'dividends_received_c_q' => null,
+                'dividends_received_y_t_d' => null,
+                'interest_received_c_q' => null,
+                'interest_received_y_t_d' => null,
+                'interest_paid_c_q' => null,
+                'interest_paid_y_t_d' => null,
+                'income_tax_paid_c_q' => null,
+                'income_tax_paid_y_t_d' => null,
+                'government_tax_paid_c_q' => null,
+                'government_tax_paid_y_t_d' => null,
+                'other_c_q' => null,
+                'other_y_t_d' => null,
+                'net_cash_from_operating_c_q' => null,
+                'net_cash_from_operating_y_t_d' => null,
+            ]);
+        }
 
-            // Second table content
-            $is_proceeds = false;
+        // Second table content
+        $is_proceeds = false;
+        try {
             for ($i = 0; $i < count($second_table_content); $i++) {
 
                 // print($i . ":" . $second_table_content[$i] . "<br>");
@@ -489,7 +525,43 @@ class PDFController extends Controller
                 'net_cash_from_investing_c_q' => $this->convertBracketedToNegative($netCashFromInvesting_c_q),
                 'net_cash_from_investing_y_t_d' => $this->convertBracketedToNegative($netCashFromInvesting_y_t_d),
             ]);
+            $extracted_table_count++;
+        } catch (Exception $e) {
+            $pdfReport->investingDetails()->create([
+                'payments_for_entities_c_q' => null,
+                'payments_for_entities_y_t_d' => null,
+                'payments_for_tenements_c_q' => null,
+                'payments_for_tenements_y_t_d' => null,
+                'payments_for_property_c_q' => null,
+                'payments_for_property_y_t_d' => null,
+                'payments_for_exploration_evaluation_c_q' => null,
+                'payments_for_exploration_evaluation_y_t_d' => null,
+                'payments_for_investment_c_q' => null,
+                'payments_for_investment_y_t_d' => null,
+                'payments_for_other_c_q' => null,
+                'payments_for_other_y_t_d' => null,
+                'proceeds_from_entities_c_q' => null,
+                'proceeds_from_entities_y_t_d' => null,
+                'proceeds_from_tenements_c_q' => null,
+                'proceeds_from_tenements_y_t_d' => null,
+                'proceeds_from_property_c_q' => null,
+                'proceeds_from_property_y_t_d' => null,
+                'proceeds_from_investment_c_q' => null,
+                'proceeds_from_investment_y_t_d' => null,
+                'proceeds_from_other_c_q' => null,
+                'proceeds_from_other_y_t_d' => null,
+                'cash_flow_from_loans_c_q' => null,
+                'cash_flow_from_loans_y_t_d' => null,
+                'dividends_received_2_c_q' => null,
+                'dividends_received_2_y_t_d' => null,
+                'other_2_c_q' => null,
+                'other_2_y_t_d' => null,
+                'net_cash_from_investing_c_q' => null,
+                'net_cash_from_investing_y_t_d' => null,
+            ]);
+        }
 
+        try {
             $proceedsFromEquity = explode(" ", $third_table_content[0]);
             $proceedsFromEquity_c_q = $proceedsFromEquity[count($proceedsFromEquity) - 2];
             $proceedsFromEquity_y_t_d = $proceedsFromEquity[count($proceedsFromEquity) - 1];
@@ -604,8 +676,33 @@ class PDFController extends Controller
                 'net_cash_from_financing_c_q' => $this->convertBracketedToNegative($netCashFromFinancing_c_q),
                 'net_cash_from_financing_y_t_d' => $this->convertBracketedToNegative($netCashFromFinancing_y_t_d),
             ]);
+            $extracted_table_count++;
+        } catch (Exception $e) {
+            $pdfReport->financingDetails()->create([
+                'proceeds_from_equity_c_q' => null,
+                'proceeds_from_equity_y_t_d' => null,
+                'proceeds_from_debt_c_q' => null,
+                'proceeds_from_debt_y_t_d' => null,
+                'proceeds_from_exercise_c_q' => null,
+                'proceeds_from_exercise_y_t_d' => null,
+                'transaction_costs_for_securities_c_q' => null,
+                'transaction_costs_for_securities_y_t_d' => null,
+                'proceeds_from_borrowing_c_q' => null,
+                'proceeds_from_borrowing_y_t_d' => null,
+                'repayments_of_borrowing_c_q' => null,
+                'repayments_of_borrowing_y_t_d' => null,
+                'transaction_costs_for_borrowing_c_q' => null,
+                'transaction_costs_for_borrowing_y_t_d' => null,
+                'dividends_paid_c_q' => null,
+                'dividends_paid_y_t_d' => null,
+                'other_3_c_q' => null,
+                'other_3_y_t_d' => null,
+                'net_cash_from_financing_c_q' => null,
+                'net_cash_from_financing_y_t_d' => null,
+            ]);
+        }
 
-
+        try {
             $beginingCash = explode(" ", $fourth_table_content[1]);
             $beginingCash_c_q = $beginingCash[count($beginingCash) - 2];
             $beginingCash_y_t_d = $beginingCash[count($beginingCash) - 1];
@@ -692,9 +789,26 @@ class PDFController extends Controller
                 'end_cash_c_q' => $this->convertBracketedToNegative($endCash_c_q),
                 'end_cash_y_t_d' => $this->convertBracketedToNegative($endCash_y_t_d),
             ]);
+            $extracted_table_count++;
+        } catch (Exception $e) {
+            $pdfReport->cashDetails()->create([
+                'beginning_cash_c_q' => null,
+                'beginning_cash_y_t_d' => null,
+                'operating_cash_flow_c_q' => null,
+                'operating_cash_flow_y_t_d' => null,
+                'investing_cash_flow_c_q' => null,
+                'investing_cash_flow_y_t_d' => null,
+                'financing_cash_flow_c_q' => null,
+                'financing_cash_flow_y_t_d' => null,
+                'effect_of_movement_c_q' => null,
+                'effect_of_movement_y_t_d' => null,
+                'end_cash_c_q' => null,
+                'end_cash_y_t_d' => null,
+            ]);
+        }
 
 
-
+        try {
             $bankBalance = explode(" ", $fifth_table_content[3]);
             $bankBalance_c_q = $bankBalance[count($bankBalance) - 2];
             $bankBalance_y_t_d = $bankBalance[count($bankBalance) - 1];
@@ -744,8 +858,23 @@ class PDFController extends Controller
                 'cash_equivalents_end_period_c_q' => $this->convertBracketedToNegative($cashEquivalentsEndPeriod_c_q),
                 'cash_equivalents_end_period_y_t_d' => $this->convertBracketedToNegative($cashEquivalentsEndPeriod_y_t_d),
             ]);
+            $extracted_table_count++;
+        } catch (Exception $e) {
+            $pdfReport->reconciliationDetails()->create([
+                'bank_balance_c_q' => null,
+                'bank_balance_y_t_d' => null,
+                'call_deposits_c_q' => null,
+                'call_deposits_y_t_d' => null,
+                'bank_overdrafts_c_q' => null,
+                'bank_overdrafts_y_t_d' => null,
+                'other_4_c_q' => null,
+                'other_4_y_t_d' => null,
+                'cash_equivalents_end_period_c_q' => null,
+                'cash_equivalents_end_period_y_t_d' => null,
+            ]);
+        }
 
-
+        try {
             $aggregated_1 = explode(" ", $sixth_table_content[0]);
             $aggregated_1_c_q = $aggregated_1[count($aggregated_1) - 1];
 
@@ -769,14 +898,6 @@ class PDFController extends Controller
                 'aggregated_1_c_q' => $this->convertBracketedToNegative($aggregated_1_c_q),
                 'aggregated_2_c_q' => $this->convertBracketedToNegative($aggregated_2_c_q),
             ]);
-
-            // print($aggregated_2_c_q . "<br>");
-
-
-            // Seventh table content
-            // for ($i = 0; $i < count($seventh_table_content); $i++) {
-            //     print($i . ":" . $seventh_table_content[$i] . "<br>");
-            // }
 
 
             $loans = explode(" ", $seventh_table_content[4]);
@@ -818,7 +939,22 @@ class PDFController extends Controller
                 'total_financing_y_t_d' => $this->convertBracketedToNegative($totalFinancing_y_t_d),
                 'unused_financing_facilities_y_t_d' => $this->convertBracketedToNegative($unusedFinancingFacilities_y_t_d),
             ]);
+            $extracted_table_count++;
+        } catch (Exception $e) {
+            $pdfReport->financingFacilities()->create([
+                'loans_c_q' => null,
+                'loans_y_t_d' => null,
+                'credit_standby_c_q' => null,
+                'credit_standby_y_t_d' => null,
+                'other_5_c_q' => null,
+                'other_5_y_t_d' => null,
+                'total_financing_c_q' => null,
+                'total_financing_y_t_d' => null,
+                'unused_financing_facilities_y_t_d' => null,
+            ]);
+        }
 
+        try {
 
             $netCashOperating = explode(" ", $eighth_table_content[0]);
             $netCashOperating_c_q = $netCashOperating[count($netCashOperating) - 1];
@@ -873,11 +1009,25 @@ class PDFController extends Controller
                 'total_available_funding_c_q' => $this->convertBracketedToNegative($totalAvailableFunding_c_q),
                 'estimated_quarterly_funding_c_q' => $this->convertBracketedToNegative($estimatedQuarterlyFunding_c_q),
             ]);
+            $extracted_table_count++;
+        } catch (Exception $e) {
+            $pdfReport->estimatedCashAvailabilities()->create([
+                'net_cash_operating_c_q' => null,
+                'future_payments_for_exploration_evaluation_c_q' => null,
+                'total_relevant_payments_c_q' => null,
+                'future_cash_equivalents_end_period_c_q' => null,
+                'unused_financing_facilities_end_period_c_q' => null,
+                'total_available_funding_c_q' => null,
+                'estimated_quarterly_funding_c_q' => null,
+            ]);
+        }
+        if ($extracted_table_count == 7) {
+
             PDFReport::where('id', $pdfReport->id)->update([
                 'is_upload_completed' => true
             ]);
-        } catch (Exception $e) {
-            logger()->error($e->getMessage());
+        } else {
+
             return response()->json(["Scrapping Failed"], 500);
         }
 

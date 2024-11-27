@@ -17,7 +17,8 @@ class CreateAppendix3XesTable extends Migration
             $table->string('abn')->nullable();
             $table->string('name_of_director')->nullable();
             $table->date('date_of_appointment')->nullable();
-            $table->string('pdf')->nullable();
+            $table->string('pdf');
+            $table->boolean('is_upload_completed')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
