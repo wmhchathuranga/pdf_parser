@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ URL::asset('build/libs/filepond/filepond.min.css') }}" type="text/css" />
     <link rel="stylesheet"
         href="{{ URL::asset('build/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
+
+    <!--datatable css-->
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -14,103 +20,70 @@
             Forms
         @endslot
         @slot('title')
-            File Upload
+            Appendix 5B
         @endslot
     @endcomponent
 
-    <div class="row">
+    @livewire('fetch-report')
 
-        <div class="col-12">
-
-            @if (session('responses'))
-                <div id="response-alerts">
-                    @foreach (session('responses') as $response)
-                    {{-- @php
-                        // $response = json_decode($response, true);
-                        dd($response);
-                    @endphp --}}
-                        {{-- @if ($response['status'] === 'success')
-                            <div class="alert alert-success pb-0">
-                                <ul>
-                                    <li>{{ $response['file'] }}: {{ $response['message'] }}</li>
-                                </ul>
-                            </div>
-                        @else --}}
-                            <div class="alert {{ $response['status'] === 'success' ? 'alert-success' : 'alert-danger'}} pb-0">
-                                <ul>
-                                    <li>{{ $response['file'] }}: {{ str_replace('"', ' ', $response['message']) }}</li>
-                                </ul>
-                            </div>
-                        {{-- @endif --}}
-                    @endforeach
-                </div>
-                <script>
-                    setTimeout(() => {
-                        document.getElementById('response-alerts').style.display = 'none';
-                    }, 8000);
-                </script>
-            @endif
-
-            @if (session('summary'))
-                <div class="alert alert-info pb-0" id="info-alert">
-                    <ul>
-                        <li>{{ session('summary') }}</li>
-                    </ul>
-                </div>
-                <script>
-                    setTimeout(() => {
-                        document.getElementById('info-alert').style.display = 'none';
-                    }, 8000);
-                </script>
-            @endif
-
-
-
-
-            <form action="{{ route('client.upload-pdf') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title mb-0">APPENDIX 5B UPLOAD</h4>
-                        </div>
-                        <!-- end card header -->
-
-                        <div class="card-body">
-                            <p class="text-muted">
-                                Upload one or more PDF files to the system for further processing.
-                            </p>
-
-                            <!-- File input -->
-                            <div class="mb-3">
-                                <label for="pdfFiles" class="form-label">Select PDF files:</label>
-                                <input class="form-control" id="pdfFiles" name="pdfs[]" type="file" multiple="multiple"
-                                    accept=".pdf">
-                            </div>
-
-                            <!-- Submit button -->
-                            <div class="pt-4 text-end">
-                                <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                    Upload
-                                </button>
-                            </div>
-                            <!-- end button group -->
-                        </div>
-                        <!-- end card body -->
-                    </div>
-                    <!-- end card -->
-                </div>
-                <!-- end col -->
-            </form>
-
+    <!-- pdfUploadModal Modal -->
+    <div class="modal fade" id="pdfUploadModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        role="dialog" aria-labelledby="pdfUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                @livewire('upload-pdf')
+            </div>
         </div>
     </div>
 @endsection
 @section('script')
-    <script src="{{ URL::asset('build/libs/dropzone/dropzone-min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/filepond/filepond.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
+    <script>
+        function startUploading() {
+            if(document.getElementById('info-alert')) {
+                if(document.getElementById('info-alert').style.display == 'block') {
+                    document.getElementById('info-alert').style.display = 'none';
+                }
+            }
+            // Hide the "Upload" button and show the "Uploading" button
+            document.getElementById('uploadBtn').style.display = 'none';
+            document.getElementById('uploadingBtn').style.display = 'inline-block';
+        }
+
+        // Optional: Revert button state on error
+        window.addEventListener('livewire:load', () => {
+            Livewire.on('uploadFailed', () => {
+                document.getElementById('uploadBtn').style.display = 'inline-block';
+                document.getElementById('uploadingBtn').style.display = 'none';
+            });
+        });
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script>
+        refreshTableJs();
+        //buttons examples
+        function refreshTableJs() {
+            setTimeout(() => {
+                new DataTable('#all-reports-table', {
+                    dom: 'Bfrtip',
+                    order: [
+                        [2, 'desc']
+                    ],
+                    pageLength: 12,
+                });
+            }, 2000);
+        }
+    </script>
+
+    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
     <script
         src="{{ URL::asset('build/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
     </script>
@@ -118,7 +91,5 @@
         src="{{ URL::asset('build/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
     </script>
     <script src="{{ URL::asset('build/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
-
-    <script src="{{ URL::asset('build/js/pages/form-file-upload.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

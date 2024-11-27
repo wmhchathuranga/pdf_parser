@@ -295,8 +295,31 @@
                         enabled: false
                     },
                     toolbar: {
-                        show: false
-                    }
+                        show: true, // Enable the toolbar
+                        tools: {
+                            download: true, // Show the download icon
+                            selection: false, // Disable selection tool (optional)
+                            zoom: false, // Disable zoom tool (optional)
+                            zoomin: false, // Disable zoom-in tool (optional)
+                            zoomout: false, // Disable zoom-out tool (optional)
+                            pan: false, // Disable pan tool (optional)
+                            reset: false, // Disable reset zoom (optional)
+                        },
+                        export: {
+                            csv: {
+                                filename: "chart-data", // Filename for CSV export
+                                columnDelimiter: ",",
+                                headerCategory: "Category",
+                                headerValue: "Value",
+                            },
+                            svg: {
+                                filename: "chart",
+                            },
+                            png: {
+                                filename: "chart",
+                            },
+                        },
+                    },
                 },
                 colors: ['#0ab39c', '#f46a6a', '#f1b44c', '#556ee6', '#34c38f', '#50a5f1', '#f1b44c', '#0ab39c'],
                 dataLabels: {
@@ -335,7 +358,6 @@
                     title: {
                         text: 'Values'
                     },
-                    // min: 5,
                 },
                 legend: {
                     position: 'top',
@@ -370,7 +392,6 @@
                 }
             }
             options.series = series;
-            // console.log(options.series[0].data);
 
             // Clear previous chart and render the new one
             if (chart) {

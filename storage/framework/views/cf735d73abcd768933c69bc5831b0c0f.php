@@ -134,6 +134,10 @@
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('client.single-pdf-chart')); ?>" class="nav-link">Single PDF Chart</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="<?php echo e(route('client.reports-compare-chart')); ?>" class="nav-link">Reports Compare Chart</a>
+                                </li>
                             </ul>
                         </div>
                     </li>

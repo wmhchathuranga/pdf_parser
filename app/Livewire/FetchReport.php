@@ -106,7 +106,7 @@ class FetchReport extends Component
     public function render()
     {
         // dd($this->allReports);
-        $this->loadData();
+        // $this->loadData();
         return view('livewire.fetch-report', [
             'allReports' => $this->allReports,
             'companies' => $this->companies

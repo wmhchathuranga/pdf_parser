@@ -11,24 +11,24 @@ class PDFController extends Controller
 {
     public function uploadAndForward(Request $request)
     {
-        // Step 1: Validate the uploaded files
         $request->validate([
-            'pdfs.*' => 'required|file|mimes:pdf|max:2048', // Each file must be a PDF and max 2MB
-        ]);
+            'pdfs' => 'required|array', // Ensure it's an array
+            'pdfs.*' => 'file|mimes:pdf|max:2048', // Each file must be a PDF and max 2MB
+        ]);        
 
-        // Step 2: Get all uploaded files
         $pdfFiles = $request->file('pdfs');
+        $pdfCount = count($pdfFiles);
+        
+        //tigger javascript function
 
-        // Check if any files were uploaded
         if (empty($pdfFiles)) {
             return view('cl/appendix-5b-upload', ['error' => 'No files were uploaded.']);
         }
-
-        // Array to store response statuses for each file
         $responses = [];
+        $successCount = 0;
+        $errorCount = 0;
 
         foreach ($pdfFiles as $pdfFile) {
-            // Process each file as before
             $filePath = $pdfFile->store('temp'); // Stored in 'storage/app/temp'
             $fileContent = fopen(storage_path("app/{$filePath}"), 'r'); // Get file content
 
@@ -48,11 +48,13 @@ class PDFController extends Controller
                 'status' => $response->successful() ? 'success' : 'error',
                 'message' => $response->successful() ? 'File forwarded successfully' : $response->body(),
             ];
+            // dd($responses);
+            if ($response->successful()) {
+                $successCount++;
+            }else{
+                $errorCount++;
+            }
         }
-
-        // Return summary
-        $successCount = count(array_filter($responses, fn($r) => $r['status'] === 'success'));
-        $errorCount = count($responses) - $successCount;
 
         return redirect('cl/appendix-5b-upload')
             ->with('responses', $responses)

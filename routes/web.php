@@ -168,6 +168,9 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
             return view('cl.single-pdf-chart', ['comapaniesArray', $companies]);
             
         })->name('single-pdf-chart');
+        Route::get('reports-compare-chart', function () {
+            return view('cl.reports-compare-chart');
+        })->name('reports-compare-chart');
     }
 
     Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'prefixIndex'])->name('prefixIndex');

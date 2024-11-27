@@ -85,7 +85,7 @@
             setTimeout(() => {
                 let buttonsDataTables = new DataTable('#buttons-datatables', {
                     dom: 'Bfrtip',
-                    buttons: ['copy', 'csv', 'excel', 'print', 'pdf'],
+                    buttons: ['copy', 'csv', 'excel', 'print'],
                     scrollX: true, // Enable horizontal scrolling
                     fixedColumns: {
                         leftColumns: 4 // Fix the first 4 columns

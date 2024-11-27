@@ -1,37 +1,46 @@
-<div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body d-flex justify-content-end">
-                    <div class="col-3 col-lg-4 pe-3">
-                        <select onchange="refreshTableJs()" class="form-control my-auto" data-choices
-                            name="choices-single-default" id="choices-single-default"
-                            wire:change="changeCompany($event.target.value)">
-                            <option value="">Search by ABN</option>
-                            <!--[if BLOCK]><![endif]--><?php if($companies != null): ?>
-                                <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($company['abn']); ?>"
-                                        <?php echo e($selectedCompany == $company['abn'] ? 'selected' : ''); ?>>
-                                        <?php echo e($company['company_name']); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
-                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <select onchange="refreshTableJs()" class="form-select my-auto"
-                            wire:change="changeStatus($event.target.value)">
-                            <option value="all" <?php echo e($selectedStatus == 'all' ? 'selected' : ''); ?>>All</option>
-                            <option value="0" <?php echo e($selectedStatus == '0' ? 'selected' : ''); ?>>Failed</option>
-                            <option value="1" <?php echo e($selectedStatus == '1' ? 'selected' : ''); ?>>Complete</option>
-                        </select>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body d-flex justify-content-end">
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#pdfUploadModal"><i class="bx bx-upload label-icon align-middle fs-16 me-2"></i> Upload</button>
+                        </div>
                     </div>
                 </div>
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <div class="col-3 col-lg-4 pe-3">
+                            <select onchange="refreshTableJs()" class="form-control my-auto" data-choices
+                                name="choices-single-default" id="choices-single-default"
+                                wire:change="changeCompany($event.target.value)">
+                                <option value="">Search by ABN</option>
+                                <!--[if BLOCK]><![endif]--><?php if($companies != null): ?>
+                                    <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($company['abn']); ?>"
+                                            <?php echo e($selectedCompany == $company['abn'] ? 'selected' : ''); ?>>
+                                            <?php echo e($company['company_name']); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <select onchange="refreshTableJs()" class="form-select my-auto"
+                                wire:change="changeStatus($event.target.value)">
+                                <option value="all" <?php echo e($selectedStatus == 'all' ? 'selected' : ''); ?>>All</option>
+                                <option value="0" <?php echo e($selectedStatus == '0' ? 'selected' : ''); ?>>Failed</option>
+                                <option value="1" <?php echo e($selectedStatus == '1' ? 'selected' : ''); ?>>Complete</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12"></div>
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive pb-4">
@@ -91,19 +100,21 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center p-5">
-                    <lord-icon src="https://cdn.lordicon.com/hrqwmuhr.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:120px;height:120px">
+                    <lord-icon src="https://cdn.lordicon.com/hrqwmuhr.json" trigger="loop"
+                        colors="primary:#121331,secondary:#08a88a" style="width:120px;height:120px">
                     </lord-icon>
                     <div class="mt-4">
                         <h4 class="mb-3">Are you sure you want to delete this report?</h4>
                         <p class="text-muted mb-4">This action cannot be undone.</p>
                         <div class="hstack gap-2 justify-content-center">
-                            <button type="button" onclick="destroyDeleteId()" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" id="confirmDeleteBtn" class="btn btn-danger" 
-                                onclick="hideModal()" 
+                            <button type="button" onclick="destroyDeleteId()" class="btn btn-light"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" id="confirmDeleteBtn" class="btn btn-danger" onclick="hideModal()"
                                 wire:click="deleteReport(document.getElementById('confirmDeleteBtn').value)">
                                 Yes, Delete
                             </button>
@@ -113,7 +124,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <script>
         setReportId = (id) => {
@@ -128,7 +139,16 @@
             const modalElement = document.getElementById('deleteConfirmationModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); // Use Bootstrap's method to hide the modal
-            refreshTableJs();
+            // refreshTableJs();
+            setTimeout(() => {
+                new DataTable('#all-reports-table', {
+                    dom: 'Bfrtip',
+                    order: [
+                        [2, 'desc']
+                    ],
+                    pageLength: 12,
+                });
+            }, 5000);
         }
     </script>
 
