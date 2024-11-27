@@ -23,9 +23,6 @@
             Appendix 5B
         @endslot
     @endcomponent
-
-    @livewire('fetch-report')
-
     <!-- pdfUploadModal Modal -->
     <div class="modal fade" id="pdfUploadModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         role="dialog" aria-labelledby="pdfUploadModalLabel" aria-hidden="true">
@@ -35,12 +32,19 @@
             </div>
         </div>
     </div>
+
+    @livewire('fetch-report')
+
+
 @endsection
 @section('script')
     <script>
         function startUploading() {
-            if(document.getElementById('info-alert')) {
-                if(document.getElementById('info-alert').style.display == 'block') {
+            //disable upload button
+            document.getElementById('uploadBtn').disabled = true;
+            
+            if (document.getElementById('info-alert')) {
+                if (document.getElementById('info-alert').style.display == 'block') {
                     document.getElementById('info-alert').style.display = 'none';
                 }
             }

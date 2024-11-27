@@ -17,7 +17,7 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-3 col-lg-4 pe-3">
+                    <div class="col-auto">
                         <select onchange="refreshTableJs()" class="form-select my-auto"
                             wire:change="changeTableTopic($event.target.value)">
                             <option value="all" {{ $tableTopic == 'all' ? 'selected' : '' }}>All</option>

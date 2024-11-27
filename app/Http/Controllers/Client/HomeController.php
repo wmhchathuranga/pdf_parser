@@ -9,6 +9,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('cl.all-reports');
+        return view('cl.appendix-5b-upload');
     }
 }

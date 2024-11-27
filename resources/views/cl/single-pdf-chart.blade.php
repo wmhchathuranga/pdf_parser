@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col-12 pb-3">
             <div class="bg-dark p-2">
-                <h3 class="text-white text-capitalize">Customizable line graph</h3>
+                <h3 class="text-white text-capitalize">&nbsp;&nbsp;Table analysis line graph</h3>
             </div>
         </div>
     </div>

@@ -95,7 +95,7 @@
         </div>
 
         <div class="card col-6">
-            <div class="card-body" style="max-height: 800px; overflow-y: scroll">
+            <div class="card-body" style="max-height: 950px; overflow-y: scroll">
                 <div class="table-responsive">
                     <table id="buttons-datatable1"
                         class="table table-hover table-striped table-bordered dt-responsive nowrap align-middle mdl-data-table"
@@ -810,7 +810,7 @@
             if (this.querySelector("input")) {
                 return;
             }
-            this.innerHTML = "<input class='form-control-sm m-0' style='max-width:100px;' type='text' value='" + getvalue(this.innerHTML) + "' />";
+            this.innerHTML = "<input class='form-control-sm m-0 text-center border-0' style='max-width:100px;' type='text' value='" + getvalue(this.innerHTML) + "' />";
 
             var oldVallue;
 

@@ -12,7 +12,7 @@
                     Upload one or more PDF files to the system for further processing.
                 </p>
 
-                <div class="mb-4">
+                <div class="mb-2">
                     <label for="pdfFiles" class="form-label">Select PDF files:</label>
                     <input class="form-control" id="formFile" wire:model="pdfFiles" type="file" multiple
                         accept=".pdf">
@@ -21,14 +21,20 @@
         </div>
 
         <div class="row">
-            <div class="col-auto position-absolute top-0 start-0">
+            <div class="col-12" style="height: 50px;">
                 @if (session('message'))
-                    <div class="alert alert-info pb-0 mt-2 text-start" id="info-alert">
-                        <ul>
-                            <li>PDF Upload Success: {{ session('message')['success'] }}</li>
-                            <li>PDF Upload Failed: {{ session('message')['error'] }}</li>
+                <div class="row mx-auto my-auto gap-2">
+                    <div class="alert alert-success text-start col p-0" id="info-alert">
+                        <ul class="py-2 my-0">
+                            <li class="">PDF Upload Success: {{ session('message')['success'] }}</li>
                         </ul>
                     </div>
+                    <div class="alert alert-danger text-start col p-0">
+                        <ul class="py-2 my-0">
+                            <li class="">PDF Upload Failed: {{ session('message')['error'] }}</li>
+                        </ul>
+                    </div>
+                </div>
                     <script>
                         setTimeout(() => {
                             document.getElementById('info-alert').style.display = 'none';
@@ -39,22 +45,23 @@
         </div>
 
 
-        <div class="mt-4">
+        <div class="mt-2">
             <div class="hstack gap-2 justify-content-center">
                 <!-- Close Button -->
-                <a onclick="clearData()" href="javascript:void(0);"
-                    class="btn btn-link shadow-none link-success fw-medium" data-bs-dismiss="modal"><i
-                        class="ri-close-line me-1 align-middle"></i> Close</a>
+                <a onclick="clearData()" href="javascript:void(0);" class="btn btn-outline-danger shadow-none fw-medium"
+                    data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</a>
 
                 <script>
                     function clearData() {
                         document.getElementById('formFile').value = '';
-                        document.getElementById('info-alert').style.display = 'none';
+                        if (document.getElementById('info-alert')) {
+                            document.getElementById('info-alert').style.display = 'none';
+                        }
                     }
                 </script>
 
                 <!-- Upload Button -->
-                <button id="uploadBtn" class="btn btn-primary waves-effect waves-light" onclick="startUploading()"
+                <button id="uploadBtn" class="btn btn-primary waves-effect waves-light px-4" onclick="startUploading()"
                     wire:click="uploadPDF">
                     Upload
                 </button>

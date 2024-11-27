@@ -1,5 +1,5 @@
 <!-- ========== App Menu ========== -->
-<div class="app-menu navbar-menu">
+<div class="app-menu navbar-menu position-fixed">
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
@@ -1266,11 +1266,11 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link menu-link" href="{{ route('client.all-reports') }}">
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>
                         </a>
-                    </li>
+                    </li> --}}
                     
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="{{ route('client.comparison-table') }}">
