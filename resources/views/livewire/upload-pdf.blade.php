@@ -23,8 +23,8 @@
         <div class="row">
             <div class="col-12" style="height: 50px;">
                 @if (session('message'))
-                <div class="row mx-auto my-auto gap-2">
-                    <div class="alert alert-success text-start col p-0" id="info-alert">
+                <div class="row mx-auto my-auto gap-2" id="info-alert">
+                    <div class="alert alert-success text-start col p-0">
                         <ul class="py-2 my-0">
                             <li class="">PDF Upload Success: {{ session('message')['success'] }}</li>
                         </ul>
