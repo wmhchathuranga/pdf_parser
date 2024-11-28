@@ -12,6 +12,7 @@ class FetchReport extends Component
     public $companies;
     public $selectedCompany;
     public $allReports;
+    public $type;
 
     public $selectedStatus;
 
@@ -20,7 +21,7 @@ class FetchReport extends Component
         try {
             $response = Http::withHeaders([
                 'Authorization' => env('API_TOKEN'),
-            ])->get(env('API_URL') . '/api/companies');
+            ])->get(env('API_URL') . '/api/companies/' . $this->type);
 
             if ($response->successful()) {
                 // dd($response->json());
@@ -70,12 +71,15 @@ class FetchReport extends Component
             $response = Http::withHeaders([
                 'Authorization' => env('API_TOKEN'),
             ])->get(env('API_URL') . '/api/report_5b/delete/' . $id);
-
+            // dd($response);
             if ($response->successful()) {
                 $this->loadData();
+            }else{
+                dd($response);
+                // abort(500, 'Something went wrong');
             }
         }catch (Exception $e) {
-            dd($e);
+            // dd($id);
             abort(500, 'Something went wrong');
         }
         $this->loadData();
@@ -83,14 +87,17 @@ class FetchReport extends Component
 
     public function loadData()
     {
+        // dd($this->type);
         if (!empty($this->companies)) {
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_5b/' . $this->selectedCompany);
+                ])->get(env('API_URL') . '/api/reports_' . $this->type . '/' . $this->selectedCompany);
 
                 if ($response->successful()) {
-                    $this->selectedCompany = $this->companies[0]['abn'];
+                    if($this->selectedStatus == null){
+                        $this->selectedCompany = $this->companies[0]['abn'];
+                    }
                     $this->allReports = $response->json();
                 } else {
                     throw new Exception('Failed to fetch reports');
@@ -101,6 +108,7 @@ class FetchReport extends Component
         } else {
             // dd('No companies available.');
         }
+
     }
 
     public function render()

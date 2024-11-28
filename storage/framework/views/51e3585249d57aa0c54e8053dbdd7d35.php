@@ -5,14 +5,16 @@
                 <div class="col-auto">
                     <div class="row">
                         <div class="col-auto">
-                            <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#pdfUploadModal"><i class="bx bx-upload label-icon align-middle fs-16 me-2"></i> Upload</button>
+                            <button type="button" class="btn btn-success btn-label waves-effect waves-light"
+                                data-bs-toggle="modal" data-bs-target="#pdfUploadModal"><i
+                                    class="bx bx-upload label-icon align-middle fs-16 me-2"></i> Upload</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
                         <div class="col-3 col-lg-4 pe-3">
-                            <select onchange="refreshTableJs()" class="form-control my-auto text-nowrap" data-choices
+                            <select onchange="refreshTableJs()" class="form-control my-auto" data-choices
                                 name="choices-single-default" id="choices-single-default"
                                 wire:change="changeCompany($event.target.value)">
                                 <option value="">Search by ABN</option>
@@ -100,7 +102,8 @@
         </div>
     </div>
 
-    <div class="modal fade position-fixed" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal fade position-fixed" id="deleteConfirmationModal" tabindex="-1"
+        aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center p-5">
@@ -150,6 +153,25 @@
             }, 5000);
         }
     </script>
+
+        <?php
+        $__scriptKey = '1329042315-0';
+        ob_start();
+    ?>
+        <script>
+            new DataTable('#all-reports-table', {
+                dom: 'Bfrtip',
+                order: [
+                    [2, 'desc']
+                ],
+                pageLength: 12,
+            });
+        </script>
+        <?php
+        $__output = ob_get_clean();
+
+        \Livewire\store($this)->push('scripts', $__output, $__scriptKey)
+    ?>
 
 </div>
 <?php /**PATH E:\Projects\Laravel\pdf_extract\resources\views/livewire/fetch-report.blade.php ENDPATH**/ ?>

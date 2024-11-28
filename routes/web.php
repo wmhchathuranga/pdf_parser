@@ -34,63 +34,6 @@ Route::get('/report/{id}', [PDFController::class, 'showReport'])->name('report')
 Route::get('/report_h/{id}', [PDFController::class, 'showReportH'])->name('report_h');
 
 
-// menu routes
-// client --
-// {
-//     Route::get('cl/appendix-5b-upload', function () {
-//         return view('cl.appendix-5b-upload');
-//     })->name('cl-appendix-5b-upload');
-//     Route::get('cl/appendix-3x-upload', function () {
-//         return view('cl.appendix-3x-upload');
-//     })->name('cl-appendix-3x-upload');
-//     Route::get('cl/all-reports', function () {
-//         return view('cl.all-reports');
-//     })->name('cl-all-reports');
-//     Route::get('cl/comparison-table', function () {
-//         return view('cl.comparison-table');
-//     })->name('cl-comparison-table');
-
-//     Route::get('cl/single-pdf-chart', function () {
-//         $companies = [];
-//         try{
-//             $response = Http::withHeaders([
-//                 'Authorization' => env('API_TOKEN'),
-//             ])->get(env('API_URL').'/api/companies');
-
-//             if($response->successful()){
-//                 $companies = $response->json();
-//             }
-//         }
-//         catch(Exception $e){
-//             dd($e->getMessage());
-//         }
-//         return view('cl.single-pdf-chart', ['comapaniesArray', $companies]);
-        
-//     })->name('cl-single-pdf-chart');
-// }
-
-// admin --
-// {
-//     Route::get('ad/all-reports', function () {
-//         return view('ad.all-reports');
-//     })->name('ad-all-reports');
-
-//     Route::get('ad/all-clients', function () {
-//         return view('ad.all-clients');
-//     })->name('ad-all-clients');
-// }
-
-// developer --
-// {
-//     Route::get('dev/all-reports', function () {
-//         return view('dev.all-reports');
-//     })->name('dev-all-reports');
-
-//     Route::get('dev/all-clients', function () {
-//         return view('dev.all-clients');
-//     })->name('dev-all-clients');
-// }
-
 // Routes for developers
 Route::middleware(['auth', 'userPermissions'])->prefix('dev')->name('developer.')->group(function () {
     Route::get('/', [App\Http\Controllers\Developer\HomeController::class, 'index'])->name('dev.index');

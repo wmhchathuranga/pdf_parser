@@ -28,39 +28,17 @@
         role="dialog" aria-labelledby="pdfUploadModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                @livewire('upload-pdf')
+                @livewire('upload-pdf', ['type' => '5b'])
             </div>
         </div>
     </div>
 
-    @livewire('fetch-report')
+    @livewire('fetch-report', ['type' => '5b'])
 
 
 @endsection
 @section('script')
-    <script>
-        function startUploading() {
-            //disable upload button
-            document.getElementById('uploadBtn').disabled = true;
-            
-            if (document.getElementById('info-alert')) {
-                if (document.getElementById('info-alert').style.display == 'block') {
-                    document.getElementById('info-alert').style.display = 'none';
-                }
-            }
-            // Hide the "Upload" button and show the "Uploading" button
-            document.getElementById('uploadBtn').style.display = 'none';
-            document.getElementById('uploadingBtn').style.display = 'inline-block';
-        }
-
-        // Optional: Revert button state on error
-        window.addEventListener('livewire:load', () => {
-            Livewire.on('uploadFailed', () => {
-                document.getElementById('uploadBtn').style.display = 'inline-block';
-                document.getElementById('uploadingBtn').style.display = 'none';
-            });
-        });
-    </script>
+    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -75,15 +53,15 @@
         refreshTableJs();
         //buttons examples
         function refreshTableJs() {
-            setTimeout(() => {
-                new DataTable('#all-reports-table', {
-                    dom: 'Bfrtip',
-                    order: [
-                        [2, 'desc']
-                    ],
-                    pageLength: 12,
-                });
-            }, 2000);
+            // setTimeout(() => {
+            //     new DataTable('#all-reports-table', {
+            //         dom: 'Bfrtip',
+            //         order: [
+            //             [2, 'desc']
+            //         ],
+            //         pageLength: 12,
+            //     });
+            // }, 2000);
         }
     </script>
 

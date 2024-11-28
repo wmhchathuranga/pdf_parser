@@ -13,6 +13,7 @@ class UploadPdf extends Component
 
     public $pdfFormat;
     public $pdfFiles = [];
+    public $type;
 
     public $responsesData = [];
 
@@ -33,7 +34,7 @@ class UploadPdf extends Component
         $this->errorCount = 0;
 
         $this->pdfCount = count($this->pdfFiles);
-        if($this->pdfCount == 0){
+        if ($this->pdfCount == 0) {
             return;
         }
 
@@ -47,7 +48,7 @@ class UploadPdf extends Component
                 'pdf',
                 $fileContent,
                 $pdfFile->getClientOriginalName()
-            )->post(env('API_URL') . '/api/upload-pdf');
+            )->post(env('API_URL') . '/api/upload-pdf/' . $this->type);
 
             fclose($fileContent);
             Storage::delete($filePath);
@@ -55,15 +56,22 @@ class UploadPdf extends Component
             if ($response->successful()) {
                 $this->successCount++;
             } else {
+                dd($response, $this->type);
                 $this->errorCount++;
             }
         }
 
+        $this->pdfFiles = [];
         // Set session flash message with counts
         session()->flash('message', [
             'success' => $this->successCount,
             'error' => $this->errorCount,
         ]);
+    }
+
+    public function clearMessage()
+    {
+        session()->forget('message');
     }
 
 
