@@ -53,8 +53,47 @@ class FetchReports3x extends Component
         $this->selectedStatus = 'all';
     }
 
+    public function changeCompany($abn)
+    {
+        $this->selectedCompany = $abn;
+        $this->loadData();
+    }
+
+    public function changeStatus($status){
+        $this->selectedStatus = $status;
+    }
+
+    public function loadData()
+    {
+        // dd($this->type);
+        if (!empty($this->companies)) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => env('API_TOKEN'),
+                ])->get(env('API_URL') . '/api/reports_3x/' . $this->selectedCompany);
+
+                if ($response->successful()) {
+                    if($this->selectedStatus == null){
+                        $this->selectedCompany = $this->companies[0]['abn'];
+                    }
+                    $this->allReports = $response->json();
+                } else {
+                    throw new Exception('Failed to fetch reports');
+                }
+            } catch (Exception $e) {
+                abort(500, 'Something went wrong');
+            }
+        } else {
+            // dd('No companies available.');
+        }
+
+    }
+
     public function render()
     {
-        return view('livewire.fetch-reports3x');
+        return view('livewire.fetch-reports3x', [
+            'allReports' => $this->allReports,
+            'companies' => $this->companies
+        ]);
     }
 }

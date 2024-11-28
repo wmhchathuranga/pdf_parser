@@ -22,36 +22,6 @@
         @endslot
     @endcomponent
 
-
-    @php
-        // $companies = [];
-        // try {
-        //     $response = Http::withHeaders([
-        //         'Authorization' => env('API_TOKEN'),
-        //     ])->get(env('API_URL') . '/api/companies');
-
-        //     if ($response->successful()) {
-        //         $companies = $response->json();
-        //     }
-        // } catch (Exception $e) {
-        //     dd($e->getMessage());
-        // }
-
-        // $allReports = [];
-        // try {
-        //     $response = Http::withHeaders([
-        //         'Authorization' => env('API_TOKEN'),
-        //     ])->get(env('API_URL') . '/api/reports_5b');
-
-        //     if ($response->successful()) {
-        //         // dd($response->json());
-        //         $allReports = $response->json();
-        //     }
-        // } catch (Exception $e) {
-        //     dd($e->getMessage());
-        // }
-    @endphp
-
     @livewire('comparison-table')
 @endsection
 @section('script')

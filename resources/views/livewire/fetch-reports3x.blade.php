@@ -51,7 +51,8 @@
                             <tr>
                                 <th>ABN</th>
                                 <th>Company Name</th>
-                                <th class="text-center">Quarter ended</th>
+                                <th class="text-center">Director</th>
+                                <th class="text-center">Appointment Date</th>
                                 <th class="text-center">Upload Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -63,7 +64,8 @@
                                         <tr>
                                             <td>{{ $report['abn'] }}</td>
                                             <td>{{ $report['company_name'] }}</td>
-                                            <td class="text-center">{{ $report['quarter_ending'] }}</td>
+                                            <td class="text-center">{{ $report['director'] }}</td>
+                                            <td class="text-center">{{ $report['appointment_date'] }}</td>
                                             {{-- <td>{{ \Carbon\Carbon::parse($report['created_at'])->format('d F Y H:i') }}</td> --}}
                                             <td class="text-center">
                                                 @if ($report['is_upload_completed'])
@@ -75,11 +77,11 @@
 
                                             <td class="text-center">
                                                 <a target="_blank"
-                                                    href="{{ route('client.single-report', $report['id']) }}"
+                                                    href="{{ route('client.single-report-3x', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-success"><i
                                                         class="ri-eye-fill align-bottom"></i></a>
                                                 <a target="_blank"
-                                                    href="{{ route('client.report-edit', $report['id']) }}"
+                                                    href="{{ route('client.report-edit-3x', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-primary"><i
                                                         class="ri-pencil-fill align-bottom"></i></a>
                                                 {{-- delete button  --}}

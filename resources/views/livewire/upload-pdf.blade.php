@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h4 class="card-title mb-3">APPENDIX {{ $type }} UPLOAD</h4>
+                <h4 class="card-title mb-3">APPENDIX <span class="text-uppercase">{{ $type }}</span> UPLOAD</h4>
 
                 <p class="text-muted m-0 mb-4">
                     Upload one or more PDF files to the system for further processing.
@@ -64,7 +64,7 @@
                 <!-- Upload Button -->
                 @if (!session('message'))
                     <button id="uploadBtn" class="btn btn-primary waves-effect waves-light px-4"
-                        onclick="startUploading(this)" wire:click="uploadPDF">
+                        onclick="startUploading(this)">
                         Upload
                     </button>
                 @endif
@@ -96,6 +96,7 @@
                             Uploading...
                         </span>
                     </span>`
+            @this.uploadPDF();
         }
 
         function clearData() {

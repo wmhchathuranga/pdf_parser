@@ -20,7 +20,7 @@ class ComparisonTable extends Component
         try {
             $response = Http::withHeaders([
                 'Authorization' => env('API_TOKEN'),
-            ])->get(env('API_URL') . '/api/companies');
+            ])->get(env('API_URL') . '/api/companies/5b');
 
             if ($response->successful()) {
                 // dd($response->json());
