@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Carbon\Carbon;
 use App\Models\Part1;
 use App\Models\Part2;
 use App\Models\Part3;
@@ -71,20 +73,24 @@ class PDFController2 extends Controller
             $date_of_appointment = preg_replace('/Date of appointment[ :]/', '', $page_1[4]);
             if ($date_of_appointment == "" || $date_of_appointment == "Date of appointment")
                 $date_of_appointment = $page_1[5];
-            
+            // dd($relativePath);
             $appendix3X = Appendix3X::create([
                 'document_number' => $document_number,
                 'document_title' => $document_title,
                 'name_of_entity' => $name_of_entity,
                 'stock_code' => $stock_code,
-                'abn' => $abn,
+                'abn' => str_replace(' ', '', $abn),
                 'name_of_director' => $name_of_director,
-                'date_of_appointment' => date('Y-m-d', strtotime($date_of_appointment)),
-                'pdf' => $relativePath,
+                'date_of_appointment' => Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'),
+                'pdf_path' => $relativePath
             ]);
+        } catch (\Exception $e) {
+            dd($e);
+            return response()->json(["Failed to extract data from PDF"], 500);
+        }
 
 
-
+        try {
             // Part 1
             $part_1 = array();
             $part_1_start_point = 0;
@@ -113,6 +119,16 @@ class PDFController2 extends Controller
                     'number_class_of_securities' => $part_1[$i],
                 ]);
             }
+        } catch (\Exception $e) {
+            for ($i = 0; $i < count($part_1); $i++) {
+                Part1::create([
+                    'appendix3_x_id' => $appendix3X->id,
+                    'number_class_of_securities' => null,
+                ]);
+            }
+        }
+
+        try {
 
 
             // Part 2
@@ -243,11 +259,21 @@ class PDFController2 extends Controller
                     'number_class_of_securities' => $part_2_right_records[$i],
                 ]);
             }
-            // dd($part_2_left_records, $part_2_right_records);
+        } catch (Exception $e) {
+            for ($i = 0; $i < count($part_2_left_records); $i++) {
+                Part2::create([
+                    'appendix3_x_id' => $appendix3X->id,
+                    'name_of_holder_nature_of_interest' => null,
+                    'number_class_of_securities' => null,
+                ]);
+            }
+        }
+
+        // dd($part_2_left_records, $part_2_right_records);
 
 
 
-
+        try {
             // Part 3
             $part_3 = array();
             $part_3_start_point = 0;
@@ -325,15 +351,14 @@ class PDFController2 extends Controller
                 'no_and_class_of_securities_to_which_interest_relates' => $interest_relates,
             ]);
         } catch (\Throwable $th) {
-            logger()->error($th->getMessage());
-            return response()->json(["Scrapping Failed"], 500);
-            // send an email to admin
-            // Mail::to('wmhchathuranga@gmail.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
-            // Mail::to('john@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
-            // Mail::to('anthony@timebucks.com')->send(new ExceptionOccurredMail($th, $pdfFilePath));
-
-            // Optionally, rethrow the exception or log it
-            throw $th;
+            $part3 = Part3::create([
+                'appendix3_x_id' => $appendix3X->id,
+                'detail_of_contract' => null,
+                'nature_of_interest' => null,
+                'name_of_registered_holder' => null,
+                'no_and_class_of_securities_to_which_interest_relates' => null,
+            ]);
         }
+        return response()->json(['success'], 200);
     }
 }

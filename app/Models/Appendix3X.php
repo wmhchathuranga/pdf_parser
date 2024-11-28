@@ -17,6 +17,7 @@ class Appendix3X extends Model
         'abn',
         'name_of_director',
         'date_of_appointment',
+        'pdf_path',
     ];
 
     public function part1s()

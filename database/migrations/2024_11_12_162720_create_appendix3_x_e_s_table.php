@@ -12,12 +12,12 @@ class CreateAppendix3XesTable extends Migration
             $table->id();
             $table->string('document_number');
             $table->string('document_title');
-            $table->string('name_of_entity');
+            $table->string('company_name');
             $table->string('stock_code')->nullable();
             $table->string('abn')->nullable();
             $table->string('name_of_director')->nullable();
             $table->date('date_of_appointment')->nullable();
-            $table->string('pdf');
+            $table->string('pdf_path');
             $table->boolean('is_upload_completed')->default(false);
             $table->softDeletes();
             $table->timestamps();

@@ -11,7 +11,7 @@ class CreatePart1sTable extends Migration
         Schema::create('part1s', function (Blueprint $table) {
             $table->id();
             $table->foreignId('appendix3_x_id')->constrained('appendix3_x_e_s')->onDelete('cascade');
-            $table->string('number_class_of_securities');
+            $table->string('number_class_of_securities')->nullable();
             $table->timestamps();
         });
     }

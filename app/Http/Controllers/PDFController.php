@@ -64,7 +64,9 @@ class PDFController extends Controller
             $abn = implode(" ", array_slice($abn_with_date, 0, -3));
 
             // check if have a record with same abn and quarter ending
-            $pdfReport = PDFReport::where('abn', str_replace(' ', '', $abn))->where('quarter_ending', Carbon::parse($quarterEnding, 'Australia/Melbourne')->format('Y-m-d'))->first();
+            // check if not soft delete
+            
+            $pdfReport = PDFReport::where('abn', str_replace(' ', '', $abn))->where('quarter_ending', Carbon::parse($quarterEnding, 'Australia/Melbourne')->format('Y-m-d'))->whereNull('deleted_at')->first();
 
             if ($pdfReport) {
                 return response()->json("Report already exists for this ABN and Quarter Ending", 500);
