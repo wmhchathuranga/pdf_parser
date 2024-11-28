@@ -58,14 +58,16 @@ class FetchReport extends Component
     public function changeCompany($abn)
     {
         $this->selectedCompany = $abn;
-        $this->loadData();
+        // $this->loadData();
     }
 
-    public function changeStatus($status){
+    public function changeStatus($status)
+    {
         $this->selectedStatus = $status;
     }
 
-    public function deleteReport($id){
+    public function deleteReport($id)
+    {
         // dd($id);
         try {
             $response = Http::withHeaders([
@@ -74,15 +76,15 @@ class FetchReport extends Component
             // dd($response);
             if ($response->successful()) {
                 $this->loadData();
-            }else{
-                dd($response);
-                // abort(500, 'Something went wrong');
+            } else {
+                // dd($response);
+                abort(500, 'Something went wrong');
             }
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             // dd($id);
             abort(500, 'Something went wrong');
         }
-        $this->loadData();
+        // $this->loadData();
     }
 
     public function loadData()
@@ -95,7 +97,7 @@ class FetchReport extends Component
                 ])->get(env('API_URL') . '/api/reports_' . $this->type . '/' . $this->selectedCompany);
 
                 if ($response->successful()) {
-                    if($this->selectedStatus == null){
+                    if ($this->selectedStatus == null) {
                         $this->selectedCompany = $this->companies[0]['abn'];
                     }
                     $this->allReports = $response->json();
@@ -111,13 +113,14 @@ class FetchReport extends Component
 
     }
 
+    public function rendered(){
+        $this->dispatch('refreshTable');
+    }
+
     public function render()
     {
+        $this->loadData();
         // dd($this->allReports);
-        // $this->loadData();
-        return view('livewire.fetch-report', [
-            'allReports' => $this->allReports,
-            'companies' => $this->companies
-        ]);
+        return view('livewire.fetch-report');
     }
 }

@@ -46,7 +46,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive pb-4">
-                    <table id="all-reports-table" class="display table table-bordered" style="width:100%">
+                    <table id="all-reports-table" class="display table table-bordered" style="width:100%"
+                        wire:key="all-reports-table">
                         <thead>
                             <tr>
                                 <th>ABN</th>
@@ -141,8 +142,28 @@
             const modalElement = document.getElementById('deleteConfirmationModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); // Use Bootstrap's method to hide the modal
-            // refreshTableJs();
-            setTimeout(() => {
+        }
+    </script>
+
+    @script
+        <script>
+            $wire.on('refreshTable', () => {
+                // alert('hello');
+                if ($.fn.DataTable.isDataTable('#all-reports-table')) {
+                    console.log('Table is already initialized');
+                    $('#all-reports-table').DataTable().destroy();
+                    setTimeout(() => {
+                        inizializeDataTable();
+                    }, 1000);
+                    return;
+                }
+                // console.log('initializing table');
+
+                inizializeDataTable();
+
+            });
+
+            function inizializeDataTable() {
                 new DataTable('#all-reports-table', {
                     dom: 'Bfrtip',
                     order: [
@@ -150,19 +171,7 @@
                     ],
                     pageLength: 12,
                 });
-            }, 5000);
-        }
-    </script>
-
-    @script
-        <script>
-            new DataTable('#all-reports-table', {
-                dom: 'Bfrtip',
-                order: [
-                    [2, 'desc']
-                ],
-                pageLength: 12,
-            });
+            }
         </script>
     @endscript
 

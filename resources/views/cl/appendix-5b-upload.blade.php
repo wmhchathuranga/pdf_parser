@@ -34,12 +34,8 @@
     </div>
 
     @livewire('fetch-report', ['type' => '5b'])
-
-
 @endsection
 @section('script')
-    
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -49,20 +45,62 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script>
-        refreshTableJs();
-        //buttons examples
-        function refreshTableJs() {
-            // setTimeout(() => {
-            //     new DataTable('#all-reports-table', {
-            //         dom: 'Bfrtip',
-            //         order: [
-            //             [2, 'desc']
-            //         ],
-            //         pageLength: 12,
-            //     });
-            // }, 2000);
+    {{-- <script>
+        document.addEventListener('livewire:load', () => {
+            Livewire.hook('message.processed', (component, message) => {
+                // Your custom JavaScript function here
+                runCustomFunction();
+                console.log(component, message);
+                
+            });
+        });
+
+        function runCustomFunction() {
+            console.log('Livewire re-render complete!');
+            // Add your custom logic here
+        };
+    </script> --}}
+
+    {{-- <script>
+        document.addEventListener('livewire:load', function() {
+            initializeDataTable();
+
+            Livewire.hook('message.processed', (message, component) => {
+                if (document.querySelector('#all-reports-table')) {
+                    initializeDataTable();
+                }
+            });
+        });
+
+        function initializeDataTable() {
+            // Destroy if already initialized
+            if ($.fn.DataTable.isDataTable('#all-reports-table')) {
+                $('#all-reports-table').DataTable().destroy();
+            }
+
+            // Reinitialize the DataTable
+            new DataTable('#all-reports-table', {
+                dom: 'Bfrtip',
+                order: [
+                    [2, 'desc']
+                ],
+                pageLength: 12,
+            });
         }
+    </script> --}}
+
+    <script>
+        // loadDataTable();
+
+        // function loadDataTable() {
+        //     new DataTable('#all-reports-table', {
+        //         dom: 'Bfrtip',
+        //         order: [
+        //             [2, 'desc']
+        //         ],
+        //         pageLength: 12,
+        //     });
+        // }
     </script>
 
     <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>

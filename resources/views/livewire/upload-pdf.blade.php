@@ -14,14 +14,30 @@
 
                 <div class="mb-2">
                     <label for="pdfFiles" class="form-label">Select PDF files:</label>
-                    <input class="form-control" id="formFile" wire:model="pdfFiles" type="file" multiple
-                        accept=".pdf">
+                    <input class="form-control" id="formFile" onchange="fileChange()" wire:model="pdfFiles"
+                        type="file" multiple accept=".pdf">
+                    <script>
+                        function fileChange() {
+                            document.getElementById('spinner-dots').innerHTML = `<div class="spinner-grow" style="width: 0.7rem; height: 0.7rem;" role="status">
+                        <span class="visually-hidden">Analyzing...</span>
+                    </div>
+                    <div class="spinner-grow" style="width: 0.7rem; height: 0.7rem;" role="status">
+                        <span class="visually-hidden">Analyzing...</span>
+                    </div>
+                    <div class="spinner-grow" style="width: 0.7rem; height: 0.7rem;" role="status">
+                        <span class="visually-hidden">Analyzing...</span>
+                    </div>`;
+                        }
+                    </script>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-12" style="height: 50px;">
+                <div class="pt-2" id="spinner-dots">
+
+                </div>
                 @if (session('message'))
                     <div class="row mx-auto my-auto gap-2" id="info-alert">
                         @if (session('message')['success'])
@@ -64,7 +80,7 @@
                 <!-- Upload Button -->
                 @if (!session('message'))
                     <button id="uploadBtn" class="btn btn-primary waves-effect waves-light px-4"
-                        onclick="startUploading(this)">
+                        {{ $pdfFiles ? '' : 'disabled' }} onclick="startUploading(this)">
                         Upload
                     </button>
                 @endif

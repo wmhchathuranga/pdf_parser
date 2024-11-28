@@ -56,7 +56,7 @@ class UploadPdf extends Component
             if ($response->successful()) {
                 $this->successCount++;
             } else {
-                dd($response, $this->type);
+                // dd($response, $this->type);
                 $this->errorCount++;
             }
         }
