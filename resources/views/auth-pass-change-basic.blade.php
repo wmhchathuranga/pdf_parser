@@ -26,7 +26,7 @@
                                 <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="20">
                             </a>
                         </div>
-                        <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                        <p class="mt-3 fs-15 fw-medium">Premium Report Analysis Dashboard</p>
                     </div>
                 </div>
             </div>

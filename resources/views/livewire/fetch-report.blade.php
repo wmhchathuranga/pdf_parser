@@ -14,10 +14,8 @@
                 <div class="col">
                     <div class="row justify-content-end">
                         <div class="col-3 col-lg-4 pe-3">
-                            <select onchange="refreshTableJs()" class="form-control my-auto" data-choices
-                                name="choices-single-default" id="choices-single-default"
-                                wire:change="changeCompany($event.target.value)">
-                                <option value="">Search by ABN</option>
+                            <select onchange="refreshTableJs()" class="form-control my-auto" wire:change="changeCompany($event.target.value)">
+                                <option value="" disabled>Search by ABN</option>
                                 @if ($companies != null)
                                     @foreach ($companies as $company)
                                         <option value="{{ $company['abn'] }}"

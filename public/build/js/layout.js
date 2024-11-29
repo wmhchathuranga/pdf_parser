@@ -1,5 +1,5 @@
 /*
-Template Name: bitrate - Admin & Dashboard Template
+Template Name: bitrate - Report Analysis Dashboard
 Author: Bitrate
 Version: 4.1.0
 Website: https://Bitrate.com/

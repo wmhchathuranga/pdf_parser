@@ -34,9 +34,6 @@ class UploadPdf extends Component
         $this->errorCount = 0;
 
         $this->pdfCount = count($this->pdfFiles);
-        // if ($this->pdfCount == 0) {
-        //     return;
-        // }
 
         foreach ($this->pdfFiles as $pdfFile) {
             $filePath = $pdfFile->store('temp');

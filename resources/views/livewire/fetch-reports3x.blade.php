@@ -13,11 +13,9 @@
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
-                        <div class="col-3 col-lg-4 pe-3">
-                            <select onchange="refreshTableJs()" class="form-control my-auto" data-choices
-                                name="choices-single-default" id="choices-single-default"
-                                wire:change="changeCompany($event.target.value)">
-                                <option value="">Search by ABN</option>
+                        {{-- <div class="col-3 col-lg-4 pe-3">
+                            <select onchange="refreshTableJs()" class="form-control my-auto" wire:change="changeCompany($event.target.value)">
+                                <option value="" disabled>Search by ABN</option>
                                 @if ($companies != null)
                                     @foreach ($companies as $company)
                                         <option value="{{ $company['abn'] }}"
@@ -26,7 +24,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="col-auto">
                             <select onchange="refreshTableJs()" class="form-select my-auto"
                                 wire:change="changeStatus($event.target.value)">
@@ -64,8 +62,8 @@
                                         <tr>
                                             <td>{{ $report['abn'] }}</td>
                                             <td>{{ $report['company_name'] }}</td>
-                                            <td class="text-center">{{ $report['director'] }}</td>
-                                            <td class="text-center">{{ $report['appointment_date'] }}</td>
+                                            <td class="text-center">{{ $report['name_of_director'] }}</td>
+                                            <td class="text-center">{{ $report['date_of_appointment'] }}</td>
                                             {{-- <td>{{ \Carbon\Carbon::parse($report['created_at'])->format('d F Y H:i') }}</td> --}}
                                             <td class="text-center">
                                                 @if ($report['is_upload_completed'])
@@ -80,8 +78,8 @@
                                                     href="{{ route('client.single-report-3x', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-success"><i
                                                         class="ri-eye-fill align-bottom"></i></a>
-                                                <a target="_blank"
-                                                    href="{{ route('client.report-edit-3x', $report['id']) }}"
+                                                <a target="_blank" 
+                                                href="{{ route('client.report-edit-3x', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-primary"><i
                                                         class="ri-pencil-fill align-bottom"></i></a>
                                                 {{-- delete button  --}}
@@ -143,28 +141,35 @@
             const modalElement = document.getElementById('deleteConfirmationModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); // Use Bootstrap's method to hide the modal
-            // refreshTableJs();
-            setTimeout(() => {
-                new DataTable('#all-reports-table', {
-                    dom: 'Bfrtip',
-                    order: [
-                        [2, 'desc']
-                    ],
-                    pageLength: 12,
-                });
-            }, 5000);
         }
     </script>
 
     @script
         <script>
-            new DataTable('#all-reports-table', {
-                dom: 'Bfrtip',
-                order: [
-                    [2, 'desc']
-                ],
-                pageLength: 12,
+            $wire.on('refreshTable', () => {
+                // alert('hello');
+                if ($.fn.DataTable.isDataTable('#all-reports-table')) {
+                    console.log('Table is already initialized');
+                    $('#all-reports-table').DataTable().destroy();
+                    setTimeout(() => {
+                        inizializeDataTable();
+                    }, 1000);
+                    return;
+                }
+
+                inizializeDataTable();
+
             });
+
+            function inizializeDataTable() {
+                new DataTable('#all-reports-table', {
+                    dom: 'Bfrtip',
+                    order: [
+                        [3, 'desc']
+                    ],
+                    pageLength: 12,
+                });
+            }
         </script>
     @endscript
 

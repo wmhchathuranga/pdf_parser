@@ -124,10 +124,12 @@
                             </tr>
                             <tr>
                                 <td>Payments for Exploration &amp; Evaluation</td>
-                                <td class="text-center p-0" data-name="operating_details-payments_exploration_evaluation_c_q">
+                                <td class="text-center p-0"
+                                    data-name="operating_details-payments_exploration_evaluation_c_q">
                                     {{ $reportData['operating_details'][0]['payments_exploration_evaluation_c_q'] ?? '-' }}
                                 </td>
-                                <td class="text-center p-0" data-name="operating_details-payments_exploration_evaluation_y_t_d">
+                                <td class="text-center p-0"
+                                    data-name="operating_details-payments_exploration_evaluation_y_t_d">
                                     {{ $reportData['operating_details'][0]['payments_exploration_evaluation_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
@@ -208,7 +210,7 @@
                                 <td class="text-center p-0" data-name="operating_details-net_cash_from_operating_y_t_d">
                                     {{ $reportData['operating_details'][0]['net_cash_from_operating_y_t_d'] ?? '-' }}</td>
                             </tr>
-                            
+
 
 
                             <tr>
@@ -241,10 +243,12 @@
                             </tr>
                             <tr>
                                 <td>Payments for Exploration Evaluation</td>
-                                <td class="text-center p-0" data-name="investing_details-payments_for_exploration_evaluation_c_q">
+                                <td class="text-center p-0"
+                                    data-name="investing_details-payments_for_exploration_evaluation_c_q">
                                     {{ $reportData['investing_details'][0]['payments_for_exploration_evaluation_c_q'] ?? '-' }}
                                 </td>
-                                <td class="text-center p-0" data-name="investing_details-payments_for_exploration_evaluation_y_t_d">
+                                <td class="text-center p-0"
+                                    data-name="investing_details-payments_for_exploration_evaluation_y_t_d">
                                     {{ $reportData['investing_details'][0]['payments_for_exploration_evaluation_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
@@ -327,7 +331,7 @@
                                 <td class="text-center p-0" data-name="investing_details-net_cash_from_investing_y_t_d">
                                     {{ $reportData['investing_details'][0]['net_cash_from_investing_y_t_d'] ?? '-' }}</td>
                             </tr>
-                            
+
 
 
                             <tr>
@@ -360,10 +364,12 @@
                             </tr>
                             <tr>
                                 <td>Transaction Costs for Securities</td>
-                                <td class="text-center p-0" data-name="financing_details-transaction_costs_for_securities_c_q">
+                                <td class="text-center p-0"
+                                    data-name="financing_details-transaction_costs_for_securities_c_q">
                                     {{ $reportData['financing_details'][0]['transaction_costs_for_securities_c_q'] ?? '-' }}
                                 </td>
-                                <td class="text-center p-0" data-name="financing_details-transaction_costs_for_securities_y_t_d">
+                                <td class="text-center p-0"
+                                    data-name="financing_details-transaction_costs_for_securities_y_t_d">
                                     {{ $reportData['financing_details'][0]['transaction_costs_for_securities_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
@@ -383,10 +389,12 @@
                             </tr>
                             <tr>
                                 <td>Transaction Costs for Borrowing</td>
-                                <td class="text-center p-0" data-name="financing_details-transaction_costs_for_borrowing_c_q">
+                                <td class="text-center p-0"
+                                    data-name="financing_details-transaction_costs_for_borrowing_c_q">
                                     {{ $reportData['financing_details'][0]['transaction_costs_for_borrowing_c_q'] ?? '-' }}
                                 </td>
-                                <td class="text-center p-0" data-name="financing_details-transaction_costs_for_borrowing_y_t_d">
+                                <td class="text-center p-0"
+                                    data-name="financing_details-transaction_costs_for_borrowing_y_t_d">
                                     {{ $reportData['financing_details'][0]['transaction_costs_for_borrowing_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
@@ -413,7 +421,7 @@
                                 <td class="text-center p-0" data-name="financing_details-net_cash_from_financing_y_t_d">
                                     {{ $reportData['financing_details'][0]['net_cash_from_financing_y_t_d'] ?? '-' }}</td>
                             </tr>
-                            
+
 
 
 
@@ -477,7 +485,7 @@
                                     {{ $reportData['cash_details'][0]['end_cash_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
-                            
+
 
 
 
@@ -528,14 +536,16 @@
                             </tr>
                             <tr>
                                 <td>Cash Equivalents at End of Period</td>
-                                <td class="text-center p-0" data-name="reconciliation_details-cash_equivalents_end_period_c_q">
+                                <td class="text-center p-0"
+                                    data-name="reconciliation_details-cash_equivalents_end_period_c_q">
                                     {{ $reportData['reconciliation_details'][0]['cash_equivalents_end_period_c_q'] ?? '-' }}
                                 </td>
-                                <td class="text-center p-0" data-name="reconciliation_details-cash_equivalents_end_period_y_t_d">
+                                <td class="text-center p-0"
+                                    data-name="reconciliation_details-cash_equivalents_end_period_y_t_d">
                                     {{ $reportData['reconciliation_details'][0]['cash_equivalents_end_period_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
-                            
+
 
 
 
@@ -560,7 +570,7 @@
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
-                            
+
 
                             <tr>
                                 <td class="table-warning text-center fs-15" colspan="3">Financing and Credit Facilities
@@ -608,11 +618,12 @@
                             <tr>
                                 <td>Unused Financing Facilities</td>
                                 <td class="text-center">-</td>
-                                <td class="text-center p-0" data-name="financing_facilities-unused_financing_facilities_y_t_d">
+                                <td class="text-center p-0"
+                                    data-name="financing_facilities-unused_financing_facilities_y_t_d">
                                     {{ $reportData['financing_facilities'][0]['unused_financing_facilities_y_t_d'] ?? '-' }}
                                 </td>
                             </tr>
-                            
+
 
 
                             <tr>
@@ -623,54 +634,61 @@
 
                             <tr>
                                 <td>Net Cash from Operating Activities</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-net_cash_operating_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-net_cash_operating_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['net_cash_operating_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
                             <tr>
                                 <td>Future Payments for Exploration and Evaluation</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-future_payments_for_exploration_evaluation_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-future_payments_for_exploration_evaluation_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['future_payments_for_exploration_evaluation_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
                             <tr>
                                 <td>Total Relevant Payments</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-total_relevant_payments_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-total_relevant_payments_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['total_relevant_payments_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
                             <tr>
                                 <td>Future Cash Equivalents (End of Period)</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-future_cash_equivalents_end_period_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-future_cash_equivalents_end_period_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['future_cash_equivalents_end_period_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
                             <tr>
                                 <td>Unused Financing Facilities (End of Period)</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-unused_financing_facilities_end_period_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-unused_financing_facilities_end_period_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['unused_financing_facilities_end_period_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
                             <tr>
                                 <td>Total Available Funding</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-total_available_funding_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-total_available_funding_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['total_available_funding_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
                             <tr>
                                 <td>Estimated Quarterly Funding</td>
-                                <td class="text-center p-0" data-name="estimated_cash_availabilities-estimated_quarterly_funding_c_q">
+                                <td class="text-center p-0"
+                                    data-name="estimated_cash_availabilities-estimated_quarterly_funding_c_q">
                                     {{ $reportData['estimated_cash_availabilities'][0]['estimated_quarterly_funding_c_q'] ?? '-' }}
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
-                            
+
 
 
                         </tbody>
@@ -810,7 +828,9 @@
             if (this.querySelector("input")) {
                 return;
             }
-            this.innerHTML = "<input class='form-control-sm m-0 text-center border-0' style='max-width:100px;' type='text' value='" + getvalue(this.innerHTML) + "' />";
+            this.innerHTML =
+                "<input class='form-control-sm m-0 text-center border-0' style='max-width:100px;' type='text' value='" +
+                getvalue(this.innerHTML) + "' />";
 
             var oldVallue;
 
@@ -823,14 +843,27 @@
             input.select();
             input.focus();
             input.onblur = function() {
-                valueCheck(this);
-                this.parentNode.innerHTML = this.value;
+                if (is_enter) {
+                    return;
+                }
+                if (valueCheck(this)) {
+                    this.parentNode.innerHTML = this.value;
+                } else {
+                    this.parentNode.innerHTML = oldVallue;
+                }
+
             }
 
+            var is_enter = false;
             // if enter button press 
             input.onkeydown = function(e) {
                 if (e.keyCode == 13) {
-                    valueCheck(this);
+                    is_enter = true;
+                    if (valueCheck(this)) {
+                        this.parentNode.innerHTML = this.value;
+                    } else {
+                        this.parentNode.innerHTML = oldVallue;
+                    }
                 }
             };
 
@@ -843,11 +876,15 @@
                 if (/^-?\d*(\.\d+)?$|^-$/.test(inputTag.value)) {
                     updateJson(inputTag.parentNode.getAttribute('data-name'), inputTag.value);
                     inputTag.blur();
+                    is_enter = false;
+                    return true;
                 } else {
                     inputTag.value = oldVallue;
                     inputTag.blur();
+                    is_enter = false;
+                    return false;
                 }
-            }   
+            }
 
 
 
@@ -875,8 +912,8 @@
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
-                    console.log(this.responseText);
-                    
+                    // console.log(this.responseText);
+
                     Swal.fire({
                         position: 'center',
                         icon: 'success',

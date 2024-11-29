@@ -195,7 +195,7 @@
                             <div class="border border-dashed"></div>
 
                             <div class="py-3">
-                                <h5 class="mb-1"><a href="javascript:void(0);">Skote - Admin & Dashboard Template
+                                <h5 class="mb-1"><a href="javascript:void(0);">Skote - Report Analysis Dashboard
                                         by Bitrate</a></h5>
                                 <p class="text-success mb-2">https://Bitrate.com/skote/</p>
                                 <p class="text-muted mb-2">Skote is an admin dashboard template that is a beautifully

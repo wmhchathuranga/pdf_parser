@@ -71,7 +71,7 @@
                     <div class="text-center mt-lg-5 pt-5">
                         <h1 class="display-6 fw-semibold mb-3 lh-base">The better way to manage your website with <span
                                 class="text-success">bitrate </span></h1>
-                        <p class="lead text-muted lh-base">bitrate is a fully responsive, multipurpose and premium Bootstrap 5 Admin & Dashboard Template built in multiple frameworks.</p>
+                        <p class="lead text-muted lh-base">bitrate is a fully responsive, multipurpose and premium Bootstrap 5 Report Analysis Dashboard built in multiple frameworks.</p>
 
                         <div class="d-flex gap-2 justify-content-center mt-4">
                             <a href="auth-signup-basic" class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
@@ -1663,7 +1663,7 @@
                             <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="logo light" height="17">
                         </div>
                         <div class= mt-4 fs-13">
-                            <p>Premium Multipurpose Admin & Dashboard Template</p>
+                            <p>Premium Multipurpose Report Analysis Dashboard</p>
                             <p class="ff-secondary">You can build any type of web application like eCommerce, CRM, CMS, Project
                                 management apps, Admin Panels, etc using bitrate.</p>
                         </div>

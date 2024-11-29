@@ -48,21 +48,6 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script>
-        refreshTableJs();
-        //buttons examples
-        function refreshTableJs() {
-            // setTimeout(() => {
-            //     new DataTable('#all-reports-table', {
-            //         dom: 'Bfrtip',
-            //         order: [
-            //             [2, 'desc']
-            //         ],
-            //         pageLength: 12,
-            //     });
-            // }, 2000);
-        }
-    </script>
 
     <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
     <script

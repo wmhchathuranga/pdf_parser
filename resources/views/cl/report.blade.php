@@ -29,7 +29,7 @@
                         <tr>
                             <th>ABN</th>
                             <th>Quarter Ending</th>
-                            <th>Quarter Ending</th>
+                            <th>Company Name</th>
                         </tr>
                     </thead>
                     <tbody>
