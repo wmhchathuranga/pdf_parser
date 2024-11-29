@@ -344,18 +344,15 @@
                 return;
             }
             this.innerHTML =
-                "<input class='form-control-sm m-0 text-center border-0' style='max-width:100px;' type='text' value='" +
+                "<input class='form-control-sm m-0 text-center border-0' style='max-width:280px;' type='text' value='" +
                 getvalue(this.innerHTML) + "' />";
 
             var oldVallue;
 
             function getvalue(value) {
-                // oldVallue = value;
-                var escapedValue = value.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&/g, '&amp;');
-                oldVallue = escapedValue;
+                oldVallue = value;
                 // remove unnecessary spaces
-                // return value.replace(/\s+/g, '');
-                return value;
+                return value.replace(/\s+/g, '');
             }
             var input = this.querySelector("input");
             input.select();
@@ -365,9 +362,9 @@
                     return;
                 }
                 if (valueCheck(this)) {
-                    this.parentNode.innerHTML = this.value;
+                    this.parentNode.innerHTML = htmlspecialchars(this.value);
                 } else {
-                    this.parentNode.innerHTML = oldVallue;
+                    this.parentNode.innerHTML = htmlspecialchars(oldVallue);
                 }
             }
             var is_enter = false;
@@ -376,9 +373,9 @@
                 if (e.keyCode == 13) {
                     is_enter = true;
                     if (valueCheck(this)) {
-                        this.parentNode.innerHTML = this.value;
+                        this.parentNode.innerHTML = htmlspecialchars(this.value);
                     } else {
-                        this.parentNode.innerHTML = oldVallue;
+                        this.parentNode.innerHTML = htmlspecialchars(oldVallue);
                     }
                 }
             };
@@ -466,6 +463,16 @@
                     });
                 }
             };
+        }
+
+        function htmlspecialchars(string) {
+            if (typeof string !== "string") return string; // Ensure the input is a string
+            return string
+                .replace(/&/g, "&amp;") // Escape '&' first to prevent double-escaping
+                .replace(/</g, "&lt;") // Escape '<'
+                .replace(/>/g, "&gt;") // Escape '>'
+                .replace(/"/g, "&quot;") // Escape '"'
+                .replace(/'/g, "&#039;"); // Escape single quotes
         }
     </script>
 
