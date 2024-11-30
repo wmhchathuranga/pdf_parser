@@ -102,24 +102,42 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('client.appendix-5b-upload')); ?>">
+                        <a class="nav-link menu-link" href="#appendix-5b" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">
                             <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 5B</span>
                         </a>
+                        <div class="collapse menu-dropdown" id="appendix-5b">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<?php echo e(route('client.appendix-5b-upload')); ?>" class="nav-link">All Reports</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?php echo e(route('client.comparison-table')); ?>" class="nav-link">Comparison Table</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('client.appendix-3x-upload')); ?>">
+                        <a class="nav-link menu-link" href="#appendix-3x" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">
                             <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 3X</span>
                         </a>
+                        <div class="collapse menu-dropdown" id="appendix-3x">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<?php echo e(route('client.appendix-3x-upload')); ?>" class="nav-link">All Reports</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?php echo e(route('client.comparison-table-3x')); ?>" class="nav-link">Comparison Table</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
 
                     
                     
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="<?php echo e(route('client.comparison-table')); ?>">
-                            <i class="mdi mdi-table"></i> <span>Comparison Table</span>
-                        </a>
-                    </li>
+                    
 
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#analytics-charts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">

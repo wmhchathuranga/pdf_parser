@@ -92,12 +92,14 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
         Route::get('appendix-3x-upload', function () {
             return view('cl.appendix-3x-upload');
         })->name('appendix-3x-upload');
-        Route::get('all-reports', function () {
-            return view('cl.all-reports');
-        })->name('all-reports');
+        
         Route::get('comparison-table', function () {
             return view('cl.comparison-table');
         })->name('comparison-table');
+
+        Route::get('comparison-table-3x', function () {
+            return view('cl.comparison-table-3x');
+        })->name('comparison-table-3x');
     
         Route::get('single-pdf-chart', function () {
             $companies = [];
