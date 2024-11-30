@@ -12,7 +12,7 @@ class Appendix3X extends Model
     protected $fillable = [
         'document_number',
         'document_title',
-        'name_of_entity',
+        'company_name',
         'stock_code',
         'abn',
         'name_of_director',

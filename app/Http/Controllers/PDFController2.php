@@ -36,7 +36,7 @@ class PDFController2 extends Controller
         if ($return_var !== 0) {
             return response()->json(["Failed to extract data from PDF"], 500);
         }
-
+        $extracted_table_count = 0;
 
         try {
             $text = file_get_contents($textFilePath);
@@ -74,16 +74,22 @@ class PDFController2 extends Controller
             if ($date_of_appointment == "" || $date_of_appointment == "Date of appointment")
                 $date_of_appointment = $page_1[5];
             // dd($relativePath);
+            // check if already exists
+            $appendix3X = Appendix3X::where('abn', str_replace(' ', '', $abn))->where('name_of_director', $name_of_director)->where('date_of_appointment', Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'))->wherenull('deleted_at')->first();
+            if ($appendix3X) {
+                return response()->json(["Appendix3X already exists with the same ABN, Name of Director and Date of Appointment"], 500);
+            }
             $appendix3X = Appendix3X::create([
                 'document_number' => $document_number,
                 'document_title' => $document_title,
-                'name_of_entity' => $name_of_entity,
+                'company_name' => $name_of_entity,
                 'stock_code' => $stock_code,
                 'abn' => str_replace(' ', '', $abn),
                 'name_of_director' => $name_of_director,
                 'date_of_appointment' => Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'),
                 'pdf_path' => $relativePath
             ]);
+            $extracted_table_count++;
         } catch (\Exception $e) {
             dd($e);
             return response()->json(["Failed to extract data from PDF"], 500);
@@ -123,7 +129,7 @@ class PDFController2 extends Controller
             for ($i = 0; $i < count($part_1); $i++) {
                 Part1::create([
                     'appendix3_x_id' => $appendix3X->id,
-                    'number_class_of_securities' => null,
+                    'number_class_of_securities' => "nil",
                 ]);
             }
         }
@@ -259,14 +265,21 @@ class PDFController2 extends Controller
                     'number_class_of_securities' => $part_2_right_records[$i],
                 ]);
             }
-        } catch (Exception $e) {
-            for ($i = 0; $i < count($part_2_left_records); $i++) {
+            if(count($part_2_left_records) == 0){
                 Part2::create([
                     'appendix3_x_id' => $appendix3X->id,
-                    'name_of_holder_nature_of_interest' => null,
-                    'number_class_of_securities' => null,
+                    'name_of_holder_nature_of_interest' => "nil",
+                    'number_class_of_securities' => "nil",
                 ]);
             }
+            $extracted_table_count++;
+        } catch (Exception $e) {
+
+            Part2::create([
+                'appendix3_x_id' => $appendix3X->id,
+                'name_of_holder_nature_of_interest' => "nil",
+                'number_class_of_securities' => "nil",
+            ]);
         }
 
         // dd($part_2_left_records, $part_2_right_records);
@@ -350,14 +363,21 @@ class PDFController2 extends Controller
                 'name_of_registered_holder' => $name_of_registered_holder,
                 'no_and_class_of_securities_to_which_interest_relates' => $interest_relates,
             ]);
+            $extracted_table_count++;
         } catch (\Throwable $th) {
             $part3 = Part3::create([
                 'appendix3_x_id' => $appendix3X->id,
-                'detail_of_contract' => null,
-                'nature_of_interest' => null,
-                'name_of_registered_holder' => null,
-                'no_and_class_of_securities_to_which_interest_relates' => null,
+                'detail_of_contract' => "nil",
+                'nature_of_interest' => "nil",
+                'name_of_registered_holder' => "nil",
+                'no_and_class_of_securities_to_which_interest_relates' => "nil",
             ]);
+        }
+        if ($extracted_table_count == 3) {
+            Appendix3X::where('id', $appendix3X->id)->update(['is_upload_completed' => true]);
+        } else {
+
+            return response()->json(["Scrapping Failed"], 500);
         }
         return response()->json(['success'], 200);
     }

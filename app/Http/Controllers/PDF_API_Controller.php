@@ -23,9 +23,9 @@ class PDF_API_Controller extends Controller
         return response()->json($reports);
     }
 
-    public function showReports3x($abn)
+    public function showReports3x()
     {
-        $reports = Appendix3X::where('abn', $abn)->whereNull('deleted_at')->get();
+        $reports = Appendix3X::whereNull('deleted_at')->get();
         foreach ($reports as $report) {
             $report->load(['part1s', 'part2s', 'part3s']);
         }
@@ -176,7 +176,7 @@ class PDF_API_Controller extends Controller
     public function showCompanies3x()
     {
         // exclude deleted companies
-        $companies = Appendix3X::selectRaw('MIN(id) as id, MAX(company_name) as company_name, abn')
+        $companies = Appendix3X::selectRaw('MIN(id) as id,MAX(name_of_director) as name_of_director,MAX(company_name) as company_name, abn')
             ->groupBy('abn')->whereNull('deleted_at')
             ->get();
 

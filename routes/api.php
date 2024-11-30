@@ -15,7 +15,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // get unique companies
     Route::get('/companies/5b', [PDF_API_Controller::class, 'showCompanies'])->name('companies');
-    Route::get('/companies/3x', [PDF_API_Controller::class, 'showCompanies'])->name('directors');
+    Route::get('/companies/3x', [PDF_API_Controller::class, 'showCompanies3x'])->name('directors');
 
     // Appendix 5B
     Route::post('/upload-pdf/5b', [PDFController::class, 'upload'])->name('upload-pdf-5b');
@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/report_5b/delete/{id}', [PDF_API_Controller::class, 'deleteReport'])->name('report')->where('id', '[0-9]+');
 
     // Appendix 3X
-    Route::get('/reports_3x/{abn}', [PDF_API_Controller::class, 'showReports3x'])->name('reports')->where('abn', '[0-9]+');
+    Route::get('/reports_3x', [PDF_API_Controller::class, 'showReports3x'])->name('reports')->where('abn', '[0-9]+');
     Route::get('/report_3x/{id}', [PDF_API_Controller::class, 'showReport3x'])->name('report')->where('id', '[0-9]+');
     Route::POST('/report_3x', [PDF_API_Controller::class, 'updateReport3x'])->name('report-update');
     Route::get('/report_3x/delete/{id}', [PDF_API_Controller::class, 'deleteReport3x'])->name('report')->where('id', '[0-9]+');
