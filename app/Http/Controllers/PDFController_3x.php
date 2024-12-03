@@ -16,7 +16,7 @@ class PDFController_3x extends Controller
             // dd($response->json());
             return view('cl.single-report-3x', ['reportData' => $response->json()]);
         }else{
-            return view('cl.all-reports', ['message' => 'No Report Found']);
+            return view('cl.appendix-3x-upload', ['message' => 'No Report Found']);
         }
     }
 
@@ -39,7 +39,7 @@ class PDFController_3x extends Controller
             'Content-Type' => 'application/json',
         ])->post( env('API_URL').'/api/report_3x', ['data' => $request->all()]);
 
-        // dd($response->status());
+        dd($response);
         if($response->status() == 200){
             return response()->json($response->json());
         }else{

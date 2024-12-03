@@ -24,7 +24,7 @@
 
     <div class="row justify-content-center">
         <div class="card col-auto">
-            <h2 class="text-center mt-3 mb-0">Appendix 3X</h2>
+            <h2 class="text-center mt-3 mb-0">Appendix 3Y</h2>
             <div class="card-body">
                 <table class="table table-bordered dt-responsive nowrap align-middle mdl-data-table">
                     <thead>
@@ -37,10 +37,14 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ $reportData['abn'] }}</td>
+                            {{-- <td>{{ $reportData['abn'] }}</td>
                             <td class="text-center">{{ $reportData['company_name'] }}</td>
                             <td class="text-center">{{ $reportData['name_of_director'] }}</td>
-                            <td class="text-center">{{ $reportData['date_of_appointment'] }}</td>
+                            <td class="text-center">{{ $reportData['date_of_appointment'] }}</td> --}}
+                            <td>75 633 936 536</td>
+                            <td class="text-center">Australian Gold and Copper Ltd (ASX:AGC)</td>
+                            <td class="text-center">Zhang Yong</td>
+                            <td class="text-center">2 January 2024</td>
                         </tr>
                     </tbody>
                 </table>
@@ -89,7 +93,9 @@
                             << </button>
                                 <button class="btn btn-primary btn-sm" id="next-page"> >> </button>
                     </div>
-                    <canvas class="form-control" path="{{ env('API_URL') }}/{{ $reportData['pdf_path'] }}"
+                    {{-- <canvas class="form-control" path="{{ env('API_URL') }}/{{ $reportData['pdf_path'] }}" id="pdf-canvas"></canvas> --}}
+                    <canvas class="form-control"
+                        path="https://s203.q4cdn.com/353037891/files/doc_downloads/regulatory-filings-share-buybacks-and-related-documents/2019/09/193205d3-70eb-9098-5763-d3393f4dc50e.pdf"
                         id="pdf-canvas"></canvas>
                 </div>
             </div>
@@ -100,9 +106,7 @@
             {{-- Part 1 --}}
             <div class="card">
                 <div class="card-header">
-                    <p class="fs-14 mb-0 text-muted fw-light">Director’s relevant interests in securities of which the
-                        director is the
-                        registered holder</p>
+                    <p class="fs-14 mb-0 text-muted fw-light">Change of director’s relevant interests in securities</p>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -110,9 +114,56 @@
                             data-editable="true">
                             <tbody>
                                 <tr class="d-flex">
-                                    <th class="col-6 text-center">Number & class of securities</th>
-                                    <td class="col-6 text-center" data-name="part1s-0-number_class_of_securities">
-                                        {{ in_array(strtolower($reportData['part1s'][0]['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part1s'][0]['number_class_of_securities'] }}
+                                    <th class="col-6 text-center">Direct or indirect interest </th>
+                                    {{-- <td class="col-6 text-center">
+                                        {{ in_array(strtolower($reportData['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part3s'][0]['detail_of_contract'] }}
+                                    </td> --}}
+                                    <td class="col-6 text-center" data-name="aa">Indirect</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Nature of indirect interest (including registered holder)
+                                    </th>
+                                    <td class="col-6 text-center" data-name="aa">
+                                        GeoZen Resources Group Co., Limited (formerly Delin Mining Group Cooperation
+                                        Limited)
+                                        <br><br>
+                                        (Director and beneficiary)
+                                    </td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Date of change</th>
+                                    <td class="col-6 text-center" data-name="aa">6 August 2024</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">No. of securities held prior to change</th>
+                                    <td class="col-6 text-center" data-name="aa">122,222,222 Fully Paid Ordinary Shares</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Class</th>
+                                    <td class="col-6 text-center" data-name="aa">Fully Paid Ordinary Shares</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Number acquired </th>
+                                    <td class="col-6 text-center" data-name="aa">18,906,250</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Number disposed</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Value/Consideration</th>
+                                    <td class="col-6 text-center" data-name="aa">$6,050,000</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">No. of securities held after change</th>
+                                    <td class="col-6 text-center" data-name="aa">141,128,472 Fully Paid Ordinary Shares</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Nature of change</th>
+                                    <td class="col-6 text-center" data-name="aa">
+                                        Share Placement
+                                        <br><br>
+                                        (approved at EGM held 12 July 2024)
                                     </td>
                                 </tr>
                             </tbody>
@@ -124,43 +175,53 @@
             {{-- Part 2 --}}
             <div class="card">
                 <div class="card-header">
-                    <p class="fs-14 mb-0 text-muted fw-light">Director’s relevant interests in securities of which the
-                        director is not
-                        the registered holder</p>
+                    <p class="fs-14 mb-0 text-muted fw-light">Change of director’s interests in contracts</p>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover table-bordered dt-responsive nowrap align-middle mdl-data-table">
-                            <thead>
-                                <tr>
-                                    <th width="50%" class="text-center">Holder & nature of interest</th>
-                                    <th width="50%" class="text-center">Number & class of Securities</th>
-                                </tr>
-                            </thead>
+                        <table class="table table-hover table-bordered dt-responsive nowrap align-middle mdl-data-table"
+                            data-editable="true">
                             <tbody>
-                                @for ($i = 0; $i < count($reportData['part2s']); $i++)
-                                    <tr>
-                                        <td class="text-center"
-                                            data-name="part2s-{{ $i }}-name_of_holder_nature_of_interest">
-                                            {{ in_array(strtolower($reportData['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part2s'][$i]['name_of_holder_nature_of_interest'] }}
-                                        </td>
-                                        <td class="text-center"
-                                            data-name="part2s-{{ $i }}-number_class_of_securities">
-                                            {{ in_array(strtolower($reportData['part2s'][$i]['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part2s'][$i]['number_class_of_securities'] }}
-                                        </td>
-                                    </tr>
-                                @endfor
-
-                                {{-- @foreach ($reportData['part2s'] as $tr)
-                                    <tr>
-                                        <td class="text-center" data-name="part2s-name_of_holder_nature_of_interest">
-                                            {{ in_array(strtolower($tr['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $tr['name_of_holder_nature_of_interest'] }}
-                                        </td>
-                                        <td class="text-center" data-name="part2s-number_class_of_securities">
-                                            {{ in_array(strtolower($tr['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $tr['number_class_of_securities'] }}
-                                        </td>
-                                    </tr>
-                                @endforeach --}}
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Detail of contract</th>
+                                    {{-- <td class="col-6 text-center">
+                                        {{ in_array(strtolower($reportData['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part3s'][0]['detail_of_contract'] }}
+                                    </td> --}}
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Nature of interest</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Name of registered holder (if issued securities)</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Date of change</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">No. and class of securities to which interest related
+                                        prior to change</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Interest acquired</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Interest disposed</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Value/Consideration</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <th class="col-6 text-center">Interest after change</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -170,7 +231,7 @@
             {{-- Part 3 --}}
             <div class="card">
                 <div class="card-header">
-                    <p class="fs-14 mb-0 text-muted fw-light">Director’s interests in contracts</p>
+                    <p class="fs-14 mb-0 text-muted fw-light">+Closed period</p>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -178,29 +239,26 @@
                             data-editable="true">
                             <tbody>
                                 <tr class="d-flex">
-                                    <th class="col-6 text-center">Detail of contract</th>
-                                    <td class="col-6 text-center" data-name="part3s-0-detail_of_contract">
+                                    <th class="col-6 text-center">Were the interests in the securities or contracts
+                                        detailed
+                                        above traded during a +closed period where prior written
+                                        clearance was required?</th>
+                                    {{-- <td class="col-6 text-center">
                                         {{ in_array(strtolower($reportData['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part3s'][0]['detail_of_contract'] }}
-                                    </td>
+                                    </td> --}}
+                                    <td class="col-6 text-center" data-name="aa">No</td>
                                 </tr>
                                 <tr class="d-flex">
-                                    <th class="col-6 text-center">Nature of interest</th>
-                                    <td class="col-6 text-center" data-name="part3s-0-nature_of_interest">
-                                        {{ in_array(strtolower($reportData['part3s'][0]['nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part3s'][0]['nature_of_interest'] }}
-                                    </td>
+                                    <th class="col-6 text-center">If so, was prior written clearance provided to allow the
+                                        trade
+                                        to proceed during this period?</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
                                 </tr>
                                 <tr class="d-flex">
-                                    <th class="col-6 text-center">Name of registered holder (if issued securities)</th>
-                                    <td class="col-6 text-center" data-name="part3s-0-name_of_registered_holder">
-                                        {{ in_array(strtolower($reportData['part3s'][0]['name_of_registered_holder']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part3s'][0]['name_of_registered_holder'] }}
-                                    </td>
-                                </tr>
-                                <tr class="d-flex">
-                                    <th class="col-6 text-center">No. and class of securities to which interest relates</th>
-                                    <td class="col-6 text-center"
-                                        data-name="part3s-0-no_and_class_of_securities_to_which_interest_relates">
-                                        {{ in_array(strtolower($reportData['part3s'][0]['no_and_class_of_securities_to_which_interest_relates']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part3s'][0]['no_and_class_of_securities_to_which_interest_relates'] }}
-                                    </td>
+                                    <th class="col-6 text-center">If prior written clearance was provided, on what date was
+                                        this
+                                        provided?</th>
+                                    <td class="col-6 text-center" data-name="aa">-</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -326,6 +384,10 @@
         document.getElementById('next-page').addEventListener('click', onNextPage);
     </script>
 
+
+    {{-- uncomment here --}}
+    {{-- let reportData = @json($reportData);
+        console.log(reportData); --}}
     <script>
         var tds = document.getElementsByTagName("td");
         for (var i = 0; i < tds.length; i++) {
@@ -334,8 +396,7 @@
             }
         }
 
-        let reportData = @json($reportData);
-        console.log(reportData);
+
 
 
         function editCellValue() {
@@ -433,34 +494,47 @@
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
                     console.log(this.responseText);
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Report has been saved',
-                        showConfirmButton: false,
-                        timer: 2500,
-                        showCloseButton: true
-                    });
+                    if (this.responseText == "sucess") {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Report has been saved',
+                            showConfirmButton: false,
+                            timer: 2500,
+                            showCloseButton: true
+                        });
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Something went wrong',
+                            showConfirmButton: false,
+                            timer: 2500,
+                            showCloseButton: true
+                        });
+                    }
+                } else {
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: 'Something went wrong',
+                        title: 'Network Error',
                         showConfirmButton: false,
                         timer: 2500,
                         showCloseButton: true
                     });
-                };
-            }
+                }
+            };
+        }
 
-            function htmlspecialchars(string) {
-                if (typeof string !== "string") return string; // Ensure the input is a string
-                return string
-                    .replace(/&/g, "&amp;") // Escape '&' first to prevent double-escaping
-                    .replace(/</g, "&lt;") // Escape '<'
-                    .replace(/>/g, "&gt;") // Escape '>'
-                    .replace(/"/g, "&quot;") // Escape '"'
-                    .replace(/'/g, "&#039;"); // Escape single quotes
-            }
+        function htmlspecialchars(string) {
+            if (typeof string !== "string") return string; // Ensure the input is a string
+            return string
+                .replace(/&/g, "&amp;") // Escape '&' first to prevent double-escaping
+                .replace(/</g, "&lt;") // Escape '<'
+                .replace(/>/g, "&gt;") // Escape '>'
+                .replace(/"/g, "&quot;") // Escape '"'
+                .replace(/'/g, "&#039;"); // Escape single quotes
+        }
     </script>
 
     <script src="{{ URL::asset('build/js/app.js') }}"></script>

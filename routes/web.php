@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PDFController_3x;
+use App\Http\Controllers\PDFController_3y;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -75,13 +76,21 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
     Route::get('/', [App\Http\Controllers\Client\HomeController::class, 'index'])->name('all-reports');
     Route::post('/upload-pdf', [PDFController::class, 'uploadAndForward'])->name('upload-pdf');
 
+    // 5B 
     Route::get('/report_edit/{id}', [ReportController::class, 'editReport'])->name('report-edit');
     Route::get('/report_5b/{id}', [ReportController::class, 'showReport'])->name('single-report');
     Route::post('/save-report', [ReportController::class, 'saveReport'])->name('save-report');
 
+    // 3X 
     Route::get('/report_3x/{id}', [PDFController_3x::class, 'showReport3x'])->name('single-report-3x');
     Route::get('/report_edit_3x/{id}', [PDFController_3x::class, 'editReport3x'])->name('report-edit-3x');
     Route::post('/save-report-3x', [PDFController_3x::class, 'saveReport3x'])->name('save-report-3x');
+
+    // 3Y 
+    Route::get('/report_3y/{id}', [PDFController_3y::class, 'showReport3y'])->name('single-report-3y');
+    Route::get('/report_edit_3y/{id}', [PDFController_3y::class, 'editReport3y'])->name('report-edit-3y');
+    Route::post('/save-report-3y', [PDFController_3y::class, 'saveReport3y'])->name('save-report-3y');
+
 
     Route::post('/single-pdf-chart-analyse', [ChartController::class, 'analyseChart'])->name('analyse-chart');
 
@@ -89,9 +98,14 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
         Route::get('appendix-5b-upload', function () {
             return view('cl.appendix-5b-upload');
         })->name('appendix-5b-upload');
+        
         Route::get('appendix-3x-upload', function () {
             return view('cl.appendix-3x-upload');
         })->name('appendix-3x-upload');
+
+        Route::get('appendix-3y-upload', function () {
+            return view('cl.appendix-3y-upload');
+        })->name('appendix-3y-upload');
         
         Route::get('comparison-table', function () {
             return view('cl.comparison-table');

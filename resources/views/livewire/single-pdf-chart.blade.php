@@ -277,6 +277,8 @@
 
         document.getElementById('btn_analyze').addEventListener('click', function() {
             setTimeout(() => {
+                // console.log(@this.chartData);
+                
                 drawChart(@this.chartData);
             }, 2000);
         });
@@ -389,6 +391,8 @@
                         name: key.replace(/_/g, ' '), // Replace underscores with spaces for readability
                         data: chartData[key].map(Number)
                     });
+                    console.log(series);
+                    
                 }
             }
             options.series = series;

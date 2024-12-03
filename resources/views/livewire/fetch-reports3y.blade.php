@@ -13,18 +13,6 @@
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
-                        {{-- <div class="col-3 col-lg-4 pe-3">
-                            <select onchange="refreshTableJs()" class="form-control my-auto" wire:change="changeCompany($event.target.value)">
-                                <option value="" disabled>Search by ABN</option>
-                                @if ($companies != null)
-                                    @foreach ($companies as $company)
-                                        <option value="{{ $company['abn'] }}"
-                                            {{ $selectedCompany == $company['abn'] ? 'selected' : '' }}>
-                                            {{ $company['company_name'] }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div> --}}
                         <div class="col-auto">
                             <select onchange="refreshTableJs()" class="form-select my-auto"
                                 wire:change="changeStatus($event.target.value)">
@@ -61,8 +49,6 @@
                                     @if ($selectedStatus == 'all' || $selectedStatus == $report['is_upload_completed'])
                                         <tr>
                                             <td>{{ $report['abn'] }}</td>
-                                            {{-- <td class="{{ $report['is_abn_verified'] ? '' : 'text-danger' }}">{{ $report['abn'] }}</td> --}}
-                                            
                                             <td>{{ $report['company_name'] }}</td>
                                             <td class="text-center">{{ $report['name_of_director'] }}</td>
                                             <td class="text-center">{{ $report['date_of_appointment'] }}</td>
@@ -77,7 +63,7 @@
 
                                             <td class="text-center">
                                                 <a target="_blank"
-                                                    href="{{ route('client.single-report-3x', $report['id']) }}"
+                                                    href="{{ route('client.single-report-3y', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-success"><i
                                                         class="ri-eye-fill align-bottom"></i></a>
                                                 <a target="_blank" 

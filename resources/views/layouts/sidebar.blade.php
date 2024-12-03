@@ -1288,6 +1288,23 @@
                         </div>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#appendix-3y" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">
+                            <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 3Y</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="appendix-3y">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('client.appendix-3y-upload') }}" class="nav-link">All Reports</a>
+                                </li>
+
+                                {{-- <li class="nav-item">
+                                    <a href="{{ route('client.comparison-table-3y') }}" class="nav-link">Comparison Table</a>
+                                </li> --}}
+                            </ul>
+                        </div>
+                    </li>
+
                     {{-- <li class="nav-item">
                         <a class="nav-link menu-link" href="{{ route('client.all-reports') }}">
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>

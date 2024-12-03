@@ -51,7 +51,7 @@
                         <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th colspan="4" class="bg-white" style="left: 0px; position: sticky;"></th>
+                                    <th colspan="4" class="bg-white" style="left: 0px; position: sticky; border-right:solid 2px #380092;"></th>
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
                                         <th colspan="26" class="text-center table-dark text-white">Cash Flows from Operating
                                             Activities</th>
@@ -87,7 +87,7 @@
                                     <th rowspan="2">Action</th>
                                     <th rowspan="2">Quarter Ending</th>
                                     <th rowspan="2">Name of Entity</th>
-                                    <th rowspan="2" class="">ABN</th>
+                                    <th rowspan="2" style="border-right:solid 2px #380092;">ABN</th>
 
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
                                         <th colspan="2">Receipts from Customers</th>
@@ -338,7 +338,7 @@
                                                     class="btn btn-sm btn-secondary">view</a></td>
                                             <td>{{ $report['quarter_ending'] }}</td>
                                             <td>{{ $report['company_name'] }}</td>
-                                            <td>{{ $report['abn'] }}</td>
+                                            <td style="border-right:solid 2px #380092;">{{ $report['abn'] }}</td>
 
                                             {{-- Operating Details Columns --}}
                                             @if ($tableTopic == 'all' || $tableTopic == '0')
