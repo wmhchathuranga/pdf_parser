@@ -1099,10 +1099,10 @@
 
                     Swal.fire({
                         position: 'center',
-                        icon: 'info',
-                        title: this.responseText,
+                        icon: 'success',
+                        title: 'Saved',
                         showConfirmButton: false,
-                        timer: 4500,
+                        timer: 3000,
                         showCloseButton: true
                     });
                     // has_edit = false;
@@ -1113,13 +1113,13 @@
                         icon: 'error',
                         title: 'Something went wrong',
                         showConfirmButton: false,
-                        timer: 4500,
+                        timer: 3000,
                         showCloseButton: true
                     });
                 }
-                // setTimeout(() => {
-                //     window.location.reload();
-                // }, 4700);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             };
         }
     </script>
