@@ -95,30 +95,35 @@
                                     <th colspan="4" class="bg-white"
                                         style="left: 0px; position: sticky; border-right:solid 2px #380092;"></th>
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
-                                        <th colspan="28" class="text-center align-middle table-dark text-white">1 -
+                                        <th colspan="{{ $timeType == '0' ? '28' : '14' }}"
+                                            class="text-center align-middle table-dark text-white">1 -
                                             Cash Flows from
                                             Operating
                                             Activities</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
-                                        <th colspan="32" class="text-center align-middle table-dark text-white">2 -
+                                        <th colspan="{{ $timeType == '0' ? '32' : '16' }}"
+                                            class="text-center align-middle table-dark text-white">2 -
                                             Cash Flows from
                                             Investing
                                             Activities</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
-                                        <th colspan="22" class="text-center align-middle table-dark text-white">3 -
+                                        <th colspan="{{ $timeType == '0' ? '22' : '11' }}"
+                                            class="text-center align-middle table-dark text-white">3 -
                                             Cash Flows from
                                             Financing
                                             Activities</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
-                                        <th colspan="14" class="text-center align-middle table-dark text-white">4 -
+                                        <th colspan="{{ $timeType == '0' ? '14' : '7' }}"
+                                            class="text-center align-middle table-dark text-white">4 -
                                             Cash Flow
                                             Summary</th>
                                     @endif
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
-                                        <th colspan="12" class="text-center align-middle table-dark text-white">5 -
+                                        <th colspan="{{ $timeType == '0' ? '12' : '6' }}"
+                                            class="text-center align-middle table-dark text-white">5 -
                                             Reconciliation
                                             of Cash and Cash
                                             Equivalents</th>
@@ -148,101 +153,155 @@
                                     <th rowspan="2" style="border-right:solid 2px #380092;">ABN</th>
 
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
-                                        <th class="text-center align-middle" colspan="2">Receipts from Customers</th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Exploration &
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Receipts from Customers</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Exploration &
                                             Evaluation
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Development
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Development
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Production</th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Staff Costs
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Production</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Staff Costs
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Admin Costs
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Admin Costs
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Dividends Received</th>
-                                        <th class="text-center align-middle" colspan="2">Interest Received</th>
-                                        <th class="text-center align-middle" colspan="2">Interest Paid</th>
-                                        <th class="text-center align-middle" colspan="2">Income Tax Paid</th>
-                                        <th class="text-center align-middle" colspan="2">Government Tax Paid</th>
-                                        <th class="text-center align-middle" colspan="2">Other</th>
-                                        <th class="text-center align-middle" colspan="2">Net Cash from Operating
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Dividends Received</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Interest Received</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Interest Paid</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Income Tax Paid</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Government Tax Paid</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Other</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Net Cash from Operating
                                             Activities</th>
-                                        <th class="text-center align-middle table-light" colspan="2"
+                                        <th class="text-center align-middle table-light"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}"
                                             style="border-right:solid 2px #380092;">
                                             Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
-                                        <th class="text-center align-middle" colspan="2">Payments for Entities</th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Tenements</th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Property</th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Exploration
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Entities</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Tenements</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Property</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Exploration
                                             and
                                             Evaluation
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Investment
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Investment
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Payments for Other</th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Entities
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Payments for Other</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Entities
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Tenements
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Tenements
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Property
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Property
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Investment
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Investment
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Other</th>
-                                        <th class="text-center align-middle" colspan="2">Cash Flow from Loans</th>
-                                        <th class="text-center align-middle" colspan="2">Dividends Received</th>
-                                        <th class="text-center align-middle" colspan="2">Other</th>
-                                        <th class="text-center align-middle" colspan="2">Net Cash from Investing
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Other</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Cash Flow from Loans</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Dividends Received</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Other</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Net Cash from Investing
                                             Activitie</th>
-                                        <th class="text-center align-middle table-light" colspan="2"
+                                        <th class="text-center align-middle table-light"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}"
                                             style="border-right:solid 2px #380092;">Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Equity</th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Debt</th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Exercise of
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Equity</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Debt</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Exercise of
                                             Options</th>
-                                        <th class="text-center align-middle" colspan="2">Transaction Costs for
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Transaction Costs for
                                             Securities</th>
-                                        <th class="text-center align-middle" colspan="2">Proceeds from Borrowing
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Proceeds from Borrowing
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Repayments of Borrowing
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Repayments of Borrowing
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Transaction Costs for
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Transaction Costs for
                                             Borrowing</th>
-                                        <th class="text-center align-middle" colspan="2">Dividends Paid</th>
-                                        <th class="text-center align-middle" colspan="2">Other Financing Activities
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Dividends Paid</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Other Financing Activities
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Net Cash from Financing
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Net Cash from Financing
                                             Activities</th>
-                                        <th class="text-center align-middle table-light" colspan="2"
+                                        <th class="text-center align-middle table-light"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}"
                                             style="border-right:solid 2px #380092;">Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
-                                        <th class="text-center align-middle" colspan="2">Beginning Cash</th>
-                                        <th class="text-center align-middle" colspan="2">Operating Cash Flow</th>
-                                        <th class="text-center align-middle" colspan="2">Investing Cash Flow</th>
-                                        <th class="text-center align-middle" colspan="2">Financing Cash Flow</th>
-                                        <th class="text-center align-middle" colspan="2">Effect of Movement on Cash
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Beginning Cash</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Operating Cash Flow</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Investing Cash Flow</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Financing Cash Flow</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Effect of Movement on Cash
                                         </th>
-                                        <th class="text-center align-middle" colspan="2">Ending Cash</th>
-                                        <th class="text-center align-middle table-light" colspan="2"
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Ending Cash</th>
+                                        <th class="text-center align-middle table-light"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}"
                                             style="border-right:solid 2px #380092;">Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
-                                        <th class="text-center align-middle" colspan="2">Bank Balance</th>
-                                        <th class="text-center align-middle" colspan="2">Call Deposits</th>
-                                        <th class="text-center align-middle" colspan="2">Bank Overdrafts</th>
-                                        <th class="text-center align-middle" colspan="2">Other</th>
-                                        <th class="text-center align-middle" colspan="2">Cash Equivalents at End of
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Bank Balance</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Call Deposits</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Bank Overdrafts</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Other</th>
+                                        <th class="text-center align-middle"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}">Cash Equivalents at End of
                                             Period</th>
-                                        <th class="text-center align-middle table-light" colspan="2"
+                                        <th class="text-center align-middle table-light"
+                                            colspan="{{ $timeType == '0' ? '2' : '1' }}"
                                             style="border-right:solid 2px #380092;">Adjustments</th>
                                     @endif
 
@@ -273,136 +332,109 @@
                                 </tr>
                                 <tr>
                                     @if ($tableTopic == 'all' || $tableTopic == '0')
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th style="min-width: 60px" class="table-light">Current quarter</th>
-                                        <th class="table-light"
-                                            style="min-width: 60px; border-right:solid 2px #380092;">Year to date
-                                        </th>
+                                        @for ($i = 0; $i < 13; $i++)
+                                            @if ($timeType == '0' || $timeType == '1')
+                                                <th>Current quarter</th>
+                                            @endif
+                                            @if ($timeType == '0' || $timeType == '2')
+                                                <th>Year to date</th>
+                                            @endif
+                                        @endfor
+
+
+                                        @if ($timeType == '0' || $timeType == '1')
+                                            <th style="min-width: 60px;{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}"
+                                                class="table-light">Current quarter</th>
+                                        @endif
+                                        @if ($timeType == '0' || $timeType == '2')
+                                            <th class="table-light"
+                                                style="min-width: 60px; border-right:solid 2px #380092;">Year to date
+                                            </th>
+                                        @endif
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
-                                        <th class="table-light"
-                                            style="min-width: 60px;border-right:solid 2px #380092;">Year to date
-                                        </th>
+                                        @for ($i = 0; $i < 15; $i++)
+                                            @if ($timeType == '0' || $timeType == '1')
+                                                <th>Current quarter</th>
+                                            @endif
+                                            @if ($timeType == '0' || $timeType == '2')
+                                                <th>Year to date</th>
+                                            @endif
+                                        @endfor
+
+                                        @if ($timeType == '0' || $timeType == '1')
+                                            <th style="min-width: 60px;{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}"
+                                                class="table-light">Current quarter</th>
+                                        @endif
+                                        @if ($timeType == '0' || $timeType == '2')
+                                            <th class="table-light"
+                                                style="min-width: 60px;border-right:solid 2px #380092;">Year to date
+                                            </th>
+                                        @endif
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
-                                        <th class="table-light"
-                                            style="min-width: 60px; border-right:solid 2px #380092;">Year to date
-                                        </th>
+                                        @for ($i = 0; $i < 10; $i++)
+                                            @if ($timeType == '0' || $timeType == '1')
+                                                <th>Current quarter</th>
+                                            @endif
+                                            @if ($timeType == '0' || $timeType == '2')
+                                                <th>Year to date</th>
+                                            @endif
+                                        @endfor
+
+                                        @if ($timeType == '0' || $timeType == '1')
+                                            <th style="min-width: 60px;{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}"
+                                                class="table-light">Current quarter</th>
+                                        @endif
+                                        @if ($timeType == '0' || $timeType == '2')
+                                            <th class="table-light"
+                                                style="min-width: 60px; border-right:solid 2px #380092;">Year to date
+                                            </th>
+                                        @endif
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
-                                        <th class="table-light"
-                                            style="min-width: 60px; border-right:solid 2px #380092;">Year to date
-                                        </th>
+                                        @for ($i = 0; $i < 6; $i++)
+                                            @if ($timeType == '0' || $timeType == '1')
+                                                <th>Current quarter</th>
+                                            @endif
+                                            @if ($timeType == '0' || $timeType == '2')
+                                                <th>Year to date</th>
+                                            @endif
+                                        @endfor
+
+                                        @if ($timeType == '0' || $timeType == '1')
+                                            <th style="min-width: 60px;{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}"
+                                                class="table-light">Current quarter</th>
+                                        @endif
+                                        @if ($timeType == '0' || $timeType == '2')
+                                            <th class="table-light"
+                                                style="min-width: 60px; border-right:solid 2px #380092;">Year to date
+                                            </th>
+                                        @endif
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th>Current quarter</th>
-                                        <th>Year to date</th>
-                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
-                                        <th class="table-light"
-                                            style="min-width: 60px;border-right:solid 2px #380092;">Year to date
-                                        </th>
+                                        @for ($i = 0; $i < 5; $i++)
+                                            @if ($timeType == '0' || $timeType == '1')
+                                                <th>Current quarter</th>
+                                            @endif
+                                            @if ($timeType == '0' || $timeType == '2')
+                                                <th>Year to date</th>
+                                            @endif
+                                        @endfor
+
+                                        @if ($timeType == '0' || $timeType == '1')
+                                            <th style="min-width: 60px;{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}"
+                                                class="table-light">Current quarter</th>
+                                        @endif
+                                        @if ($timeType == '0' || $timeType == '2')
+                                            <th class="table-light"
+                                                style="min-width: 60px;border-right:solid 2px #380092;">Year to date
+                                            </th>
+                                        @endif
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '5')
@@ -477,360 +509,631 @@
 
                                             {{-- Operating Details Columns --}}
                                             @if ($tableTopic == 'all' || $tableTopic == '0')
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['receipts_from_customers_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['receipts_from_customers_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_exploration_evaluation_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_exploration_evaluation_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_development_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_development_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_production_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_production_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_staff_costs_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_staff_costs_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_admin_costs_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['payments_admin_costs_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['dividends_received_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['dividends_received_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['interest_received_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['interest_received_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['interest_paid_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['interest_paid_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['income_tax_paid_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['income_tax_paid_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['government_tax_paid_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['government_tax_paid_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['other_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['other_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['net_cash_from_operating_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['operating_details'][0]['net_cash_from_operating_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-operating_details-adjustments_c_q"
-                                                    class="text-end table-light">
-                                                    {{ $report['operating_details'][0]['adjustments_c_q'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-operating_details-adjustments_y_t_d"
-                                                    class="text-end table-light"
-                                                    style="border-right:solid 2px #380092;">
-                                                    {{ $report['operating_details'][0]['adjustments_y_t_d'] ?? '-' }}
-                                                </td>
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['receipts_from_customers_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['receipts_from_customers_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_exploration_evaluation_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_exploration_evaluation_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_development_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_development_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_production_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_production_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_staff_costs_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_staff_costs_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_admin_costs_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['payments_admin_costs_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['dividends_received_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['dividends_received_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['interest_received_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['interest_received_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['interest_paid_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['interest_paid_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['income_tax_paid_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['income_tax_paid_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['government_tax_paid_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['government_tax_paid_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['other_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['other_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['net_cash_from_operating_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['operating_details'][0]['net_cash_from_operating_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td data-name="{{ $index }}-operating_details-adjustments_c_q"
+                                                        class="text-end table-light"
+                                                        style="{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}">
+                                                        {{ $report['operating_details'][0]['adjustments_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td data-name="{{ $index }}-operating_details-adjustments_y_t_d"
+                                                        class="text-end table-light"
+                                                        style="border-right:solid 2px #380092;">
+                                                        {{ $report['operating_details'][0]['adjustments_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
                                             @endif
 
                                             {{-- Investing Details Columns --}}
                                             @if ($tableTopic == 'all' || $tableTopic == '1')
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_entities_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_entities_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_tenements_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_tenements_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_property_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_property_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_exploration_evaluation_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_exploration_evaluation_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_investment_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_investment_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_other_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['payments_for_other_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_entities_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_entities_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_tenements_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_tenements_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_property_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_property_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_investment_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_investment_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_other_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['proceeds_from_other_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['cash_flow_from_loans_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['cash_flow_from_loans_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['dividends_received_2_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['dividends_received_2_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['other_2_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['other_2_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['net_cash_from_investing_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['investing_details'][0]['net_cash_from_investing_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-investing_details-adjustments_c_q"
-                                                    class="text-end table-light">
-                                                    {{ $report['investing_details'][0]['adjustments_c_q'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-investing_details-adjustments_y_t_d"
-                                                    class="text-end table-light"
-                                                    style="border-right:solid 2px #380092;">
-                                                    {{ $report['investing_details'][0]['adjustments_y_t_d'] ?? '-' }}
-                                                </td>
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_entities_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_entities_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_tenements_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_tenements_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_property_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_property_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_exploration_evaluation_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_exploration_evaluation_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_investment_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_investment_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_other_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['payments_for_other_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_entities_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_entities_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_tenements_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_tenements_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_property_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_property_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_investment_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_investment_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_other_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['proceeds_from_other_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['cash_flow_from_loans_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['cash_flow_from_loans_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['dividends_received_2_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['dividends_received_2_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['other_2_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['other_2_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['net_cash_from_investing_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['investing_details'][0]['net_cash_from_investing_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td data-name="{{ $index }}-investing_details-adjustments_c_q"
+                                                        class="text-end table-light"
+                                                        style="{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}">
+                                                        {{ $report['investing_details'][0]['adjustments_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td data-name="{{ $index }}-investing_details-adjustments_y_t_d"
+                                                        class="text-end table-light"
+                                                        style="border-right:solid 2px #380092;">
+                                                        {{ $report['investing_details'][0]['adjustments_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
                                             @endif
 
                                             {{-- financing_details --}}
                                             @if ($tableTopic == 'all' || $tableTopic == '2')
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_equity_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_equity_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_debt_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_debt_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_exercise_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_exercise_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['transaction_costs_for_securities_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['transaction_costs_for_securities_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_borrowing_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['proceeds_from_borrowing_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['repayments_of_borrowing_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['repayments_of_borrowing_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['transaction_costs_for_borrowing_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['transaction_costs_for_borrowing_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['dividends_paid_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['dividends_paid_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['other_3_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['other_3_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['net_cash_from_financing_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['financing_details'][0]['net_cash_from_financing_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-financing_details-adjustments_c_q"
-                                                    class="text-end table-light">
-                                                    {{ $report['financing_details'][0]['adjustments_c_q'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-financing_details-adjustments_y_t_d"
-                                                    class="text-end table-light"
-                                                    style="border-right:solid 2px #380092;">
-                                                    {{ $report['financing_details'][0]['adjustments_y_t_d'] ?? '-' }}
-                                                </td>
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_equity_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_equity_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_debt_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_debt_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_exercise_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_exercise_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['transaction_costs_for_securities_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['transaction_costs_for_securities_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_borrowing_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['proceeds_from_borrowing_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['repayments_of_borrowing_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['repayments_of_borrowing_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['transaction_costs_for_borrowing_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['transaction_costs_for_borrowing_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['dividends_paid_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['dividends_paid_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['other_3_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['other_3_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['net_cash_from_financing_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['financing_details'][0]['net_cash_from_financing_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td data-name="{{ $index }}-financing_details-adjustments_c_q"
+                                                        class="text-end table-light"
+                                                        style="{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}">
+                                                        {{ $report['financing_details'][0]['adjustments_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td data-name="{{ $index }}-financing_details-adjustments_y_t_d"
+                                                        class="text-end table-light"
+                                                        style="border-right:solid 2px #380092;">
+                                                        {{ $report['financing_details'][0]['adjustments_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
                                             @endif
 
                                             {{-- cash_details --}}
                                             @if ($tableTopic == 'all' || $tableTopic == '3')
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['beginning_cash_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['beginning_cash_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['operating_cash_flow_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['operating_cash_flow_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['investing_cash_flow_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['investing_cash_flow_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['financing_cash_flow_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['financing_cash_flow_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['effect_of_movement_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['effect_of_movement_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['end_cash_c_q'] ?? '-' }}</td>
-                                                <td class="text-end">
-                                                    {{ $report['cash_details'][0]['end_cash_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-cash_details-adjustments_c_q"
-                                                    class="text-end table-light">
-                                                    {{ $report['cash_details'][0]['adjustments_c_q'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-cash_details-adjustments_y_t_d"
-                                                    class="text-end table-light"
-                                                    style="border-right:solid 2px #380092;">
-                                                    {{ $report['cash_details'][0]['adjustments_y_t_d'] ?? '-' }}
-                                                </td>
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['beginning_cash_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['beginning_cash_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['operating_cash_flow_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['operating_cash_flow_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['investing_cash_flow_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['investing_cash_flow_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['financing_cash_flow_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['financing_cash_flow_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['effect_of_movement_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['effect_of_movement_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['end_cash_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['cash_details'][0]['end_cash_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td data-name="{{ $index }}-cash_details-adjustments_c_q"
+                                                        class="text-end table-light"
+                                                        style="{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}">
+                                                        {{ $report['cash_details'][0]['adjustments_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td data-name="{{ $index }}-cash_details-adjustments_y_t_d"
+                                                        class="text-end table-light"
+                                                        style="border-right:solid 2px #380092;">
+                                                        {{ $report['cash_details'][0]['adjustments_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
                                             @endif
 
                                             {{-- reconciliation_details --}}
                                             @if ($tableTopic == 'all' || $tableTopic == '4')
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['bank_balance_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['bank_balance_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['call_deposits_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['call_deposits_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['bank_overdrafts_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['bank_overdrafts_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['other_4_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['other_4_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['cash_equivalents_end_period_c_q'] ?? '-' }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ $report['reconciliation_details'][0]['cash_equivalents_end_period_y_t_d'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-reconciliation_details-adjustments_c_q"
-                                                    class="text-end table-light">
-                                                    {{ $report['reconciliation_details'][0]['adjustments_c_q'] ?? '-' }}
-                                                </td>
-                                                <td data-name="{{ $index }}-reconciliation_details-adjustments_y_t_d"
-                                                    class="text-end table-light"
-                                                    style="border-right:solid 2px #380092;">
-                                                    {{ $report['reconciliation_details'][0]['adjustments_y_t_d'] ?? '-' }}
-                                                </td>
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['bank_balance_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['bank_balance_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['call_deposits_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['call_deposits_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['bank_overdrafts_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['bank_overdrafts_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['other_4_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['other_4_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['cash_equivalents_end_period_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td class="text-end">
+                                                        {{ $report['reconciliation_details'][0]['cash_equivalents_end_period_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
+
+                                                @if ($timeType == '0' || $timeType == '1')
+                                                    <td data-name="{{ $index }}-reconciliation_details-adjustments_c_q"
+                                                        class="text-end table-light"
+                                                        style="{{ $timeType == '1' ? 'border-right:solid 2px #380092;' : '' }}">
+                                                        {{ $report['reconciliation_details'][0]['adjustments_c_q'] ?? '-' }}
+                                                    </td>
+                                                @endif
+                                                @if ($timeType == '0' || $timeType == '2')
+                                                    <td data-name="{{ $index }}-reconciliation_details-adjustments_y_t_d"
+                                                        class="text-end table-light"
+                                                        style="border-right:solid 2px #380092;">
+                                                        {{ $report['reconciliation_details'][0]['adjustments_y_t_d'] ?? '-' }}
+                                                    </td>
+                                                @endif
                                             @endif
 
                                             {{-- related_party_payments --}}
@@ -1133,6 +1436,7 @@
                     $('#buttons-datatables').DataTable().destroy();
                     setTimeout(() => {
                         inizializeDataTable();
+                        eventListenersAdd();
                     }, 1500);
                     return;
                 }
