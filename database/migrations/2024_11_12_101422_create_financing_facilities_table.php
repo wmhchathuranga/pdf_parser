@@ -20,6 +20,8 @@ class CreateFinancingFacilitiesTable extends Migration
             $table->decimal('total_financing_c_q', 15, 2)->nullable();
             $table->decimal('total_financing_y_t_d', 15, 2)->nullable();
             $table->decimal('unused_financing_facilities_y_t_d', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_y_t_d', 15, 2)->nullable();
             $table->timestamps();
         });
     }

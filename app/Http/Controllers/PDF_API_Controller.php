@@ -191,7 +191,7 @@ class PDF_API_Controller extends Controller
         $date_start = Carbon::parse($date_start)->format('Y-m-d');
         $date_end = $request_data['date_end'];
         $date_end = Carbon::parse($date_end)->format('Y-m-d');
-        $data = PDFReport::where('abn', $abn)->whereBetween('quarter_ending', [$date_start, $date_end])->orderBy('quarter_ending', 'asc')->get();
+        $data = PDFReport::where('abn', $abn)->whereNull('deleted_at')->whereBetween('quarter_ending', [$date_start, $date_end])->orderBy('quarter_ending', 'asc')->get();
         $table_index = $request_data['table_index'];
         foreach ($data as $report) {
             $report->load($this->table_names[$table_index]);

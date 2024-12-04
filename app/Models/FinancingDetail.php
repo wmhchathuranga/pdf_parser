@@ -31,6 +31,8 @@ class FinancingDetail extends Model
         'other_3_y_t_d',
         'net_cash_from_financing_c_q',
         'net_cash_from_financing_y_t_d',
+        'adjustments_c_q',
+        'adjustments_y_t_d',
     ];
 
     /**

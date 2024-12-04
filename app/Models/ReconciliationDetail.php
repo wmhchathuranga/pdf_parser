@@ -21,6 +21,8 @@ class ReconciliationDetail extends Model
         'other_4_y_t_d',
         'cash_equivalents_end_period_c_q',
         'cash_equivalents_end_period_y_t_d',
+        'adjustments_c_q',
+        'adjustments_y_t_d',
     ];
 
     /**

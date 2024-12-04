@@ -31,6 +31,8 @@ class CreateFinancingDetailsTable extends Migration
             $table->decimal('other_3_y_t_d', 15, 2)->nullable();
             $table->decimal('net_cash_from_financing_c_q', 15, 2)->nullable();
             $table->decimal('net_cash_from_financing_y_t_d', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_y_t_d', 15, 2)->nullable();
             $table->timestamps();
         });
     }

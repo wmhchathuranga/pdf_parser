@@ -23,6 +23,8 @@ class CreateCashDetailsTable extends Migration
             $table->decimal('effect_of_movement_y_t_d', 15, 2)->nullable();
             $table->decimal('end_cash_c_q', 15, 2)->nullable();
             $table->decimal('end_cash_y_t_d', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_y_t_d', 15, 2)->nullable();
             $table->timestamps();
         });
     }

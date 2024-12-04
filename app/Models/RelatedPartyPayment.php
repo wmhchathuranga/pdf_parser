@@ -13,6 +13,7 @@ class RelatedPartyPayment extends Model
         'p_d_f_report_id',
         'aggregated_1_c_q',
         'aggregated_2_c_q',
+        'adjustments_c_q',
     ];
 
     /**

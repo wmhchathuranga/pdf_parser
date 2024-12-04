@@ -18,6 +18,7 @@ class CreateEstimatedCashAvailabilitiesTable extends Migration
             $table->decimal('unused_financing_facilities_end_period_c_q', 15, 2)->nullable();
             $table->decimal('total_available_funding_c_q', 15, 2)->nullable();
             $table->decimal('estimated_quarterly_funding_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
             $table->timestamps();
         });
     }

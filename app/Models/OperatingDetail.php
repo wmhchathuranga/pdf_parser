@@ -37,6 +37,8 @@ class OperatingDetail extends Model
         'other_y_t_d',
         'net_cash_from_operating_c_q',
         'net_cash_from_operating_y_t_d',
+        'adjustments_c_q',
+        'adjustments_y_t_d',
     ];
 
     /**

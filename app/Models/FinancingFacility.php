@@ -20,6 +20,8 @@ class FinancingFacility extends Model
         'total_financing_c_q',
         'total_financing_y_t_d',
         'unused_financing_facilities_y_t_d',
+        'adjustments_c_q',
+        'adjustments_y_t_d',
     ];
 
     /**

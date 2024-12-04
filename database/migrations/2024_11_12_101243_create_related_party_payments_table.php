@@ -13,6 +13,7 @@ class CreateRelatedPartyPaymentsTable extends Migration
             $table->foreignId('p_d_f_report_id')->constrained('p_d_f_reports')->onDelete('cascade');
             $table->decimal('aggregated_1_c_q', 15, 2)->nullable();
             $table->decimal('aggregated_2_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -23,6 +23,8 @@ class CashDetail extends Model
         'effect_of_movement_y_t_d',
         'end_cash_c_q',
         'end_cash_y_t_d',
+        'adjustments_c_q',
+        'adjustments_y_t_d',
     ];
 
     /**

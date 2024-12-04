@@ -40,6 +40,8 @@ class CreateOperatingDetailsTable extends Migration
             $table->decimal('other_y_t_d', 15, 2)->nullable();
             $table->decimal('net_cash_from_operating_c_q', 15, 2)->nullable();
             $table->decimal('net_cash_from_operating_y_t_d', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_y_t_d', 15, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -21,6 +21,8 @@ class CreateReconciliationDetailsTable extends Migration
             $table->decimal('other_4_y_t_d', 15, 2)->nullable();
             $table->decimal('cash_equivalents_end_period_c_q', 15, 2)->nullable();
             $table->decimal('cash_equivalents_end_period_y_t_d', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_y_t_d', 15, 2)->nullable();
             $table->timestamps();
         });
     }

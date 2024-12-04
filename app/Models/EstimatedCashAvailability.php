@@ -18,6 +18,7 @@ class EstimatedCashAvailability extends Model
         'unused_financing_facilities_end_period_c_q',
         'total_available_funding_c_q',
         'estimated_quarterly_funding_c_q',
+        'adjustments_c_q',
     ];
 
     /**

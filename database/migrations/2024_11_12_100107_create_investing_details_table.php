@@ -41,6 +41,8 @@ class CreateInvestingDetailsTable extends Migration
             $table->decimal('other_2_y_t_d', 15, 2)->nullable();
             $table->decimal('net_cash_from_investing_c_q', 15, 2)->nullable();
             $table->decimal('net_cash_from_investing_y_t_d', 15, 2)->nullable();
+            $table->decimal('adjustments_c_q', 15, 2)->nullable();
+            $table->decimal('adjustments_y_t_d', 15, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -41,6 +41,8 @@ class InvestingDetail extends Model
         'other_2_y_t_d',
         'net_cash_from_investing_c_q',
         'net_cash_from_investing_y_t_d',
+        'adjustments_c_q',
+        'adjustments_y_t_d',
     ];
 
     /**
