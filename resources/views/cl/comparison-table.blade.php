@@ -11,6 +11,8 @@
     <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
+    <link href="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -48,28 +50,8 @@
     <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 
 
-    <script>
-        refreshTableJs();
-        //buttons examples
-        function refreshTableJs() {
-            setTimeout(() => {
-                let buttonsDataTables = new DataTable('#buttons-datatables', {
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'csv', 'excel', 'print'],
-                    scrollX: true, // Enable horizontal scrolling
-                    fixedColumns: {
-                        leftColumns: 4 // Fix the first 4 columns
-                    },
-                    pageLength: 4,
-                    order: [[3, 'desc']], 
-                });
-
-
-            }, 2000);
-        }
-    </script>
-
-    {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}
+    <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    
 
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

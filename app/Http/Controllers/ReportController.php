@@ -36,17 +36,27 @@ class ReportController extends Controller
 
     public function saveReport(Request $request){
         // dd($request->all());
-        $response = Http::withHeaders([
-            'Authorization' => env('API_TOKEN'),
-            'Content-Type' => 'application/json',
-        ])->post( env('API_URL').'/api/report_5b', ['data' => $request->all()]);
-
-        // dd($response->status());
-        if($response->status() == 200){
-            return response()->json($response->json());
-        }else{
-            return response()->json('error');
+        $successCount = 0;
+        $errorCount = 0;
+        foreach($request->all() as $key => $value){
+            $response = Http::withHeaders([
+                'Authorization' => env('API_TOKEN'),
+                'Content-Type' => 'application/json',
+            ])->post( env('API_URL').'/api/report_5b', ['data' => $value]);
+    
+            // dd($response->status());
+            if($response->status() == 200){
+                // return response()->json($response->json());
+                $successCount++;
+            }else{
+                // return response()->json('error');
+                $errorCount++;
+            }
+            
         }
+
+                return response()->json($successCount.' reports updated successfully  ||  '.$errorCount.' reports failed ', 200);
+
         // if($response->successful()){
         //     return response()->json('message', 'Report Updated Successfully');
         // }else{

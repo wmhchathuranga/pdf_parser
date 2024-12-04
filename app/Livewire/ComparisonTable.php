@@ -14,6 +14,7 @@ class ComparisonTable extends Component
     public $companies;
     public $selectedCompany;
     public $tableTopic;
+    public $timeType;
 
     public function mount()
     {
@@ -36,7 +37,7 @@ class ComparisonTable extends Component
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_5b/'.$this->companies[0]['abn']);
+                ])->get(env('API_URL') . '/api/reports_5b/' . $this->companies[0]['abn']);
 
                 if ($response->successful()) {
                     $this->selectedCompany = $this->companies[0]['abn'];
@@ -52,23 +53,34 @@ class ComparisonTable extends Component
         }
 
         $this->tableTopic = 'all';
+        $this->timeType = '0';
     }
 
-    public function changeCompany($abn){
+    public function changeCompany($abn)
+    {
         $this->selectedCompany = $abn;
         $this->loadData();
     }
 
-    public function changeTableTopic($tableTopic){
+    public function changetimeType($timeType){
+        $this->timeType = $timeType;
+    }
+
+    public function changeTableTopic($tableTopic)
+    {
+        if($tableTopic == '5' || $tableTopic == '6' || $tableTopic == '7'){
+            $this->timeType = '1';
+        }
         $this->tableTopic = $tableTopic;
     }
 
-    public function loadData(){
+    public function loadData()
+    {
         if (!empty($this->companies)) {
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_5b/'.$this->selectedCompany);
+                ])->get(env('API_URL') . '/api/reports_5b/' . $this->selectedCompany);
 
                 if ($response->successful()) {
                     $this->selectedCompany = $this->companies[0]['abn'];
@@ -82,6 +94,10 @@ class ComparisonTable extends Component
         } else {
             // dd('No companies available.');
         }
+    }
+
+    public function rendered(){
+        $this->dispatch('refreshTable');
     }
 
     public function render()
