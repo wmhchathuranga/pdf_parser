@@ -299,9 +299,9 @@
                                         <th>Year to date</th>
                                         <th>Current quarter</th>
                                         <th>Year to date</th>
-                                        <th style="min-width: 100px" class="table-light">Current quarter</th>
+                                        <th style="min-width: 60px" class="table-light">Current quarter</th>
                                         <th class="table-light"
-                                            style="min-width: 100px; border-right:solid 2px #380092;">Year to date
+                                            style="min-width: 60px; border-right:solid 2px #380092;">Year to date
                                         </th>
                                     @endif
 
@@ -336,9 +336,9 @@
                                         <th>Year to date</th>
                                         <th>Current quarter</th>
                                         <th>Year to date</th>
-                                        <th style="min-width: 100px;" class="table-light">Current quarter</th>
+                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
                                         <th class="table-light"
-                                            style="min-width: 100px;border-right:solid 2px #380092;">Year to date
+                                            style="min-width: 60px;border-right:solid 2px #380092;">Year to date
                                         </th>
                                     @endif
 
@@ -363,9 +363,9 @@
                                         <th>Year to date</th>
                                         <th>Current quarter</th>
                                         <th>Year to date</th>
-                                        <th style="min-width: 100px;" class="table-light">Current quarter</th>
+                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
                                         <th class="table-light"
-                                            style="min-width: 100px; border-right:solid 2px #380092;">Year to date
+                                            style="min-width: 60px; border-right:solid 2px #380092;">Year to date
                                         </th>
                                     @endif
 
@@ -382,9 +382,9 @@
                                         <th>Year to date</th>
                                         <th>Current quarter</th>
                                         <th>Year to date</th>
-                                        <th min-width: 100px; class="table-light">Current quarter</th>
+                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
                                         <th class="table-light"
-                                            style="min-width: 100px; border-right:solid 2px #380092;">Year to date
+                                            style="min-width: 60px; border-right:solid 2px #380092;">Year to date
                                         </th>
                                     @endif
 
@@ -399,9 +399,9 @@
                                         <th>Year to date</th>
                                         <th>Current quarter</th>
                                         <th>Year to date</th>
-                                        <th style="min-width: 100px;" class="table-light">Current quarter</th>
+                                        <th style="min-width: 60px;" class="table-light">Current quarter</th>
                                         <th class="table-light"
-                                            style="min-width: 100px;border-right:solid 2px #380092;">Year to date
+                                            style="min-width: 60px;border-right:solid 2px #380092;">Year to date
                                         </th>
                                     @endif
 
@@ -410,21 +410,21 @@
                                         <th>Current quarter</th>
                                         {{-- <th>Year to date</th> --}}
                                         <th class="table-light"
-                                            style="min-width: 100px;border-right:solid 2px #380092;">Current
+                                            style="min-width: 60px;border-right:solid 2px #380092;">Current
                                             quarter</th>
                                         {{-- <th style="border-right:solid 2px #380092;">Year to date</th> --}}
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '6')
-                                        <th style="width: 100px !important;">Total facility amount at quarter end</th>
+                                        <th style="width: 60px !important;">Total facility amount at quarter end</th>
                                         {{--  c_Q --}}
-                                        <th style="width: 100px !important;">Amount drawn at quarter end</th>
+                                        <th style="width: 60px !important;">Amount drawn at quarter end</th>
                                         {{--  y_t_d --}}
-                                        <th style="width: 100px !important;">Total facility amount at quarter end</th>
-                                        <th style="width: 100px !important;">Amount drawn at quarter end</th>
-                                        <th style="width: 100px !important;">Total facility amount at quarter end</th>
-                                        <th style="width: 100px !important;">Amount drawn at quarter end</th>
-                                        <th style="width: 100px !important;">Total facility amount at quarter end</th>
+                                        <th style="width: 60px !important;">Total facility amount at quarter end</th>
+                                        <th style="width: 60px !important;">Amount drawn at quarter end</th>
+                                        <th style="width: 60px !important;">Total facility amount at quarter end</th>
+                                        <th style="width: 60px !important;">Amount drawn at quarter end</th>
+                                        <th style="width: 60px !important;">Total facility amount at quarter end</th>
                                         <th>Amount drawn at quarter end</th>
 
                                         <th class="text-center align-middle" style="border-right:solid 2px #380092;">
@@ -969,7 +969,7 @@
                 return;
             }
             this.innerHTML =
-                "<input class='form-control-sm m-0 text-center border-0' style='max-width:100px;' type='text' value='" +
+                "<input class='form-control-sm m-0 text-center border-0' style='max-width:60px;' type='text' value='" +
                 getvalue(this.innerHTML) + "' />";
 
             var oldVallue;
