@@ -135,20 +135,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="#appendix-3y" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="analytics-charts">
-                            <i class="mdi mdi-file-pdf-box"></i> <span>Appendix 3Y</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="appendix-3y">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="<?php echo e(route('client.appendix-3y-upload')); ?>" class="nav-link">All Reports</a>
-                                </li>
-
-                                
-                            </ul>
-                        </div>
-                    </li>
+                    
 
                     
                     
