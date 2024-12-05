@@ -132,8 +132,8 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('client.')->g
             return view('cl.single-pdf-chart', ['comapaniesArray', $companies]);
             
         })->name('single-pdf-chart');
-        Route::get('reports-compare-chart', function () {
-            return view('cl.reports-compare-chart');
+        Route::get('avarage-compare-chart', function () {
+            return view('cl.avarage-compare-chart');
         })->name('reports-compare-chart');
     }
 

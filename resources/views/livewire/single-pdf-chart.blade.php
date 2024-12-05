@@ -30,7 +30,7 @@
             <select onchange="removeAlert()" class="form-control" wire:model.defer="selectedTopic" id="topic">
                 <option value="">Select Topic</option>
                 {{-- tb  01 --}}
-                <optgroup label="Cash flows from operating activities">
+                <optgroup label="1 - Cash flows from operating activities">
                     <option value="0-receipts_from_customers"
                         {{ $selectedTopic == 'receipts_from_customers' ? 'selected' : '' }}>Receipts From Customers
                     </option>
@@ -65,7 +65,7 @@
                 </optgroup>
 
                 {{-- tb 02 --}}
-                <optgroup label="Cash flows from investing activities">
+                <optgroup label="2 - Cash flows from investing activities">
                     <option value="1-payments_for_entities"
                         {{ $selectedTopic == 'payments_for_entities' ? 'selected' : '' }}>Payments For Entities
                     </option>
@@ -110,7 +110,7 @@
                 </optgroup>
 
                 {{-- tb 03 --}}
-                <optgroup label="Cash flows from financing activities">
+                <optgroup label="3 - Cash flows from financing activities">
                     <option value="2-proceeds_from_equity"
                         {{ $selectedTopic == 'proceeds_from_equity' ? 'selected' : '' }}>Proceeds From Equity</option>
                     <option value="2-proceeds_from_debt"
@@ -142,7 +142,7 @@
                 </optgroup>
 
                 {{-- tb 04 --}}
-                <optgroup label="Cash flow details">
+                <optgroup label="4 - Cash flow details">
                     <option value="3-beginning_cash" {{ $selectedTopic == 'beginning_cash' ? 'selected' : '' }}>
                         Beginning
                         Cash</option>
@@ -160,7 +160,7 @@
                 </optgroup>
 
                 {{-- tb 05 --}}
-                <optgroup label="Reconciliation details">
+                <optgroup label="5 - Reconciliation details">
                     <option value="4-bank_balance" {{ $selectedTopic == 'bank_balance' ? 'selected' : '' }}>Bank
                         Balance
                     </option>
@@ -175,7 +175,7 @@
                 </optgroup>
 
                 {{-- tb 06 --}}
-                <optgroup label="Related party payments">
+                <optgroup label="6 - Related party payments">
                     <option value="5-aggregated_1" {{ $selectedTopic == 'aggregated_1' ? 'selected' : '' }}>Aggregated
                         1
                     </option>
@@ -185,7 +185,7 @@
                 </optgroup>
 
                 {{-- tb 07 --}}
-                <optgroup label="Financing facilities">
+                <optgroup label="7 - Financing facilities">
                     <option value="6-loans" {{ $selectedTopic == 'loans' ? 'selected' : '' }}>Loans</option>
                     <option value="6-credit_standby" {{ $selectedTopic == 'credit_standby' ? 'selected' : '' }}>Credit
                         Standby</option>
@@ -198,7 +198,7 @@
                 </optgroup>
 
                 {{-- tb 08 --}}
-                <optgroup label="Estimated cash availabilities">
+                <optgroup label="8 - Estimated cash availabilities">
                     <option value="7-net_cash_operating"
                         {{ $selectedTopic == 'net_cash_operating' ? 'selected' : '' }}>
                         Net Cash Operating</option>

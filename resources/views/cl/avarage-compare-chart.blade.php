@@ -23,17 +23,18 @@
     <div class="row">
         <div class="col-12 pb-3">
             <div class="bg-dark p-2">
-                <h3 class="text-white text-capitalize">Reports Compare</h3>
+                <h3 class="text-white text-capitalize">Annual Summary Chart</h3>
             </div>
         </div>
     </div>
 
     {{-- @livewire('single-pdf-chart') --}}
-
-    
+    @livewire('chart02')
 @endsection
 @section('script')
     <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ URL::asset('build/js/pages/apexcharts-bar.init.js') }}"></script> --}}
 
+    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection
