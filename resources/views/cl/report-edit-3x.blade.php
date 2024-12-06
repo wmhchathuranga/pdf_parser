@@ -114,9 +114,13 @@
                             data-editable="true">
                             <tbody>
                                 <tr class="d-flex">
-                                    <th class="col-6 text-center">Number & class of securities</th>
+                                    <th class="col-6 text-center d-flex align-items-center justify-content-center">Number &
+                                        class of securities</th>
                                     <td class="col-6 text-center" data-name="part1s-0-number_class_of_securities">
-                                        {{ in_array(strtolower($reportData['part1s'][0]['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part1s'][0]['number_class_of_securities'] }}
+                                        @for ($index = 0; $index < count($reportData['part1s']); $index++)
+                                            {{ in_array(strtolower($reportData['part1s'][$index]['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part1s'][$index]['number_class_of_securities'] }}
+                                            <br><br>
+                                        @endfor
                                     </td>
                                 </tr>
                             </tbody>
@@ -131,7 +135,6 @@
                     <p class="fs-14 mb-0 text-muted fw-light">Director’s relevant interests in securities of which the
                         director is not
                         the registered holder</p>
-                        <button class="btn btn-primary btn-sm" id="add-row" >Add row</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -448,7 +451,7 @@
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             request.send(JSON.stringify(reportData));
             console.log(reportData2);
-            
+
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
