@@ -49,7 +49,7 @@
     </div>
 
     <div class="floating-button">
-        <a onclick="saveData()" class="btn btn-primary waves-effect"><i class="mdi mdi-content-save-outline"></i></a>
+        <a id="btn_save" onclick="saveData()" class="btn btn-primary waves-effect"><i class="mdi mdi-content-save-outline"></i></a>
         <style>
             .floating-button {
                 position: fixed;
