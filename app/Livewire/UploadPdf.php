@@ -47,7 +47,7 @@ class UploadPdf extends Component
                 $pdfFile->getClientOriginalName()
             )->post(env('API_URL') . '/api/upload-pdf/' . $this->type);
 
-            fclose($fileContent);
+            // fclose($fileContent);
             Storage::delete($filePath);
 
             if ($response->successful()) {

@@ -38,11 +38,12 @@ class ReportController extends Controller
         // dd($request->all());
         $successCount = 0;
         $errorCount = 0;
-        foreach($request->all() as $key => $value){
+        foreach($request->all() as $report){
+            
             $response = Http::withHeaders([
                 'Authorization' => env('API_TOKEN'),
                 'Content-Type' => 'application/json',
-            ])->post( env('API_URL').'/api/report_5b', ['data' => $value]);
+            ])->post( env('API_URL').'/api/report_5b', ['data' => $report]);
     
             // dd($response->status());
             if($response->status() == 200){

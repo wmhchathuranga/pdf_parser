@@ -59,7 +59,7 @@
                         class="table table-hover table-bordered dt-responsive nowrap align-middle mdl-data-table"
                         data-editable="true" style="height: 400px">
                         <thead class="thead-dark">
-                            <tr class="table-light text-dark" style="max-height: 30px">
+                            <tr class="table-dark text-white" style="max-height: 30px">
                                 <th>Details</th>
                                 <th>Current Quarter</th>
                                 <th>Year to Date</th>
@@ -67,7 +67,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flows from Operating Activities</td>
+                                <td class="table-light text-center fs-15" colspan="3">1. Cash Flows from Operating Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -167,7 +167,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flows from Investing Activities</td>
+                                <td class="table-light text-center fs-15" colspan="3">2. Cash Flows from Investing Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -282,7 +282,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flows from Financing Activities</td>
+                                <td class="table-light text-center fs-15" colspan="3">3. Cash Flows from Financing Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -365,7 +365,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flow Summary</td>
+                                <td class="table-light text-center fs-15" colspan="3">4. Cash Flow Summary</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -417,7 +417,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Reconciliation of Cash and Cash Equivalents
+                                <td class="table-light text-center fs-15" colspan="3">5. Reconciliation of Cash and Cash Equivalents
                                 </td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -464,7 +464,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Payments to Related Parties</td>
+                                <td class="table-light text-center fs-15" colspan="3">6. Payments to Related Parties</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -483,7 +483,7 @@
                             </tr>
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Financing and Credit Facilities</td>
+                                <td class="table-light text-center fs-15" colspan="3">7. Financing and Credit Facilities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -526,7 +526,7 @@
 
 
                             <tr>
-                                <td class="table-warning fs-15" colspan="3">Cash Flow and Funding</td>
+                                <td class="table-light text-center fs-15" colspan="3">8. Cash Flow and Funding</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>

@@ -1386,7 +1386,7 @@
                 // buttonsStyling: false,
                 showCloseButton: false,
                 showConfirmButton: false
-            })
+            });
             var request = new XMLHttpRequest();
             request.open("POST", "{{ route('client.save-report') }}");
             request.setRequestHeader("Content-Type", "application/json");
@@ -1408,8 +1408,9 @@
                         timer: 3000,
                         showCloseButton: true
                     });
-                    // has_edit = false;
                     document.getElementById('btn_save').style.display = 'none';
+                    window.location.reload();
+                    // has_edit = false;
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -1419,10 +1420,8 @@
                         timer: 3000,
                         showCloseButton: true
                     });
-                }
-                setTimeout(() => {
                     window.location.reload();
-                }, 2000);
+                }
             };
         }
     </script>

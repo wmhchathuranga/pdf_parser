@@ -101,7 +101,7 @@
                         class="table table-hover table-striped table-bordered dt-responsive nowrap align-middle mdl-data-table"
                         data-editable="true" style="height: 400px">
                         <thead class="thead-dark">
-                            <tr class="table-light text-dark" style="max-height: 30px">
+                            <tr class="table-dark text-white" style="max-height: 30px">
                                 <th>Consolidated Statement Of cash Flows</th>
                                 <th class="text-center">Current Quarter</th>
                                 <th class="text-center">Year to Date</th>
@@ -109,7 +109,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="table-warning text-center fs-15 " colspan="3">Cash Flows from Operating
+                                <td class="table-light text-center fs-15 " colspan="3">1. Cash Flows from Operating
                                     Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -214,7 +214,7 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Cash Flows from Investing
+                                <td class="table-light text-center fs-15" colspan="3">2. Cash Flows from Investing
                                     Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -335,7 +335,7 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Cash Flows from Financing
+                                <td class="table-light text-center fs-15" colspan="3">3. Cash Flows from Financing
                                     Activities</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -426,7 +426,7 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Cash Flow Summary</td>
+                                <td class="table-light text-center fs-15" colspan="3">4. Cash Flow Summary</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -491,7 +491,8 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Reconciliation of Cash and Cash
+                                <td class="table-light text-center fs-15" colspan="3">5. Reconciliation of Cash and
+                                    Cash
                                     Equivalents
                                 </td>
                                 {{-- <td class="d-none"></td> --}}
@@ -550,7 +551,7 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Payments to Related Parties
+                                <td class="table-light text-center fs-15" colspan="3">6. Payments to Related Parties
                                 </td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -573,7 +574,8 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Financing and Credit Facilities
+                                <td class="table-light text-center fs-15" colspan="3">7. Financing and Credit
+                                    Facilities
                                 </td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
@@ -627,7 +629,7 @@
 
 
                             <tr>
-                                <td class="table-warning text-center fs-15" colspan="3">Cash Flow and Funding</td>
+                                <td class="table-light text-center fs-15" colspan="3">8. Cash Flow and Funding</td>
                                 {{-- <td class="d-none"></td> --}}
                                 {{-- <td class="d-none"></td> --}}
                             </tr>
@@ -688,9 +690,6 @@
                                 </td>
                                 <td class="text-center">--</td>
                             </tr>
-
-
-
                         </tbody>
                     </table>
                 </div>
@@ -823,7 +822,9 @@
 
         let reportData = @json($reportData);
         console.log(reportData);
-        
+        document.getElementById('btn_save').style.display = 'none';
+
+
 
         function editCellValue() {
             // check this.innerHTML already has a input tag 
@@ -850,6 +851,7 @@
                 }
                 if (valueCheck(this)) {
                     this.parentNode.innerHTML = this.value;
+                    let btn = document.getElementById('btn_save').style.display = 'block';
                 } else {
                     this.parentNode.innerHTML = oldVallue;
                 }
@@ -863,6 +865,7 @@
                     is_enter = true;
                     if (valueCheck(this)) {
                         this.parentNode.innerHTML = this.value;
+                        let btn = document.getElementById('btn_save').style.display = 'block';
                     } else {
                         this.parentNode.innerHTML = oldVallue;
                     }
@@ -904,12 +907,25 @@
         }
 
         function saveData() {
+            Swal.fire({
+                title: "Saving Report...",
+                text: 'That thing is still around?',
+                html: '<i class="text-success mdi mdi-spin mdi-loading fs-48"></i>',
+                // icon: 'question',
+                // confirmButtonClass: 'btn btn-primary w-xs mt-2',
+                // buttonsStyling: false,
+                showCloseButton: false,
+                showConfirmButton: false
+            });
+
             // console.log(JSON.stringify(reportData));
             var request = new XMLHttpRequest();
             request.open("POST", "{{ route('client.save-report') }}");
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
-            request.send(JSON.stringify(reportData));
+            request.send(JSON.stringify([reportData]));
+            console.log(reportData);
+
 
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -924,6 +940,7 @@
                         timer: 2500,
                         showCloseButton: true
                     });
+                    window.location.reload();
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -933,6 +950,7 @@
                         timer: 2500,
                         showCloseButton: true
                     });
+                    window.location.reload();
                 }
             };
         }
