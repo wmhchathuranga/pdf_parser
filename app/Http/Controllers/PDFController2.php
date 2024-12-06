@@ -10,6 +10,8 @@ use App\Models\Part3;
 use App\Models\Appendix3X;
 use Illuminate\Http\Request;
 use App\Mail\ExceptionOccurredMail;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class PDFController2 extends Controller
@@ -62,13 +64,18 @@ class PDFController2 extends Controller
             $document_title = $meta_data[1];
             $name_of_entity = preg_replace('/Name of entity[ :]/', '', $meta_data[8]);
             $stock_code = preg_split('/\(/', $name_of_entity);
-            if (count($stock_code) > 1)
+            $stock_exchange = "";
+            if (count($stock_code) > 1) {
                 $stock_code = preg_replace('/\)/', '', $stock_code[1]);
-            else
+                $stock = preg_split('/\:/', $stock_code);
+                $stock_code = $stock[0];
+                $stock_exchange = $stock[1];
+            } else
                 $stock_code = "";
 
             $page_1 = $page[1];
             $abn = preg_replace('/ABN[ :]/', '', $page_1[0]);
+            $abn_verified = $this->checkABN($abn);
             $name_of_director = preg_replace('/Name of Director[ :]/', '', $page_1[3]);
             $date_of_appointment = preg_replace('/Date of appointment[ :]/', '', $page_1[4]);
             if ($date_of_appointment == "" || $date_of_appointment == "Date of appointment")
@@ -84,7 +91,10 @@ class PDFController2 extends Controller
                 'document_title' => $document_title,
                 'company_name' => $name_of_entity,
                 'stock_code' => $stock_code,
+                'stock_exchange' => $stock_exchange,
                 'abn' => str_replace(' ', '', $abn),
+                'abn_suffix' => substr(str_replace(' ', '', $abn), -9),
+                'abn_verified' => $abn_verified,
                 'name_of_director' => $name_of_director,
                 'date_of_appointment' => Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'),
                 'pdf_path' => $relativePath
@@ -184,25 +194,17 @@ class PDFController2 extends Controller
             $part_2_right = array();
 
             for ($i = 0; $i < count($part_2); $i++) {
-                if (strpos(strtolower($part_2[$i]), 'fully paid') !== false) {
+                if (strpos(strtolower($part_2[$i]), 'fully paid') !== false || strpos(strtolower($part_2[$i]), 'partially paid') !== false || strpos(strtolower($part_2[$i]), 'exercisable') !== false || strpos(strtolower($part_2[$i]), 'expiring') !== false || strpos(strtolower($part_2[$i]), 'unlisted options') !== false) {
+                    // no duplicates
+                    if (in_array($part_2[$i], $part_2_right)) {
+                        continue;
+                    }
                     array_push($part_2_right, $part_2[$i]);
                     continue;
                 }
-                if (strpos(strtolower($part_2[$i]), 'exercisable') !== false) {
-                    array_push($part_2_right, $part_2[$i]);
-                    continue;
-                }
-                if (strpos(strtolower($part_2[$i]), 'expiring') !== false) {
-                    array_push($part_2_right, $part_2[$i]);
-                    continue;
-                }
-                if (strpos(strtolower($part_2[$i]), 'unlisted options') !== false) {
-                    array_push($part_2_right, $part_2[$i]);
-                    continue;
-                }
-
                 array_push($part_2_left, $part_2[$i]);
             }
+
 
             $part_2_right_records = array();
             for ($i = 0; $i < count($part_2_right); $i++) {
@@ -252,20 +254,19 @@ class PDFController2 extends Controller
 
             $part_2_left_records = array_values(array_filter($part_2_left_records));
 
-            if (count($part_2_right_records) > count($part_2_left_records)) {
-                $part_2_right_records = array_pad($part_2_right_records, count($part_2_left_records), "");
-            } else {
-                $part_2_left_records = array_pad($part_2_left_records, count($part_2_right_records), "");
-            }
+            // dd($part_2_left_records, $part_2_right_records);
+            $record_count = max(count($part_2_left_records), count($part_2_right_records));
+            $part_2_left_records = array_pad($part_2_left_records, $record_count, "");
+            $part_2_right_records = array_pad($part_2_right_records, $record_count, "");
 
-            for ($i = 0; $i < count($part_2_left_records); $i++) {
+            for ($i = 0; $i < $record_count; $i++) {
                 Part2::create([
                     'appendix3_x_id' => $appendix3X->id,
                     'name_of_holder_nature_of_interest' => $part_2_left_records[$i],
                     'number_class_of_securities' => $part_2_right_records[$i],
                 ]);
             }
-            if(count($part_2_left_records) == 0){
+            if (count($part_2_left_records) == 0) {
                 Part2::create([
                     'appendix3_x_id' => $appendix3X->id,
                     'name_of_holder_nature_of_interest' => "nil",
@@ -281,10 +282,6 @@ class PDFController2 extends Controller
                 'number_class_of_securities' => "nil",
             ]);
         }
-
-        // dd($part_2_left_records, $part_2_right_records);
-
-
 
         try {
             // Part 3
@@ -380,5 +377,24 @@ class PDFController2 extends Controller
             return response()->json(["Scrapping Failed"], 500);
         }
         return response()->json(['success'], 200);
+    }
+
+    public function checkABN($abn)
+    {
+        $abn = str_replace('-', '', $abn);
+        $abn = str_replace(' ', '', $abn);
+        $URL = 'https://abr.business.gov.au/ABN/View?id=' . $abn;
+
+        $response = Http::get($URL);
+        // Logger($response->body());
+
+        if ($response->status() == 200) {
+            // search for word "Error"
+            if (strpos($response->body(), 'Error') !== false | strpos($response->body(), 'Invalid') !== false) {
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

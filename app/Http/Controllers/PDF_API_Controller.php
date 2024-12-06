@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appendix3X;
+use stdClass;
 use Carbon\Carbon;
 use App\Models\PDFReport;
+use App\Models\Appendix3X;
 use Illuminate\Http\Request;
-use stdClass;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Http;
 
 class PDF_API_Controller extends Controller
 {
@@ -23,9 +25,10 @@ class PDF_API_Controller extends Controller
         return response()->json($reports);
     }
 
-    public function showReports3x()
+    public function showReports3x($abn)
     {
-        $reports = Appendix3X::whereNull('deleted_at')->get();
+        $abn_suffix = substr(str_replace(' ', '', $abn), -9);
+        $reports = Appendix3X::where('abn_suffix', $abn_suffix)->whereNull('deleted_at')->get();
         foreach ($reports as $report) {
             $report->load(['part1s', 'part2s', 'part3s']);
         }
@@ -93,7 +96,7 @@ class PDF_API_Controller extends Controller
         $estimatedCashAvailabilities['created_at'] = Carbon::parse($estimatedCashAvailabilities['created_at'])->format('Y-m-d H:i:s');
         $estimatedCashAvailabilities['updated_at'] = now();
 
-        logger($opertingDetails);
+        // logger($opertingDetails);
         $report->operatingDetails()->update($opertingDetails);
         $report->investingDetails()->update($investingDetails);
         $report->financingDetails()->update($financingDetails);
@@ -119,22 +122,37 @@ class PDF_API_Controller extends Controller
         $report_id = $json_object['id'];
 
         $report = Appendix3X::find($report_id);
+        // dd($report->part1s());
+        // print_r($report->part1s());
+        // Logger(json_encode($report->part1s()));
+        if ($report['abn'] != $json_object['abn']) {
+            $is_valid_abn = $this->checkABN($json_object['abn']);
 
-        $part1s = $json_object['part1s'][0];
-        $part1s['created_at'] = Carbon::parse($part1s['created_at'])->format('Y-m-d H:i:s');
-        $part1s['updated_at'] = now();
+            if ($is_valid_abn) {
+                $report['abn'] = $json_object['abn'];
+                $report['abn_suffix'] = substr(str_replace(' ', '', $report['abn']), -9);
+                $report['abn_verified'] = 1;
+            }
+        }
 
-        $part2s = $json_object['part2s'][0];
-        $part2s['created_at'] = Carbon::parse($part2s['created_at'])->format('Y-m-d H:i:s');
-        $part2s['updated_at'] = now();
+        foreach ($json_object['part1s'] as $part1Data) {
+            $part1Data['created_at'] = Carbon::parse($part1Data['created_at'])->format('Y-m-d H:i:s');
+            $part1Data['updated_at'] = now();
+            $report->part1s()->updateOrCreate(['id' => $part1Data['id']], $part1Data);
+        }
 
-        $part3s = $json_object['part3s'][0];
-        $part3s['created_at'] = Carbon::parse($part3s['created_at'])->format('Y-m-d H:i:s');
-        $part3s['updated_at'] = now();
+        foreach ($json_object['part2s'] as $part2Data) {
+            $part2Data['created_at'] = Carbon::parse($part2Data['created_at'])->format('Y-m-d H:i:s');
+            $part2Data['updated_at'] = now();
+            $report->part2s()->updateOrCreate(['id' => $part2Data['id']], $part2Data);
+        }
 
-        $report->part1s()->update($part1s);
-        $report->part2s()->update($part2s);
-        $report->part3s()->update($part3s);
+        foreach ($json_object['part3s'] as $part3Data) {
+            $part3Data['created_at'] = Carbon::parse($part3Data['created_at'])->format('Y-m-d H:i:s');
+            $part3Data['updated_at'] = now();
+            $report->part3s()->updateOrCreate(['id' => $part3Data['id']], $part3Data);
+        }
+
         $report->save();
 
         $report = Appendix3X::find($report_id);
@@ -176,8 +194,8 @@ class PDF_API_Controller extends Controller
     public function showCompanies3x()
     {
         // exclude deleted companies
-        $companies = Appendix3X::selectRaw('MIN(id) as id,MAX(name_of_director) as name_of_director,MAX(company_name) as company_name, abn')
-            ->groupBy('abn')->whereNull('deleted_at')
+        $companies = Appendix3X::selectRaw('MIN(id) as id,MAX(name_of_director) as name_of_director,MAX(company_name) as company_name, abn_suffix as abn')
+            ->groupBy('abn_suffix')->whereNull('deleted_at')
             ->get();
 
         return response()->json($companies);
@@ -217,5 +235,24 @@ class PDF_API_Controller extends Controller
         }
 
         return response()->json($chart_data);
+    }
+
+    public function checkABN($abn)
+    {
+        $abn = str_replace('-', '', $abn);
+        $abn = str_replace(' ', '', $abn);
+        $URL = 'https://abr.business.gov.au/ABN/View?id=' . $abn;
+
+        $response = Http::get($URL);
+        // Logger($response->body());
+
+        if ($response->status() == 200) {
+            // search for word "Error"
+            if (strpos($response->body(), 'Error') !== false | strpos($response->body(), 'Invalid') !== false) {
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }
