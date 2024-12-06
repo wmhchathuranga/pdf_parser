@@ -62,8 +62,10 @@ class PDF_API_Controller extends Controller
         $json = $request->all();
         $json_object = $json['data'];
         $report_id = $json_object['id'];
-
+        
         $report = PDFReport::find($report_id);
+        
+        // Logger($report);
         $opertingDetails = $json_object['operating_details'][0];
         $opertingDetails['created_at'] = Carbon::parse($opertingDetails['created_at'])->format('Y-m-d H:i:s');
         $opertingDetails['updated_at'] = now();
@@ -96,7 +98,6 @@ class PDF_API_Controller extends Controller
         $estimatedCashAvailabilities['created_at'] = Carbon::parse($estimatedCashAvailabilities['created_at'])->format('Y-m-d H:i:s');
         $estimatedCashAvailabilities['updated_at'] = now();
 
-        // logger($opertingDetails);
         $report->operatingDetails()->update($opertingDetails);
         $report->investingDetails()->update($investingDetails);
         $report->financingDetails()->update($financingDetails);
