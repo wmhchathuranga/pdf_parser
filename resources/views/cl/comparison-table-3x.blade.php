@@ -33,6 +33,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             let htmlTag = document.getElementsByTagName('html')[0];
             htmlTag.setAttribute('data-sidebar-size', 'sm');
+            // setTimeout(() => {
+                
+            // },1500);
         })
     </script>
 
@@ -69,23 +72,6 @@
             }, 2000);
         }
     </script> --}}
-
-    <script>
-        setTimeout(() => {
-            let buttonsDataTables = new DataTable('#report-table-3x', {
-                dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'print'],
-                scrollX: true, // Enable horizontal scrolling
-                fixedColumns: {
-                    leftColumns: 5 // Fix the first 4 columns
-                },
-                pageLength: 4,
-                order: [
-                    [1, 'desc']
-                ],
-            });
-        },2000);
-    </script>
 
     {{-- <script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script> --}}
 

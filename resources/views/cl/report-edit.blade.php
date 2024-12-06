@@ -822,6 +822,8 @@
         }
 
         let reportData = @json($reportData);
+        console.log(reportData);
+        
 
         function editCellValue() {
             // check this.innerHTML already has a input tag 

@@ -13,7 +13,7 @@
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
-                        {{-- <div class="col-3 col-lg-4 pe-3">
+                        <div class="col-3 col-lg-4 pe-3">
                             <select onchange="refreshTableJs()" class="form-control my-auto" wire:change="changeCompany($event.target.value)">
                                 <option value="" disabled>Search by ABN</option>
                                 @if ($companies != null)
@@ -24,7 +24,8 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div> --}}
+                        </div>
+
                         <div class="col-auto">
                             <select onchange="refreshTableJs()" class="form-select my-auto"
                                 wire:change="changeStatus($event.target.value)">
@@ -60,7 +61,7 @@
                                 @foreach ($allReports as $report)
                                     @if ($selectedStatus == 'all' || $selectedStatus == $report['is_upload_completed'])
                                         <tr>
-                                            <td>{{ $report['abn'] }}</td>
+                                            <td class="{{$report['abn_verified'] == 0 ? 'text-danger' : ''}}">{{ $report['abn'] }}</td>
                                             {{-- <td class="{{ $report['is_abn_verified'] ? '' : 'text-danger' }}">{{ $report['abn'] }}</td> --}}
                                             
                                             <td>{{ $report['company_name'] }}</td>

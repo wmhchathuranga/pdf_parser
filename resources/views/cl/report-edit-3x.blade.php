@@ -37,7 +37,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ $reportData['abn'] }}</td>
+                            @if ($reportData['abn_verified'] == 0)
+                                <td class="text-danger" data-name="abn_fix">{{ $reportData['abn'] }}</td>
+                            @else
+                                <td>{{ $reportData['abn'] }}</td>
+                            @endif
                             <td class="text-center">{{ $reportData['company_name'] }}</td>
                             <td class="text-center">{{ $reportData['name_of_director'] }}</td>
                             <td class="text-center">{{ $reportData['date_of_appointment'] }}</td>
@@ -127,6 +131,7 @@
                     <p class="fs-14 mb-0 text-muted fw-light">Director’s relevant interests in securities of which the
                         director is not
                         the registered holder</p>
+                        <button class="btn btn-primary btn-sm" id="add-row" >Add row</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -335,26 +340,28 @@
         }
 
         let reportData = @json($reportData);
+        let reportData2 = @json($reportData);
         console.log(reportData);
 
 
         function editCellValue() {
             // check this.innerHTML already has a input tag 
-            if (this.querySelector("input")) {
+            if (this.querySelector("textarea")) {
                 return;
             }
             this.innerHTML =
-                "<input class='form-control-sm m-0 text-center border-0' style='max-width:280px;' type='text' value='" +
-                getvalue(this.innerHTML) + "' />";
+                "<textarea class='form-control-sm m-0 text-center border-0' style='max-width:280px;' type='text' value='" +
+                getvalue(this.innerHTML) + "'>" + getvalue(this.innerHTML) + "</textarea>";
 
             var oldVallue;
 
             function getvalue(value) {
                 oldVallue = value;
                 // remove unnecessary spaces
-                return value.replace(/\s+/g, '');
+                // return value.replace(/\s+/g, '');
+                return value.trim();
             }
-            var input = this.querySelector("input");
+            var input = this.querySelector("textarea");
             input.select();
             input.focus();
             input.onblur = function() {
@@ -371,11 +378,13 @@
             // if enter button press 
             input.onkeydown = function(e) {
                 if (e.keyCode == 13) {
-                    is_enter = true;
-                    if (valueCheck(this)) {
-                        this.parentNode.innerHTML = htmlspecialchars(this.value);
-                    } else {
-                        this.parentNode.innerHTML = htmlspecialchars(oldVallue);
+                    if (!e.shiftKey) {
+                        is_enter = true;
+                        if (valueCheck(this)) {
+                            this.parentNode.innerHTML = htmlspecialchars(this.value);
+                        } else {
+                            this.parentNode.innerHTML = htmlspecialchars(oldVallue);
+                        }
                     }
                 }
             };
@@ -399,7 +408,11 @@
                 //     is_enter = false;
                 //     return false;
                 // }
-                updateJson(inputTag.parentNode.getAttribute('data-name'), inputTag.value);
+                if (inputTag.parentNode.getAttribute('data-name') == 'abn_fix') {
+                    updateJsonAbn(inputTag.value);
+                } else {
+                    updateJson(inputTag.parentNode.getAttribute('data-name'), inputTag.value);
+                }
                 inputTag.blur();
                 is_enter = false;
                 return true;
@@ -419,6 +432,12 @@
                 console.log(reportData);
             }
 
+            function updateJsonAbn(value) {
+                reportData['abn'] = value;
+                console.log(reportData);
+
+            }
+
         }
 
         function saveData() {
@@ -428,7 +447,8 @@
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             request.send(JSON.stringify(reportData));
-
+            console.log(reportData2);
+            
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
@@ -441,6 +461,8 @@
                         timer: 2500,
                         showCloseButton: true
                     });
+                    window.location.reload();
+                } else {
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
@@ -449,18 +471,22 @@
                         timer: 2500,
                         showCloseButton: true
                     });
-                };
+                    window.location.reload();
+
+                }
             }
 
-            function htmlspecialchars(string) {
-                if (typeof string !== "string") return string; // Ensure the input is a string
-                return string
-                    .replace(/&/g, "&amp;") // Escape '&' first to prevent double-escaping
-                    .replace(/</g, "&lt;") // Escape '<'
-                    .replace(/>/g, "&gt;") // Escape '>'
-                    .replace(/"/g, "&quot;") // Escape '"'
-                    .replace(/'/g, "&#039;"); // Escape single quotes
-            }
+        }
+
+        function htmlspecialchars(string) {
+            if (typeof string !== "string") return string; // Ensure the input is a string
+            return string
+                .replace(/&/g, "&amp;") // Escape '&' first to prevent double-escaping
+                .replace(/</g, "&lt;") // Escape '<'
+                .replace(/>/g, "&gt;") // Escape '>'
+                .replace(/"/g, "&quot;") // Escape '"'
+                .replace(/'/g, "&#039;"); // Escape single quotes
+        }
     </script>
 
     <script src="{{ URL::asset('build/js/app.js') }}"></script>

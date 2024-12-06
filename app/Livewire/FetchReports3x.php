@@ -9,17 +9,60 @@ use Livewire\Component;
 class FetchReports3x extends Component
 {
     public $allReports;
+    public $companies = [];
+    public $selectedCompany;
 
     public $selectedStatus;
 
     public function mount()
     {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('API_TOKEN'),
+            ])->get(env('API_URL') . '/api/companies/3x');
+
+            if ($response->successful()) {
+                // dd($response->json());
+                $this->companies = $response->json();
+            } else {
+                throw new Exception('Failed to fetch companies');
+            }
+        } catch (Exception $e) {
+            abort(500, 'Something went wrong');
+        }
+
+        // dd($this->companies);
+        if (!empty($this->companies)) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => env('API_TOKEN'),
+                ])->get(env('API_URL') . '/api/reports_3x/'. $this->companies[0]['abn'] );
+
+                if ($response->successful()) {
+                    $this->selectedCompany = $this->companies[0]['abn'];
+                    $this->allReports = $response->json();
+                } else {
+                    throw new Exception('Failed to fetch reports');
+                }
+            } catch (Exception $e) {
+                abort(500, 'Something went wrong');
+            }
+        } else {
+            // dd('No companies available.');
+        }
+
         $this->selectedStatus = 'all';
         $this->loadData();
     }
 
-    public function changeStatus($status){
+    public function changeStatus($status)
+    {
         $this->selectedStatus = $status;
+    }
+
+    public function changeCompany($abn){
+        $this->selectedCompany = $abn;
+        $this->loadData();
     }
 
     public function deleteReport($id)
@@ -45,23 +88,25 @@ class FetchReports3x extends Component
 
     public function loadData()
     {
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => env('API_TOKEN'),
-            ])->get(env('API_URL') . '/api/reports_3x');
-
-            if ($response->successful()) {
-                $this->allReports = $response->json();
-            } else {
-                throw new Exception('Failed to fetch reports');
+        if (!empty($this->selectedCompany)) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => env('API_TOKEN'),
+                ])->get(env('API_URL') . '/api/reports_3x/'. $this->selectedCompany);
+    
+                if ($response->successful()) {
+                    $this->allReports = $response->json();
+                } else {
+                    throw new Exception('Failed to fetch reports');
+                }
+            } catch (Exception $e) {
+                abort(500, 'Something went wrong');
             }
-        } catch (Exception $e) {
-            abort(500, 'Something went wrong');
         }
-
     }
 
-    public function rendered(){
+    public function rendered()
+    {
         $this->dispatch('refreshTable');
     }
 

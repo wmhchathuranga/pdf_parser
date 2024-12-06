@@ -39,11 +39,11 @@ class PDFController_3x extends Controller
             'Content-Type' => 'application/json',
         ])->post( env('API_URL').'/api/report_3x', ['data' => $request->all()]);
 
-        dd($response);
+        // dd($response->body());
         if($response->status() == 200){
-            return response()->json($response->json());
+            return $response;
         }else{
-            return response()->json('error');
+            return $response;
         }
     }
     
