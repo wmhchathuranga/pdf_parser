@@ -10,6 +10,7 @@ use App\Models\Part3;
 use App\Models\Appendix3X;
 use Illuminate\Http\Request;
 use App\Mail\ExceptionOccurredMail;
+use App\Models\Companies;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -68,14 +69,37 @@ class PDFController2 extends Controller
             if (count($stock_code) > 1) {
                 $stock_code = preg_replace('/\)/', '', $stock_code[1]);
                 $stock = preg_split('/\:/', $stock_code);
-                $stock_code = $stock[0];
-                $stock_exchange = $stock[1];
+                $stock_code = $stock[1];
+                $stock_exchange = $stock[0];
             } else
                 $stock_code = "";
 
             $page_1 = $page[1];
             $abn = preg_replace('/ABN[ :]/', '', $page_1[0]);
+            $abn_suffix = substr(str_replace(' ', '', $abn), -9);
             $abn_verified = $this->checkABN($abn);
+
+            if ($abn_verified) {
+                $company = Companies::where('abn_suffix', $abn_suffix)->first();
+                $name_of_entity = $company->name;
+                if ($company->stock_code != "" && $company->stock_exchange != "") {
+                    $stock_code = $company->stock_code;
+                    $stock_exchange = $company->stock_exchange;
+                } else {
+                    // update all records with same abn suffix with stock_code and stock_exchange in Appendix3X
+                    $appendix3X = Appendix3X::where('abn_suffix', $abn_suffix)->get();
+                    foreach ($appendix3X as $appendix3X) {
+                        $appendix3X->stock_code = $stock_code;
+                        $appendix3X->stock_exchange = $stock_exchange;
+                        $appendix3X->save();
+                    }
+
+                    // update companies table
+                    $company->stock_code = $stock_code;
+                    $company->stock_exchange = $stock_exchange;
+                    $company->save();
+                }
+            }
             $name_of_director = preg_replace('/Name of Director[ :]/', '', $page_1[3]);
             $date_of_appointment = preg_replace('/Date of appointment[ :]/', '', $page_1[4]);
             if ($date_of_appointment == "" || $date_of_appointment == "Date of appointment")
@@ -381,17 +405,33 @@ class PDFController2 extends Controller
 
     public function checkABN($abn)
     {
+
         $abn = str_replace('-', '', $abn);
         $abn = str_replace(' ', '', $abn);
+        $abn_suffix = substr($abn, -9);
+        $company = Companies::where('abn_suffix', $abn_suffix)->first();
+        if ($company) {
+            return true;
+        }
         $URL = 'https://abr.business.gov.au/ABN/View?id=' . $abn;
 
         $response = Http::get($URL);
-        // Logger($response->body());
+        Logger($response->body());
 
         if ($response->status() == 200) {
             // search for word "Error"
             if (strpos($response->body(), 'Error') !== false | strpos($response->body(), 'Invalid') !== false) {
                 return false;
+            }
+            // check the http response body for "legalName"
+            if (strpos($response->body(), 'legalName') !== false) {
+                $company_name_string = preg_split("/legalName\">/", $response->body());
+                $company_name = preg_split("/<\//", $company_name_string[1])[0];
+                Companies::create([
+                    'abn' => $abn,
+                    'abn_suffix' => substr($abn, -9),
+                    'name' => $company_name,
+                ]);
             }
             return true;
         }
