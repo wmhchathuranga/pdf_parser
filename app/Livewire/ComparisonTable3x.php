@@ -49,31 +49,36 @@ class ComparisonTable3x extends Component
         }
     }
 
-    public function changeCompany($abn){
+    public function changeCompany($abn)
+    {
         $this->selectedCompany = $abn;
         $this->loadData();
     }
 
-    public function loadData(){
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => env('API_TOKEN'),
-            ])->get(env('API_URL') . '/api/reports_3x/' . $this->selectedCompany);
+    public function loadData()
+    {
+        if (!empty($this->selectedCompany)) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => env('API_TOKEN'),
+                ])->get(env('API_URL') . '/api/reports_3x/' . $this->selectedCompany);
 
-            if ($response->successful()) {
-                $this->allReports = $response->json();
-            } else {
-                throw new Exception('Failed to fetch reports');
+                if ($response->successful()) {
+                    $this->allReports = $response->json();
+                } else {
+                    throw new Exception('Failed to fetch reports');
+                }
+            } catch (Exception $e) {
+                abort(500, 'Something went wrong');
             }
-        } catch (Exception $e) {
-            abort(500, 'Something went wrong');
         }
     }
 
-    public function rendered(){
+    public function rendered()
+    {
         $this->dispatch('refreshTable');
     }
-    
+
     public function render()
     {
         $this->loadData();

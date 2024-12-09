@@ -34,12 +34,15 @@
         </div>
 
         <div class="row">
-            <div class="col-12" style="height: 50px;">
+            <div class="col-12" style="min-height: 50px;">
                 <div class="pt-2" id="spinner-dots">
 
                 </div>
                 @if (session('message'))
-                    <div class="row mx-auto my-auto gap-2" id="info-alert">
+                    {{-- @php
+                    dd(session('message'));
+                @endphp --}}
+                    <div class="row mx-auto my-auto gap-1" id="info-alert">
                         @if (session('message')['success'])
                             <div class="alert alert-success text-start col p-0">
                                 <ul class="py-2 my-0">
@@ -54,6 +57,14 @@
                                 </ul>
                             </div>
                         @endif
+
+                        @foreach ($errorDetails as $error)
+                            <div class="alert alert-danger text-start col-12 p-0">
+                                <ul class="py-2 my-0">
+                                    <li>{{ Str::limit($error['name'], 15, '...') }} - {{ $error['message'] }}</li>
+                                </ul>
+                            </div>
+                        @endforeach
                     </div>
                     {{-- <script>
                         document.addEventListener('DOMContentLoaded', () => {

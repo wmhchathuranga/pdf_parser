@@ -20,6 +20,7 @@ class UploadPdf extends Component
     public $pdfCount = 0;
     public $successCount;
     public $errorCount;
+    public $errorDetails = [];
 
 
 
@@ -32,6 +33,8 @@ class UploadPdf extends Component
         // Reset counters
         $this->successCount = 0;
         $this->errorCount = 0;
+
+        $this->errorDetails;
 
         $this->pdfCount = count($this->pdfFiles);
 
@@ -46,14 +49,19 @@ class UploadPdf extends Component
                 $fileContent,
                 $pdfFile->getClientOriginalName()
             )->post(env('API_URL') . '/api/upload-pdf/' . $this->type);
-
+                
             // fclose($fileContent);
             Storage::delete($filePath);
 
             if ($response->successful()) {
                 $this->successCount++;
             } else {
-                // dd($response, $this->type);
+                $errorDetail = [
+                    'name' => $pdfFile->getClientOriginalName(),
+                    'message' => $response->json()[0] ?? 'Failed to Scrap',
+                ];
+                // dd($errorDetail, $response->json());
+                array_push($this->errorDetails, $errorDetail);
                 $this->errorCount++;
             }
         }

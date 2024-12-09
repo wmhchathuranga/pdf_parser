@@ -42,7 +42,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ $reportData['abn'] }}</td>
+                            <td class="{{$reportData['abn_verified'] == "0" ? 'text-danger' : ''}}">{{ $reportData['abn'] }}</td>
                             <td class="text-center">{{ $reportData['company_name'] }}</td>
                             <td class="text-center">{{ $reportData['name_of_director'] }}</td>
                             <td class="text-center">{{ $reportData['date_of_appointment'] }}</td>

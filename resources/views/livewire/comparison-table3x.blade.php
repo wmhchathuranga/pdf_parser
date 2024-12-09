@@ -48,10 +48,10 @@
                         <table id="report-table-3x" class="display table table-bordered">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="text-center align-items-center">Action</th>
+                                    {{-- <th rowspan="2" class="text-center align-items-center">Action</th> --}}
                                     <th rowspan="2" class="text-center align-items-center">Appointment Dates</th>
                                     <th rowspan="2" class="text-center align-items-center">Director</th>
-                                    <th rowspan="2" class="text-center align-items-center">Company Name</th>
+                                    {{-- <th rowspan="2" class="text-center align-items-center">Company Name</th> --}}
                                     <th rowspan="2" class="text-center align-items-center">Stock Code</th>
                                     <th rowspan="2" class="text-center align-items-center">Stock Exchange</th>
                                     <th rowspan="2" class="text-center align-items-center"
@@ -90,170 +90,241 @@
                             <tbody>
                                 @if ($allReports != null)
                                     @foreach ($allReports as $report)
-                                        <tr>
-                                            <td class="text-center">
-                                                <a href="{{ route('client.single-report-3x', $report['id']) }}"
-                                                    class="btn btn-sm btn-secondary">View</a>
-                                            </td>
-                                            <td class="text-center">{{ $report['date_of_appointment'] }}</td>
-                                            <td>{{ $report['name_of_director'] }}</td>
-                                            <td>
-                                                @php
-                                                    $companyName = preg_split('/\(/', $report['company_name']);
-                                                @endphp
-                                                {{ $companyName[0] }}</td>
-                                            <td class="text-center">
-                                                {{ $report['stock_code'] == '' ? '-' : $report['stock_code'] }}</td>
-                                            <td class="text-center">
-                                                {{ $report['stock_exchange'] == '' ? '-' : $report['stock_exchange'] }}
-                                            </td>
-                                            <td class="text-center" style="border-right: solid 2px #380092;">
-                                                {{ $report['abn'] }}
-                                            </td>
+                                        @php
+                                            $maxRowCount = max(
+                                                1,
+                                                count($report['part1s'] ?? []),
+                                                count($report['part2s'] ?? []),
+                                                count($report['part3s'] ?? []),
+                                            );
+                                        @endphp
 
-                                            <td class="text-center" style="min-width: 200px; max-width: 250px;">
-                                                @for ($i = 0; $i < count($report['part1s']); $i++)
-                                                    @php
-                                                        if (
-                                                            preg_match(
-                                                                '/^([\d,]+)\s+(.+)$/',
-                                                                $report['part1s'][$i]['number_class_of_securities'],
-                                                                $matches,
-                                                            )
-                                                        );
-                                                    @endphp
-                                                    {{ $matches[1] ?? '-' }}
-                                                    <br><br>
-                                                @endfor
-                                            </td>
+                                        @for ($i = 0; $i < $maxRowCount; $i++)
+                                            <tr>
+                                                {{-- <td class="text-center">
+                                                    <a href="{{ route('client.single-report-3x', $report['id']) }}"
+                                                        class="btn btn-sm btn-secondary">View</a>
+                                                </td> --}}
+                                                <td class="text-center">{{ $report['date_of_appointment'] }}</td>
+                                                <td class="text-center" style="min-width: 130px; max-width: 250px;">{{ $report['name_of_director'] }}</td>
+                                                {{-- <td class="text-center" style="min-width: 200px; max-width: 250px;" data-bs-toggle="tooltip"
+                                                    title="{{ $report['company_name'] }}">
+                                                    {{ Str::limit($report['company_name'], 20, '...') }}</td> --}}
+                                                <td class="text-center">
+                                                    {{ $report['stock_code'] == '' ? '-' : $report['stock_code'] }}</td>
+                                                <td class="text-center">
+                                                    {{ $report['stock_exchange'] == '' ? '-' : $report['stock_exchange'] }}
+                                                </td>
+                                                <td class="text-center {{ $report['abn_verified'] == '0' ? 'text-danger' : '' }}"
+                                                    style="border-right: solid 2px #380092;min-width: 110px;max-width: 150px;">
+                                                    {{ $report['abn'] }}
+                                                </td>
 
-                                            <td class="text-center"
-                                                style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;"
-                                                >
-                                                @for ($i = 0; $i < count($report['part1s']); $i++)
-                                                    @php
-                                                        if (
-                                                            preg_match(
-                                                                '/^([\d,]+)\s+(.+)$/',
-                                                                $report['part1s'][$i]['number_class_of_securities'],
-                                                                $matches,
-                                                            )
-                                                        );
-                                                    @endphp
-                                                    {{ $matches[2] ?? '-' }}
-                                                    <br><br>
-                                                @endfor
-                                            </td>
-                                            
-                                            <td class="text-center" style="min-width: 200px; max-width: 250px"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ implode(', ', array_map(fn($p) => in_array(strtolower($p['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $p['name_of_holder_nature_of_interest'], $report['part2s'])) }}">
-                                                @for ($i = 0; $i < count($report['part2s']); $i++)
-                                                    {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }}
-                                                    <br><br>
-                                                @endfor
-                                            </td>
-                                            <td class="text-center" style="width: 350px; max-width: 450px;"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ implode(', ', array_map(fn($p) => in_array(strtolower($p['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $p['number_class_of_securities'], $report['part2s'])) }}">
-                                                @for ($i = 0; $i < count($report['part2s']); $i++)
-                                                    @php
-                                                        $v = in_array(
-                                                            strtolower(
+                                                {{-- part1s  --}}
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    @if (isset($report['part1s'][$i]))
+                                                        @php
+                                                            $matches = [];
+                                                            if (
+                                                                preg_match(
+                                                                    '/^([\d,]+)\s+(.+)$/',
+                                                                    $report['part1s'][$i]['number_class_of_securities'],
+                                                                    $matches,
+                                                                )
+                                                            ) {
+                                                                $number = $matches[1];
+                                                            } else {
+                                                                $number = '-';
+                                                            }
+                                                        @endphp
+                                                        <span>{{ $number }}</span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+
+                                                <td class="text-center"
+                                                    style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;">
+                                                    @if (isset($report['part1s'][$i]))
+                                                        @php
+                                                            $matches = [];
+                                                            if (
+                                                                preg_match(
+                                                                    '/^([\d,]+)\s+(.+)$/',
+                                                                    $report['part1s'][$i]['number_class_of_securities'],
+                                                                    $matches,
+                                                                )
+                                                            ) {
+                                                                $class_O_S = $matches[2];
+                                                            } else {
+                                                                $class_O_S = '-';
+                                                            }
+                                                        @endphp
+                                                        <span data-bs-toggle="tooltip" title="{{ $class_O_S }}">
+                                                            {{ Str::limit($class_O_S, 30, '...') }}
+                                                        </span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+
+                                                {{-- part2s  --}}
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px">
+                                                    @if (isset($report['part2s'][$i]))
+                                                        <span data-bs-toggle="tooltip"
+                                                            title="{{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $report['part2s'][$i]['name_of_holder_nature_of_interest'] }}">
+                                                            {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }}
+                                                        </span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+
+                                                <td class="text-center" style="width: 350px; max-width: 450px;">
+                                                    @if (isset($report['part2s'][$i]))
+                                                        @php
+                                                            // Handle invalid securities values
+                                                            $securities = strtolower(
                                                                 $report['part2s'][$i]['number_class_of_securities'],
-                                                            ),
-                                                            ['n/a', 'nil', 'null'],
-                                                        )
-                                                            ? '-'
-                                                            : $report['part2s'][$i]['number_class_of_securities'];
-                                                        $v1 = preg_match('/^([\d,]+)\s+(.+)$/', $v, $text);
-                                                    @endphp
-                                                    {{ $text[1] ?? '-' }}
-                                                    <br><br>
-                                                @endfor
-                                            </td>
+                                                            );
+                                                            if (in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                                $displayValue = '-';
+                                                            } else {
+                                                                $matches = [];
+                                                                if (
+                                                                    preg_match(
+                                                                        '/^([\d,]+)\s+(.+)$/',
+                                                                        $securities,
+                                                                        $matches,
+                                                                    )
+                                                                ) {
+                                                                    $displayValue = $matches[1]; // Extract the numeric part
+                                                                } else {
+                                                                    $displayValue = $securities; // Fallback to the original value
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span>{{ $displayValue }}</span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
 
-                                            <td class="text-center"
-                                                style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ implode(', ', array_map(fn($p) => in_array(strtolower($p['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $p['number_class_of_securities'], $report['part2s'])) }}">
-                                                @for ($i = 0; $i < count($report['part2s']); $i++)
-                                                    @php
-                                                        $v = in_array(
-                                                            strtolower(
+                                                <td class="text-center"
+                                                    style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;">
+                                                    @if (isset($report['part2s'][$i]))
+                                                        @php
+                                                            // Handle invalid securities values
+                                                            $securities = strtolower(
                                                                 $report['part2s'][$i]['number_class_of_securities'],
-                                                            ),
-                                                            ['n/a', 'nil', 'null'],
-                                                        )
-                                                            ? '-'
-                                                            : $report['part2s'][$i]['number_class_of_securities'];
-                                                        $v1 = preg_match('/^([\d,]+)\s+(.+)$/', $v, $text);
-                                                    @endphp
-                                                    {{ $text[2] ?? '-' }}
-                                                    <br><br>
-                                                @endfor
-                                            </td>
+                                                            );
+                                                            if (in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                                $displayValue = '-';
+                                                            } else {
+                                                                $matches = [];
+                                                                if (
+                                                                    preg_match(
+                                                                        '/^([\d,]+)\s+(.+)$/',
+                                                                        $securities,
+                                                                        $matches,
+                                                                    )
+                                                                ) {
+                                                                    $displayValue = $matches[2]; // Extract the numeric part
+                                                                } else {
+                                                                    $displayValue = $securities; // Fallback to the original value
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span data-bs-toggle="tooltip"
+                                                            title="{{ $displayValue }}">{{ Str::limit($displayValue, 30, '...') }}</span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
 
-                                            <td class="text-center" style="min-width: 200px; max-width: 250px"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ in_array(strtolower($report['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['detail_of_contract'] }}">
-                                                {{ in_array(strtolower($report['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part3s'][0]['detail_of_contract'], 50, '...') }}
-                                            </td>
-                                            <td class="text-center" style="min-width: 200px; max-width: 250px"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ in_array(strtolower($report['part3s'][0]['nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['nature_of_interest'] }}">
-                                                {{ in_array(strtolower($report['part3s'][0]['nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part3s'][0]['nature_of_interest'], 50, '...') }}
-                                            </td>
-                                            <td class="text-center" style="min-width: 200px; max-width: 250px"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ in_array(strtolower($report['part3s'][0]['name_of_registered_holder']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['name_of_registered_holder'] }}">
-                                                {{ in_array(strtolower($report['part3s'][0]['name_of_registered_holder']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part3s'][0]['name_of_registered_holder'], 50, '...') }}
-                                            </td>
+                                                {{-- part3s  --}}
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px"
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ in_array(strtolower($report['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['detail_of_contract'] }}">
+                                                    {{ in_array(strtolower($report['part3s'][0]['detail_of_contract']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part3s'][0]['detail_of_contract'], 50, '...') }}
+                                                </td>
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px"
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ in_array(strtolower($report['part3s'][0]['nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['nature_of_interest'] }}">
+                                                    {{ in_array(strtolower($report['part3s'][0]['nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part3s'][0]['nature_of_interest'], 50, '...') }}
+                                                </td>
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px"
+                                                    data-bs-toggle="tooltip"
+                                                    title="{{ in_array(strtolower($report['part3s'][0]['name_of_registered_holder']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['name_of_registered_holder'] }}">
+                                                    {{ in_array(strtolower($report['part3s'][0]['name_of_registered_holder']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part3s'][0]['name_of_registered_holder'], 50, '...') }}
+                                                </td>
 
-                                            <td class="text-center" style="min-width: 200px; max-width: 250px;">
-                                                @php
-                                                    $v = in_array(
-                                                        strtolower(
-                                                            $report['part3s'][0][
-                                                                'no_and_class_of_securities_to_which_interest_relates'
-                                                            ],
-                                                        ),
-                                                        ['n/a', 'nil', 'null'],
-                                                    )
-                                                        ? '-'
-                                                        : strtolower(
-                                                            $report['part3s'][0][
-                                                                'no_and_class_of_securities_to_which_interest_relates'
-                                                            ],
-                                                        );
-                                                    $v1 = preg_match('/^([\d,]+)\s+(.+)$/', $v, $text);
-                                                @endphp
-                                                {{ $text[1] ?? '-' }}
-                                            </td>
-                                            <td class="text-center"
-                                                style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;"
-                                                data-bs-toggle="tooltip"
-                                                title="{{ in_array(strtolower($report['part3s'][0]['no_and_class_of_securities_to_which_interest_relates']), ['n/a', 'nil', 'null']) ? '-' : $report['part3s'][0]['no_and_class_of_securities_to_which_interest_relates'] }}">
-                                                @php
-                                                    $v = in_array(
-                                                        strtolower(
-                                                            $report['part3s'][0][
-                                                                'no_and_class_of_securities_to_which_interest_relates'
-                                                            ],
-                                                        ),
-                                                        ['n/a', 'nil', 'null'],
-                                                    )
-                                                        ? '-'
-                                                        : strtolower(
-                                                            $report['part3s'][0][
-                                                                'no_and_class_of_securities_to_which_interest_relates'
-                                                            ],
-                                                        );
-                                                    $v1 = preg_match('/^([\d,]+)\s+(.+)$/', $v, $text);
-                                                @endphp
-                                                {{ $text[2] ?? '-' }}
-                                            </td>
-                                        </tr>
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    @if (isset($report['part3s'][$i]))
+                                                        @php
+                                                            // Handle invalid securities values
+                                                            $securities = strtolower(
+                                                                $report['part3s'][$i][
+                                                                    'no_and_class_of_securities_to_which_interest_relates'
+                                                                ],
+                                                            );
+                                                            if (in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                                $displayValue = '-';
+                                                            } else {
+                                                                $matches = [];
+                                                                if (
+                                                                    preg_match(
+                                                                        '/^([\d,]+)\s+(.+)$/',
+                                                                        $securities,
+                                                                        $matches,
+                                                                    )
+                                                                ) {
+                                                                    $displayValue = $matches[1]; // Extract the numeric part
+                                                                } else {
+                                                                    $displayValue = $securities; // Fallback to the original value
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span>{{ $displayValue }}</span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+                                                <td class="text-center"
+                                                    style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;">
+                                                    @if (isset($report['part3s'][$i]))
+                                                        @php
+                                                            // Handle invalid securities values
+                                                            $securities = strtolower(
+                                                                $report['part3s'][$i][
+                                                                    'no_and_class_of_securities_to_which_interest_relates'
+                                                                ],
+                                                            );
+                                                            if (in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                                $displayValue = '-';
+                                                            } else {
+                                                                $matches = [];
+                                                                if (
+                                                                    preg_match(
+                                                                        '/^([\d,]+)\s+(.+)$/',
+                                                                        $securities,
+                                                                        $matches,
+                                                                    )
+                                                                ) {
+                                                                    $displayValue = $matches[2]; // Extract the numeric part
+                                                                } else {
+                                                                    $displayValue = $securities; // Fallback to the original value
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span data-bs-toggle="tooltip"
+                                                            title="{{ $displayValue }}">{{ Str::limit($displayValue, 30, '...') }}</span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endfor
                                     @endforeach
                                 @endif
                             </tbody>
@@ -287,11 +358,11 @@
                 buttons: ['copy', 'csv', 'excel', 'print'],
                 scrollX: true, // Enable horizontal scrolling
                 fixedColumns: {
-                    leftColumns: 7 // Fix the first 4 columns
+                    leftColumns: 5 // Fix the first 4 columns
                 },
-                pageLength: 4,
+                pageLength: 8,
                 order: [
-                    [1, 'desc']
+                    [0, 'desc']
                 ],
             });
         }
