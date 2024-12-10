@@ -37,7 +37,7 @@ class PDFController2 extends Controller
 
 
         if ($return_var !== 0) {
-            return response()->json(["Failed to extract data from PDF"], 500);
+            return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
         }
         $extracted_table_count = 0;
 
@@ -108,7 +108,7 @@ class PDFController2 extends Controller
             // check if already exists
             $appendix3X = Appendix3X::where('abn', str_replace(' ', '', $abn))->where('name_of_director', $name_of_director)->where('date_of_appointment', Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'))->wherenull('deleted_at')->first();
             if ($appendix3X) {
-                return response()->json(["Appendix3X already exists with the same ABN, Name of Director and Date of Appointment"], 500);
+                return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '2', 'message' => 'Appendix 3X already exists'], 500);
             }
             $appendix3X = Appendix3X::create([
                 'document_number' => $document_number,
@@ -125,8 +125,8 @@ class PDFController2 extends Controller
             ]);
             $extracted_table_count++;
         } catch (\Exception $e) {
-            dd($e);
-            return response()->json(["Failed to extract data from PDF"], 500);
+            // dd($e);
+            return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
         }
 
 
@@ -396,9 +396,15 @@ class PDFController2 extends Controller
         }
         if ($extracted_table_count == 3) {
             Appendix3X::where('id', $appendix3X->id)->update(['is_upload_completed' => true]);
+            if (!$abn_verified) {
+                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified'], 500);
+            }
         } else {
-
-            return response()->json(["Scrapping Failed"], 500);
+            if (!$abn_verified) {
+                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified'], 500);
+            } else {
+                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
+            }
         }
         return response()->json(['success'], 200);
     }
