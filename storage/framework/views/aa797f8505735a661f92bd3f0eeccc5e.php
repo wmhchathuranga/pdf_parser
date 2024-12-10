@@ -172,146 +172,23 @@
                     $notificationCount = $notifications->count();
                 ?>
 
-                <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                    <button type="button"
-                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
-                        id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
-                        data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bx-bell fs-22'></i>
-                        <?php if($notificationCount > 0): ?>
-                            <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><?php echo e($notificationCount); ?><span
-                                    class="visually-hidden">unread messages</span></span>
-                        <?php endif; ?>
-                    </button>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('notifications');
 
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                        aria-labelledby="page-header-notifications-dropdown">
+$__html = app('livewire')->mount($__name, $__params, 'lw-1513859819-0', $__slots ?? [], get_defined_vars());
 
-                        <div class="dropdown-head bg-primary bg-pattern rounded-top">
-                            <div class="p-3">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
-                                    </div>
-                                    <div class="col-auto dropdown-tabs">
-                                        <?php if($notificationCount > 0): ?>
-                                            <span
-                                                class="badge bg-light-subtle text-body fs-13"><?php echo e($notificationCount); ?>&nbsp;&nbsp;New</span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
+echo $__html;
 
-                            <div class="px-2 pt-2">
-                                <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
-                                    id="notificationItemsTab" role="tablist">
-                                    <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab"
-                                            role="tab" aria-selected="true">
-                                            All (<?php echo e($notificationCount); ?>)
-                                        </a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-
-                        </div>
-
-                        <div class="tab-content position-relative" id="notificationItemsTabContent">
-                            <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <?php $__currentLoopData = $notifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notifi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <div class="avatar-xs me-3 flex-shrink-0">
-                                                    <span
-                                                        class="avatar-title <?php echo e(in_array($notifi->type, [3, 4]) ? 'bg-info-subtle text-info' : ($notifi->type == 2 ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger')); ?> rounded-circle fs-16">
-                                                        <i
-                                                            class="mdi <?php switch($notifi->type):
-                                                            case (1): ?>
-                                                                mdi-file-document-alert-outline
-                                                                <?php break; ?>
-                                                            <?php case (2): ?>
-                                                                mdi-file-replace-outline
-                                                                <?php break; ?>
-                                                            <?php case (3): ?>
-                                                                mdi-file-clock-outline
-                                                                <?php break; ?>
-                                                            <?php case (4): ?>
-                                                                mdi-alert-decagram
-                                                                <?php break; ?>
-                                                            <?php default: ?>
-                                                                mdi-information-outline
-                                                            <?php endswitch; ?>
-                                                        "></i>
-                                                        
-                                                    </span>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <a class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">
-                                                            <?php echo e($notifi->file_name); ?></h6>
-                                                    </a>
-                                                    <a onclick="readNotification(<?php echo e($notifi->id); ?>)"
-                                                        <?php if($notifi->type == 3 || $notifi->type == 4): ?> href="<?php echo e(route(auth()->user()->name . '.report-edit-' . $notifi->report_type, $notifi->report_id)); ?>" <?php endif; ?>
-                                                        class="stretched-link">
-                                                        <h6 class="mt-0 mb-2 lh-base"><?php echo e($notifi->message); ?></h6>
-                                                    </a>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i>
-                                                            <?php
-                                                                $date = new DateTime($notifi->created_at);
-                                                                // if it is a today, only show time
-                                                                if ($date->format('Y-m-d') == date('Y-m-d')) {
-                                                                    echo $date->format('H:i');
-                                                                } elseif (
-                                                                    $date->format('Y-m-d') ==
-                                                                    date('Y-m-d', strtotime('-1 days'))
-                                                                ) {
-                                                                    echo 'Yesterday at ' . $date->format('H:i');
-                                                                } else {
-                                                                    echo $date->format('d M Y H:i');
-                                                                }
-                                                            ?>
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                                    <script>
-                                        function readNotification(id) {
-                                            const xhr = new XMLHttpRequest();
-                                            xhr.open("GET", "/read-notification/" + id, true);
-                                            xhr.send();
-                                            window.location.reload();
-                                        }
-                                    </script>
-
-                                    
-
-                                    
-                                </div>
-
-                            </div>
-
-                            
-
-                            <div class="notification-actions" id="notification-actions">
-                                
-                                <div class="d-flex text-muted justify-content-center">
-                                    <button type="button" class="btn btn-link link-danger p-0 ms-3"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#removeNotificationModal">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown"

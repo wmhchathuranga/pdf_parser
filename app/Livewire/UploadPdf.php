@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\ActivityLog;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -16,13 +17,10 @@ class UploadPdf extends Component
     public $pdfFiles = [];
     public $type;
 
-    public $responsesData = [];
-
     public $pdfCount = 0;
     public $successCount;
     public $errorCount;
     public $errorDetails = [];
-
     public $notifications = [];
 
 
@@ -36,9 +34,7 @@ class UploadPdf extends Component
         // Reset counters
         $this->successCount = 0;
         $this->errorCount = 0;
-
         $this->errorDetails;
-
         $this->pdfCount = count($this->pdfFiles);
 
         foreach ($this->pdfFiles as $pdfFile) {
@@ -62,15 +58,14 @@ class UploadPdf extends Component
                     'name' => $pdfFile->getClientOriginalName(),
                     'message' => $response->json()['message'],
                 ];
-                
                 $this->createObject($response);
-
-                // dd($errorDetail, $response->json());
                 array_push($this->errorDetails, $errorDetail);
                 $this->errorCount++;
             }
+
+            $this->saveActivity($response);
         }
-        
+
         if($this->notifications != []){
             $this->saveNotifications();
         }
@@ -83,14 +78,6 @@ class UploadPdf extends Component
     }
 
 
-
-
-
-    // $errorData->json() = [{
-    //     'report_id': '1',
-    //     'type': 'scrap faild',
-    //     'message' : 'Failed to scrap'
-    // }]
 
     public function createObject($errorData){
         // dd($errorData->json());
@@ -110,8 +97,6 @@ class UploadPdf extends Component
         $this->notifications[] = $object;
     }
 
-
-
     public function saveNotifications(){
         foreach ($this->notifications as $key => $object) {
             Notification::create([
@@ -123,6 +108,18 @@ class UploadPdf extends Component
                 'message' => $object['message'],
             ]);
         }
+    }
+
+
+    public function saveActivity($response){
+        ActivityLog::create([
+            'user_id' => auth()->user()->id,
+            'status_message' => $response->json()['message'],
+            'error_type' => $response->json()['type'],
+            'description' => $response->json()['file_name'],
+            'report_id' => $response->json()['report_id'] ?? null,
+            'report_type' => $this->type
+        ]);
     }
 
 

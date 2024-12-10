@@ -136,6 +136,10 @@ Route::middleware(['auth', 'userPermissions'])->prefix('cl')->name('user.')->gro
         Route::get('avarage-compare-chart', function () {
             return view('cl.avarage-compare-chart');
         })->name('reports-compare-chart');
+
+        Route::get('/activity-log', function () {
+            return view('cl.activity-log');
+        })->name('activity-log');
     }
 
     Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'prefixIndex'])->name('prefixIndex');

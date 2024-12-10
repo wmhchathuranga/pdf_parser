@@ -25,7 +25,7 @@ return new class extends Migration
 
         });
 
-        Notification::create(['id' => 1, 'user_id' => 3, 'type' => 'scrap_error', 'file_name' => 'Appendix 3X 2024-09-31' , 'message' => "Welcome to PDF Extractor", 'is_read' => false]);
+        // Notification::create(['id' => 1, 'user_id' => 3, 'type' => 'scrap_error', 'file_name' => 'Appendix 3X 2024-09-31' , 'message' => "Welcome to PDF Extractor", 'is_read' => false]);
     }
 
     /**
