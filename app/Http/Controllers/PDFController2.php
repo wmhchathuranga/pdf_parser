@@ -406,7 +406,7 @@ class PDFController2 extends Controller
                 return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
             }
         }
-        return response()->json(['success'], 200);
+        return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete'], 200);
     }
 
     public function checkABN($abn)
