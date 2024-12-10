@@ -26,9 +26,9 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        User::create(['name' => 'Developer', 'user_role_id' => 1,'email' => 'developer@gmail.com','password' => Hash::make('password'),'email_verified_at'=>'2022-01-02 17:04:58','avatar' => 'avatar-1.jpg','created_at' => now(),]);
-        User::create(['name' => 'Admin', 'user_role_id' => 2,'email' => 'admin@gmail.com','password' => Hash::make('password'),'email_verified_at'=>'2022-01-02 17:04:58','avatar' => 'avatar-2.jpg','created_at' => now(),]);
-        User::create(['name' => 'User', 'user_role_id' => 3,'email' => 'user@gmail.com','password' => Hash::make('password'),'email_verified_at'=>'2022-01-02 17:04:58','avatar' => 'avatar-2.jpg','created_at' => now(),]);
+        User::create(['name' => 'developer', 'user_role_id' => 1,'email' => 'developer@gmail.com','password' => Hash::make('password'),'email_verified_at'=>'2022-01-02 17:04:58','avatar' => 'avatar-1.jpg','created_at' => now(),]);
+        User::create(['name' => 'admin', 'user_role_id' => 2,'email' => 'admin@gmail.com','password' => Hash::make('password'),'email_verified_at'=>'2022-01-02 17:04:58','avatar' => 'avatar-2.jpg','created_at' => now(),]);
+        User::create(['name' => 'user', 'user_role_id' => 3,'email' => 'user@gmail.com','password' => Hash::make('password'),'email_verified_at'=>'2022-01-02 17:04:58','avatar' => 'avatar-2.jpg','created_at' => now(),]);
     }
     /**
      * Reverse the migrations.
