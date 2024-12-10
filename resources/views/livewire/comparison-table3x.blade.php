@@ -102,7 +102,7 @@
                                         @for ($i = 0; $i < $maxRowCount; $i++)
                                             <tr>
                                                 {{-- <td class="text-center">
-                                                    <a href="{{ route('client.single-report-3x', $report['id']) }}"
+                                                    <a href="{{ route('user.single-report-3x', $report['id']) }}"
                                                         class="btn btn-sm btn-secondary">View</a>
                                                 </td> --}}
                                                 <td class="text-center">{{ $report['date_of_appointment'] }}</td>

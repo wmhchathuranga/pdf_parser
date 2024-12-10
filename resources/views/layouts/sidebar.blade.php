@@ -1261,11 +1261,11 @@
                         <div class="collapse menu-dropdown" id="appendix-5b">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('client.appendix-5b-upload') }}" class="nav-link">All Reports</a>
+                                    <a href="{{ route('user.appendix-5b-upload') }}" class="nav-link">All Reports</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('client.comparison-table') }}" class="nav-link">Comparison Table</a>
+                                    <a href="{{ route('user.comparison-table') }}" class="nav-link">Comparison Table</a>
                                 </li>
                             </ul>
                         </div>
@@ -1278,11 +1278,11 @@
                         <div class="collapse menu-dropdown" id="appendix-3x">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('client.appendix-3x-upload') }}" class="nav-link">All Reports</a>
+                                    <a href="{{ route('user.appendix-3x-upload') }}" class="nav-link">All Reports</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('client.comparison-table-3x') }}" class="nav-link">Comparison Table</a>
+                                    <a href="{{ route('user.comparison-table-3x') }}" class="nav-link">Comparison Table</a>
                                 </li>
                             </ul>
                         </div>
@@ -1295,24 +1295,24 @@
                         <div class="collapse menu-dropdown" id="appendix-3y">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('client.appendix-3y-upload') }}" class="nav-link">All Reports</a>
+                                    <a href="{{ route('user.appendix-3y-upload') }}" class="nav-link">All Reports</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('client.comparison-table-3y') }}" class="nav-link">Comparison Table</a>
+                                    <a href="{{ route('user.comparison-table-3y') }}" class="nav-link">Comparison Table</a>
                                 </li>
                             </ul>
                         </div>
                     </li> --}}
 
                     {{-- <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('client.all-reports') }}">
+                        <a class="nav-link menu-link" href="{{ route('user.all-reports') }}">
                             <i class="mdi mdi-file-document"></i> <span>All Reports</span>
                         </a>
                     </li> --}}
                     
                     {{-- <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('client.comparison-table') }}">
+                        <a class="nav-link menu-link" href="{{ route('user.comparison-table') }}">
                             <i class="mdi mdi-table"></i> <span>Comparison Table</span>
                         </a>
                     </li> --}}
@@ -1324,11 +1324,11 @@
                         <div class="collapse menu-dropdown" id="analytics-charts">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('client.single-pdf-chart') }}" class="nav-link">Single PDF Chart</a>
+                                    <a href="{{ route('user.single-pdf-chart') }}" class="nav-link">Single PDF Chart</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('client.reports-compare-chart') }}" class="nav-link">Reports Compare Chart</a>
+                                    <a href="{{ route('user.reports-compare-chart') }}" class="nav-link">Reports Compare Chart</a>
                                 </li>
                             </ul>
                         </div>

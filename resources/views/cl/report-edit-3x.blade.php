@@ -444,9 +444,20 @@
         }
 
         function saveData() {
+            Swal.fire({
+                title: "Saving Report...",
+                text: 'That thing is still around?',
+                html: '<i class="text-success mdi mdi-spin mdi-loading fs-48"></i>',
+                // icon: 'question',
+                // confirmButtonClass: 'btn btn-primary w-xs mt-2',
+                // buttonsStyling: false,
+                showCloseButton: false,
+                showConfirmButton: false
+            });
+            
             // console.log(JSON.stringify(reportData));
             var request = new XMLHttpRequest();
-            request.open("POST", "{{ route('client.save-report-3x') }}");
+            request.open("POST", "{{ route('user.save-report-3x') }}");
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             request.send(JSON.stringify(reportData));

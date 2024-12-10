@@ -59,7 +59,7 @@
             <div class="text-end mb-3">
                 <div class="">
                     <a class="btn btn-primary waves-effect waves-light" target="_blank"
-                        href="{{ route('client.report-edit-3x', ['id' => $reportData['id']]) }}">Edit <i
+                        href="{{ route('user.report-edit-3x', ['id' => $reportData['id']]) }}">Edit <i
                             class="mdi mdi-pencil"></i></a>
                 </div>
             </div>

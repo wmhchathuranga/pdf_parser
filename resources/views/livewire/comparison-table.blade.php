@@ -501,7 +501,7 @@
                                     @foreach ($allReports as $index => $report)
                                         <tr>
                                             <td class="text-center align-middle"><a
-                                                    href="{{ route('client.single-report', $report['id']) }}"
+                                                    href="{{ route('user.single-report', $report['id']) }}"
                                                     class="btn btn-sm btn-secondary">view</a></td>
                                             <td>{{ $report['quarter_ending'] }}</td>
                                             <td>{{ $report['company_name'] }}</td>
@@ -1388,7 +1388,7 @@
                 showConfirmButton: false
             });
             var request = new XMLHttpRequest();
-            request.open("POST", "{{ route('client.save-report') }}");
+            request.open("POST", "{{ route('user.save-report') }}");
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             request.send(JSON.stringify(editedReportsArray));

@@ -49,7 +49,7 @@
         <div class="card col-12">
             <div class="card-header text-end">
                 <div class="">
-                    <a class="btn btn-primary waves-effect waves-light" target="_blank" href="{{ route('client.report-edit', ['id' => $reportData['id']]) }}">Edit <i
+                    <a class="btn btn-primary waves-effect waves-light" target="_blank" href="{{ route('user.report-edit', ['id' => $reportData['id']]) }}">Edit <i
                             class="mdi mdi-pencil"></i></a>
                 </div>
             </div>

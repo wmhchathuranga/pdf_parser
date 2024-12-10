@@ -49,7 +49,7 @@
 
     @livewire('single-pdf-chart')
 
-    {{-- <form class="row g-3 pb-5 pt-4" action="{{ route('client.analyse-chart') }}" method="POST"
+    {{-- <form class="row g-3 pb-5 pt-4" action="{{ route('user.analyse-chart') }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         <div class="col-sm-4">

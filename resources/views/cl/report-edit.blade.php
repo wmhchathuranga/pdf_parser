@@ -920,7 +920,7 @@
 
             // console.log(JSON.stringify(reportData));
             var request = new XMLHttpRequest();
-            request.open("POST", "{{ route('client.save-report') }}");
+            request.open("POST", "{{ route('user.save-report') }}");
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             request.send(JSON.stringify([reportData]));

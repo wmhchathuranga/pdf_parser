@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Notification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -21,6 +22,8 @@ class UploadPdf extends Component
     public $successCount;
     public $errorCount;
     public $errorDetails = [];
+
+    public $notifications = [];
 
 
 
@@ -52,27 +55,76 @@ class UploadPdf extends Component
                 
             // fclose($fileContent);
             Storage::delete($filePath);
-
             if ($response->successful()) {
                 $this->successCount++;
             } else {
                 $errorDetail = [
                     'name' => $pdfFile->getClientOriginalName(),
-                    'message' => $response->json()[0] ?? 'Failed to Scrap',
+                    'message' => $response->json()['message'],
                 ];
+                
+                $this->createObject($response);
+
                 // dd($errorDetail, $response->json());
                 array_push($this->errorDetails, $errorDetail);
                 $this->errorCount++;
             }
         }
+        
+        if($this->notifications != []){
+            $this->saveNotifications();
+        }
 
         $this->pdfFiles = [];
-        // Set session flash message with counts
         session()->flash('message', [
             'success' => $this->successCount,
             'error' => $this->errorCount,
         ]);
     }
+
+
+
+
+
+    // $errorData->json() = [{
+    //     'report_id': '1',
+    //     'type': 'scrap faild',
+    //     'message' : 'Failed to scrap'
+    // }]
+
+    public function createObject($errorData){
+        // dd($errorData->json());
+        $errorData = $errorData->json();
+        $object = [
+            'file_name' => $errorData['file_name'] ?? null,
+            'report_id' => $errorData['report_id']  ?? null,
+            'type' => $errorData['type'],
+            'message' => $errorData['message'],
+        ];    
+        // $object = [
+        //     'report_id' => '1',
+        //     'type' => 'scrap faild',
+        //     'message' => $errorData[0],
+        // ];    
+
+        $this->notifications[] = $object;
+    }
+
+
+
+    public function saveNotifications(){
+        foreach ($this->notifications as $key => $object) {
+            Notification::create([
+                'user_id' => auth()->user()->id,
+                'file_name' => $object['file_name'],
+                'report_id' => $object['report_id'],
+                'report_type' => $this->type,
+                'type' => $object['type'],
+                'message' => $object['message'],
+            ]);
+        }
+    }
+
 
     public function clearMessage()
     {

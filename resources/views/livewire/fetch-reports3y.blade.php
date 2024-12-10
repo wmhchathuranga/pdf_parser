@@ -63,11 +63,11 @@
 
                                             <td class="text-center">
                                                 <a target="_blank"
-                                                    href="{{ route('client.single-report-3y', $report['id']) }}"
+                                                    href="{{ route('user.single-report-3y', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-success"><i
                                                         class="ri-eye-fill align-bottom"></i></a>
                                                 <a target="_blank" 
-                                                href="{{ route('client.report-edit-3x', $report['id']) }}"
+                                                href="{{ route('user.report-edit-3x', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-primary"><i
                                                         class="ri-pencil-fill align-bottom"></i></a>
                                                 {{-- delete button  --}}

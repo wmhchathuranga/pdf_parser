@@ -108,11 +108,11 @@
                         <div class="collapse menu-dropdown" id="appendix-5b">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('client.appendix-5b-upload')); ?>" class="nav-link">All Reports</a>
+                                    <a href="<?php echo e(route('user.appendix-5b-upload')); ?>" class="nav-link">All Reports</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('client.comparison-table')); ?>" class="nav-link">Comparison Table</a>
+                                    <a href="<?php echo e(route('user.comparison-table')); ?>" class="nav-link">Comparison Table</a>
                                 </li>
                             </ul>
                         </div>
@@ -125,11 +125,11 @@
                         <div class="collapse menu-dropdown" id="appendix-3x">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('client.appendix-3x-upload')); ?>" class="nav-link">All Reports</a>
+                                    <a href="<?php echo e(route('user.appendix-3x-upload')); ?>" class="nav-link">All Reports</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('client.comparison-table-3x')); ?>" class="nav-link">Comparison Table</a>
+                                    <a href="<?php echo e(route('user.comparison-table-3x')); ?>" class="nav-link">Comparison Table</a>
                                 </li>
                             </ul>
                         </div>
@@ -148,11 +148,11 @@
                         <div class="collapse menu-dropdown" id="analytics-charts">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('client.single-pdf-chart')); ?>" class="nav-link">Single PDF Chart</a>
+                                    <a href="<?php echo e(route('user.single-pdf-chart')); ?>" class="nav-link">Single PDF Chart</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="<?php echo e(route('client.reports-compare-chart')); ?>" class="nav-link">Reports Compare Chart</a>
+                                    <a href="<?php echo e(route('user.reports-compare-chart')); ?>" class="nav-link">Reports Compare Chart</a>
                                 </li>
                             </ul>
                         </div>
