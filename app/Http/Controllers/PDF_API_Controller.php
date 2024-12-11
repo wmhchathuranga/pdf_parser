@@ -122,6 +122,7 @@ class PDF_API_Controller extends Controller
         $json = $request->all();
         $json_object = $json['data'];
         $report_id = $json_object['id'];
+        $abn_verified = false;
 
         $report = Appendix3X::find($report_id);
         if ($report['abn'] != $json_object['abn']) {
@@ -129,10 +130,11 @@ class PDF_API_Controller extends Controller
 
             if ($is_valid_abn) {
                 $company = Companies::where('abn', $json_object['abn'])->first();
-                $report['name'] = $company->name;
+                $report['company_name'] = $company->name;
                 $report['abn'] = $json_object['abn'];
                 $report['abn_suffix'] = substr(str_replace(' ', '', $report['abn']), -9);
                 $report['abn_verified'] = 1;
+                $abn_verified = true;
 
                 if ($company->stock_code != "" && $company->stock_exchange != "") {
                     $report['stock_code'] = $company->stock_code;
@@ -170,7 +172,10 @@ class PDF_API_Controller extends Controller
             return response()->json(null, 404);
         }
         $report->load(['part1s', 'part2s', 'part3s']);
-        return response()->json($report, 200);
+        if (!$abn_verified) {
+            return response()->json(['report_id' => $report_id, 'type' => '4', 'message' => 'ABN Not Verified'], 500);
+        }
+        return response()->json(['report_id' => $report_id, 'type' => '0', 'message' => 'Update Complete'], 200);
     }
 
     public function deleteReport($id)

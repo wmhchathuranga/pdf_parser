@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\PDFReport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
 use Smalot\PdfParser\Parser;
 
 class PDFController extends Controller
@@ -32,7 +33,7 @@ class PDFController extends Controller
         exec($pythonScript, $output, $return_var);
 
         if ($return_var !== 0) {
-            return response()->json(["Failed to extract data from PDF"], 500);
+            return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
         }
 
         $extracted_table_count = 0;
@@ -65,11 +66,11 @@ class PDFController extends Controller
 
             // check if have a record with same abn and quarter ending
             // check if not soft delete
-            
+
             $pdfReport = PDFReport::where('abn', str_replace(' ', '', $abn))->where('quarter_ending', Carbon::parse($quarterEnding, 'Australia/Melbourne')->format('Y-m-d'))->whereNull('deleted_at')->first();
 
             if ($pdfReport) {
-                return response()->json("Report already exists for this ABN and Quarter Ending", 500);
+                return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '2', 'message' => 'Appendix 3X already exists'], 500);
             }
 
             // Save extracted data to the database
@@ -180,7 +181,7 @@ class PDFController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return response()->json($e, 500);
+            return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
         }
 
 
@@ -456,7 +457,7 @@ class PDFController extends Controller
                         $cashFlowFromLoans_c_q = $cashFlowFromLoans[count($cashFlowFromLoans) - 2];
                         $cashFlowFromLoans_y_t_d = $cashFlowFromLoans[count($cashFlowFromLoans) - 1];
 
-                        print($cashFlowFromLoans_c_q . " " . $cashFlowFromLoans_y_t_d . "<br>");
+                        // print($cashFlowFromLoans_c_q . " " . $cashFlowFromLoans_y_t_d . "<br>");
                         break;
                     case Str::contains($second_table_content[$i], 'Dividends received'):
 
@@ -715,7 +716,7 @@ class PDFController extends Controller
                 $beginingCash_y_t_d = $beginingCash[count($beginingCash) - 1];
             }
 
-            print($beginingCash_c_q . " " . $beginingCash_y_t_d . "<br>");
+            // print($beginingCash_c_q . " " . $beginingCash_y_t_d . "<br>");
 
             $operatingCashFlow = explode(" ", $fourth_table_content[3]);
             $operatingCashFlow_c_q = $operatingCashFlow[count($operatingCashFlow) - 2];
@@ -1030,10 +1031,10 @@ class PDFController extends Controller
             ]);
         } else {
 
-            return response()->json(["Scrapping Failed"], 500);
+            return response()->json(['report_id' => $pdfReport->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
         }
-
-        return response()->json(['success' => true]);
+        // Logger($pdfReport->id . " " . $request->file('pdf')->getClientOriginalName());
+        return response()->json(['report_id' => $pdfReport->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete!'], 200);
     }
 
     public function convertBracketedToNegative($value)
