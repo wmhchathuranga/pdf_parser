@@ -1028,12 +1028,9 @@ File: Main Js File
 						}
 						var emptyNotificationElem = elem.querySelector(".empty-notification-elem")
 						if (!emptyNotificationElem) {
-							elem.innerHTML += '<div class="empty-notification-elem">\
-							<div class="w-25 w-sm-50 pt-3 mx-auto">\
-								<img src="build/images/svg/bell.svg" class="img-fluid" alt="user-pic">\
-							</div>\
-							<div class="text-center pb-5 mt-2">\
-								<h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>\
+							elem.innerHTML += '<div class="empty-notification-elem pt-5">\
+							<div class="text-center mt-5 pt-5">\
+								<h6 class="fs-14 fw-semibold lh-base">Hey! You have no any notifications </h6>\
 							</div>\
 						</div>'
 						}

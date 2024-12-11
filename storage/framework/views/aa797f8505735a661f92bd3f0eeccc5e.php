@@ -172,7 +172,25 @@
                     $notificationCount = $notifications->count();
                 ?>
 
-                <?php
+                
+
+                <div>
+                    <button type="button"
+                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
+                        id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bx-bell fs-22'></i>
+                        <?php if($notificationCount > 0): ?>
+                            <span id="notification-count-span" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><?php echo e($notificationCount); ?>
+
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        <?php endif; ?>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                        aria-labelledby="page-header-notifications-dropdown">
+                        <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
@@ -188,7 +206,8 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-                
+                    </div>
+                </div>
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
@@ -232,8 +251,7 @@ if (isset($__slots)) unset($__slots);
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                                 class="bx bx-power-off font-size-16 align-middle me-1"></i> <span
                                 key="t-logout"><?php echo app('translator')->get('translation.logout'); ?></span></a>
-                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST"
-                            style="display: none;">
+                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                             <?php echo csrf_field(); ?>
                         </form>
                     </div>
