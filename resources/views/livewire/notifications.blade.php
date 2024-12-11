@@ -10,7 +10,7 @@
                         {{-- <span class="badge bg-light-subtle text-body fs-13">{{ $notificationCount }}&nbsp;&nbsp;New</span> --}}
                         <button wire:click="markAllAsRead" type="button"
                             class="btn btn-success btn-sm btn-label waves-effect waves-light"><i
-                                class="ri-check-double-line label-icon align-middle fs-16 me-2"></i> Success</button>
+                                class="ri-check-double-line label-icon align-middle fs-16 me-2"></i>Clear All</button>
                     @endif
                 </div>
             </div>
@@ -113,8 +113,8 @@
         </div>
         <div class="notification-actions" id="notification-actions">
             <div class="d-flex text-muted justify-content-center">
-                <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal"
-                    data-bs-target="#removeNotificationModal">Remove</button>
+                {{-- <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal"
+                    data-bs-target="#removeNotificationModal">Remove</button> --}}
             </div>
         </div>
     </div>
