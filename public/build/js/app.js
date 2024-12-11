@@ -1030,7 +1030,7 @@ File: Main Js File
 						if (!emptyNotificationElem) {
 							elem.innerHTML += '<div class="empty-notification-elem pt-5">\
 							<div class="text-center mt-5 pt-5">\
-								<h6 class="fs-14 fw-semibold lh-base">Hey! You have no any notifications </h6>\
+								<h6 class="fs-12 fw-semibold lh-base">Hey! You have read all Notifications</h6>\
 							</div>\
 						</div>'
 						}
