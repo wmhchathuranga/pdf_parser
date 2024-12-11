@@ -1334,6 +1334,14 @@
                         </div>
                     </li>
 
+
+                    
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="{{ route('user.activity-log') }}">
+                            <i class="mdi  mdi-progress-clock"></i> <span>Activity Log</span>
+                        </a>
+                    </li>
+
                     {{-- <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarTables" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTables">
                             <i class="mdi mdi-grid-large"></i> <span>@lang('translation.tables')

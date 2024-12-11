@@ -103,7 +103,7 @@
                         xhr.send();
                     }
                 </script>
-                <div class="my-3 text-center view-all">
+                <div class="my-3 text-center view-all bottom-0" style="display: block;">
                     <a href="{{ route(auth()->user()->role['role_name'] . '.activity-log') }}"
                         class="btn btn-soft-success waves-effect waves-light">View
                         Activity Log <i class="ri-arrow-right-line align-middle"></i></a>

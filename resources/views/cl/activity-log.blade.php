@@ -32,13 +32,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive pb-4">
-                    <table id="activity-logs-table" class="display table table-bordered" style="width:100%">
+                    <table id="activity-logs-table" class="display table table-bordered nowrap align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="text-info text-center">#Id</th>
                                 <th class="text-center">User Email</th>
                                 <th class="text-center">Status Message</th>
                                 <th class="text-center">Description</th>
+                                <th class="text-center">IP Address</th>
+                                <th class="text-center">User Agent</th>
                                 <th class="text-center">Created</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -59,6 +61,8 @@
                                         @endif --}}
                                         <td class="text-center">{{ $log['status_message'] }}</td>
                                     <td class="text-center">{{ $log['description'] }}</td>
+                                    <td class="text-center">{{ $log['ip_address'] }}</td>
+                                    <td class="text-center">{{ $log['user_agent'] }}</td>
                                     <td class="text-center">{{ $log['created_at'] }}</td>
                                     <td class="text-center">
                                         @if ($log['error_type'] == 4)
@@ -98,6 +102,7 @@
                     [4, 'desc']
                 ],
                 pageLength: 12,
+                "scrollX": true
             });
         }
     </script>

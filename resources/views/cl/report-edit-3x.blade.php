@@ -29,7 +29,7 @@
                 <table class="table table-bordered dt-responsive nowrap align-middle mdl-data-table">
                     <thead>
                         <tr>
-                            <th>ABN</th>
+                            <th class="text-center">ABN</th>
                             <th class="text-center">Company Name</th>
                             <th class="text-center">Director</th>
                             <th class="text-center">Appointment Date</th>
@@ -38,9 +38,9 @@
                     <tbody>
                         <tr>
                             @if ($reportData['abn_verified'] == 0)
-                                <td class="text-danger" data-name="abn_fix">{{ $reportData['abn'] }}</td>
+                                <td class="text-center text-danger" data-name="abn_fix" style="min-width: 250px">{{ $reportData['abn'] }}</td>
                             @else
-                                <td>{{ $reportData['abn'] }}</td>
+                                <td class="text-center" style="min-width: 250px">{{ $reportData['abn'] }}</td>
                             @endif
                             <td class="text-center">{{ $reportData['company_name'] }}</td>
                             <td class="text-center">{{ $reportData['name_of_director'] }}</td>
@@ -454,7 +454,7 @@
                 showCloseButton: false,
                 showConfirmButton: false
             });
-            
+
             // console.log(JSON.stringify(reportData));
             var request = new XMLHttpRequest();
             request.open("POST", "{{ route('user.save-report-3x') }}");
@@ -467,15 +467,26 @@
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
                     console.log(this.responseText);
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Report has been saved',
-                        showConfirmButton: false,
-                        timer: 2500,
-                        showCloseButton: true
-                    });
-                    window.location.reload();
+                    if (JSON.parse(this.responseText)['message'] == 'Update Complete') {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Report has been saved',
+                            showConfirmButton: false,
+                            timer: 2500,
+                            showCloseButton: true
+                        });
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: this.responseText['message'],
+                            showConfirmButton: false,
+                            timer: 2500,
+                            showCloseButton: true
+                        });
+                    }
+                    // window.location  
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -485,7 +496,7 @@
                         timer: 2500,
                         showCloseButton: true
                     });
-                    window.location.reload();
+                    // window.location  
 
                 }
             }

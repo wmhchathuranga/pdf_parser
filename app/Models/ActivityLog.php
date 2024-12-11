@@ -16,6 +16,8 @@ class ActivityLog extends Model
         'status_message',
         'error_type',
         'description',
+        'ip_address',
+        'user_agent',
         'report_id',
         'report_type',
         'created_at',

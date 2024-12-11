@@ -158,6 +158,14 @@
                         </div>
                     </li>
 
+
+                    
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="<?php echo e(route('user.activity-log')); ?>">
+                            <i class="mdi  mdi-progress-clock"></i> <span>Activity Log</span>
+                        </a>
+                    </li>
+
                     
 
                 </ul>

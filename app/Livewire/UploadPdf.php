@@ -117,6 +117,8 @@ class UploadPdf extends Component
             'status_message' => $response->json()['message'],
             'error_type' => $response->json()['type'],
             'description' => $response->json()['file_name'],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->header('User-Agent'),
             'report_id' => $response->json()['report_id'] ?? null,
             'report_type' => $this->type
         ]);
