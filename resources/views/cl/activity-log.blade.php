@@ -65,7 +65,7 @@
                                     <td class="">{{ $log['user_agent'] }}</td>
                                     <td class="text-center">{{ $log['created_at'] }}</td>
                                     <td class="text-center">
-                                        @if ($log['error_type'] == 4)
+                                        @if ($log['error_type'] == 3 || $log['error_type'] == 4)
                                             <a class="btn btn-primary btn-sm"target="_blank"
                                                 href="{{ route(auth()->user()->role['role_name'] . '.report-edit-' . $log['report_type'], ['id' => $log['id']]) }}"><i
                                                     class="mdi mdi-pencil"></i></a>
