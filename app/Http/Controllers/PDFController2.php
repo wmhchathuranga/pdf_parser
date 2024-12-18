@@ -175,6 +175,7 @@ class PDFController2 extends Controller
             $part_2 = array();
             $part_2_start_point = 0;
             $part_2_end_point = 0;
+            $column_count_matching = false;
 
             for ($i = 1; $i < count($page_1); $i++) {
                 if (strpos($page_1[$i], 'Part 2') !== false) {
@@ -279,6 +280,9 @@ class PDFController2 extends Controller
             $part_2_left_records = array_values(array_filter($part_2_left_records));
 
             // dd($part_2_left_records, $part_2_right_records);
+            if (count($part_2_left_records) == count($part_2_right_records)) {
+                $column_count_matching = true;
+            }
             $record_count = max(count($part_2_left_records), count($part_2_right_records));
             $part_2_left_records = array_pad($part_2_left_records, $record_count, "");
             $part_2_right_records = array_pad($part_2_right_records, $record_count, "");
@@ -398,6 +402,9 @@ class PDFController2 extends Controller
             Appendix3X::where('id', $appendix3X->id)->update(['is_upload_completed' => true]);
             if (!$abn_verified) {
                 return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified'], 500);
+            }
+            if (!$column_count_matching) {
+                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
             }
         } else {
             if (!$abn_verified) {
