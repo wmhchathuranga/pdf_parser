@@ -32,7 +32,7 @@
                         <tr>
                             <th>ABN</th>
                             <th>Quarter Ending</th>
-                            <th>Quarter Ending</th>
+                            <th>Company Name</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,7 +53,7 @@
         <style>
             .floating-button {
                 position: fixed;
-                bottom: 20px;
+                bottom: 70px;
                 right: 20px;
                 z-index: 1000;
             }
@@ -103,8 +103,8 @@
                         <thead class="thead-dark">
                             <tr class="table-dark text-white" style="max-height: 30px">
                                 <th>Consolidated Statement Of cash Flows</th>
-                                <th class="text-center">Current Quarter</th>
-                                <th class="text-center">Year to Date</th>
+                                <th class="text-center" style="min-width: 150px;">Current Quarter</th>
+                                <th class="text-center" style="min-width: 150px;">Year to Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -879,7 +879,12 @@
 
             function valueCheck(inputTag) {
                 if (/^-?\d*(\.\d+)?$|^-$/.test(inputTag.value)) {
-                    updateJson(inputTag.parentNode.getAttribute('data-name'), inputTag.value);
+                    if(inputTag.value == "-" || inputTag.value == "") {
+                        newvalue = null;
+                    }else{
+                        newvalue = inputTag.value;
+                    }
+                    updateJson(inputTag.parentNode.getAttribute('data-name'), newvalue);
                     inputTag.blur();
                     is_enter = false;
                     return true;

@@ -38,7 +38,8 @@
                     <tbody>
                         <tr>
                             @if ($reportData['abn_verified'] == 0)
-                                <td class="text-center text-danger" data-name="abn_fix" style="min-width: 250px">{{ $reportData['abn'] }}</td>
+                                <td class="text-center text-danger" data-name="abn_fix" style="min-width: 250px">
+                                    {{ $reportData['abn'] }}</td>
                             @else
                                 <td class="text-center" style="min-width: 250px">{{ $reportData['abn'] }}</td>
                             @endif
@@ -243,7 +244,7 @@
 
         let url = path;
 
-        console.log(url);
+        // console.log(url);
 
         const ctx = canvas.getContext('2d');
 
@@ -343,7 +344,6 @@
         }
 
         let reportData = @json($reportData);
-        let reportData2 = @json($reportData);
         console.log(reportData);
 
 
@@ -353,16 +353,21 @@
                 return;
             }
             this.innerHTML =
-                "<textarea class='form-control-sm m-0 text-center border-0' style='max-width:280px;' type='text' value='" +
+                "<textarea id='textarea' class='form-control-sm m-0 text-center border-0 w-100' style='max-width:380px;' type='text' value='" +
                 getvalue(this.innerHTML) + "'>" + getvalue(this.innerHTML) + "</textarea>";
+
+            document.getElementById('textarea').style.height = document.getElementById('textarea').scrollHeight + 'px';
 
             var oldVallue;
 
             function getvalue(value) {
+
+                value = value.trim();
+                value = value.replace(/<br><br>/g, "\n");
+                value = value.replace(/\s+\s+/g, '\n\n');
                 oldVallue = value;
-                // remove unnecessary spaces
-                // return value.replace(/\s+/g, '');
-                return value.trim();
+
+                return value;
             }
             var input = this.querySelector("textarea");
             input.select();
@@ -392,10 +397,6 @@
                 }
             };
 
-            // when focusout input save cell 
-            // input.onblur = function() {
-            //     valueCheck(this);
-            // };
 
             function valueCheck(inputTag) {
                 // const validPattern = /^-?\d*(\.\d+)?$|^-$|^[\w\s<>,.&'"/()\-]+$/;
@@ -416,7 +417,7 @@
                 } else {
                     updateJson(inputTag.parentNode.getAttribute('data-name'), inputTag.value);
                 }
-                inputTag.blur();
+                // inputTag.blur();
                 is_enter = false;
                 return true;
             }
@@ -430,14 +431,31 @@
                 tableName = splitDataName[0];
                 rowIndex = splitDataName[1];
                 cellName = splitDataName[2];
-                reportData[tableName][rowIndex][cellName] = value;
+
+                //make rows multiline
+                var points = value.split(/\n+/).map(point => point.trim()).filter(Boolean);
+                if (points.length > 1) {
+                    // clear old value 
+                    reportData[tableName][rowIndex] = {};
+                    for (var i = 0; i < points.length; i++) {
+                        if (!reportData[tableName][i]) {
+                            reportData[tableName][i] = {};
+                        }
+                        // reportData[tableName][i][i++] = reportData["id"];
+                        reportData[tableName][i]["appendix3_x_id"] = reportData["id"];
+                        reportData[tableName][i][cellName] = points[i];
+                    }
+                } else {
+                    reportData[tableName][rowIndex][cellName] = value;
+                }
+
 
                 console.log(reportData);
             }
 
             function updateJsonAbn(value) {
                 reportData['abn'] = value;
-                console.log(reportData);
+                // console.log(reportData);
 
             }
 
@@ -461,13 +479,13 @@
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             request.send(JSON.stringify(reportData));
-            console.log(reportData2);
+            // console.log(reportData2);
 
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
-                    console.log(this.responseText);
-                    if (JSON.parse(this.responseText)['message'] == 'Update Complete') {
+                    $response = JSON.parse(this.responseText);
+                    if ($response['message'] == 'Update Complete') {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -476,17 +494,18 @@
                             timer: 2500,
                             showCloseButton: true
                         });
+                        window.location.reload();
                     } else {
                         Swal.fire({
                             position: 'center',
                             icon: 'error',
-                            title: this.responseText['message'],
+                            title: $response['message'],
                             showConfirmButton: false,
                             timer: 2500,
                             showCloseButton: true
                         });
                     }
-                    // window.location  
+                    window.location.reload();
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -496,7 +515,7 @@
                         timer: 2500,
                         showCloseButton: true
                     });
-                    // window.location  
+                    window.location.reload();
 
                 }
             }
@@ -505,12 +524,21 @@
 
         function htmlspecialchars(string) {
             if (typeof string !== "string") return string; // Ensure the input is a string
-            return string
+            // console.log(string);
+
+            string = string
                 .replace(/&/g, "&amp;") // Escape '&' first to prevent double-escaping
                 .replace(/</g, "&lt;") // Escape '<'
                 .replace(/>/g, "&gt;") // Escape '>'
                 .replace(/"/g, "&quot;") // Escape '"'
-                .replace(/'/g, "&#039;"); // Escape single quotes
+                .replace(/'/g, "&#039;") // Escape single quotes
+                .replace(/\n\n/g, "<br><br>")
+                .replace(/\n/g, "<br><br>");
+
+            // console.log(string);
+
+            return string;
+
         }
     </script>
 
