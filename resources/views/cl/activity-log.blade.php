@@ -66,9 +66,9 @@
                                     <td class="text-center">{{ $log['created_at'] }}</td>
                                     <td class="text-center">
                                         @if ($log['error_type'] == 4)
-                                            <button class="btn btn-primary btn-sm"
+                                            <a class="btn btn-primary btn-sm"target="_blank"
                                                 href="{{ route(auth()->user()->role['role_name'] . '.report-edit-' . $log['report_type'], ['id' => $log['id']]) }}"><i
-                                                    class="mdi mdi-pencil"></i></button>
+                                                    class="mdi mdi-pencil"></i></a>
                                         @else
                                             -
                                         @endif
