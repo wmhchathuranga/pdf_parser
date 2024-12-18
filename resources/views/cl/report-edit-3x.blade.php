@@ -436,14 +436,25 @@
                 var points = value.split(/\n+/).map(point => point.trim()).filter(Boolean);
                 if (points.length > 1) {
                     // clear old value 
-                    reportData[tableName][rowIndex] = {};
+                    const now = new Date();
                     for (var i = 0; i < points.length; i++) {
+
                         if (!reportData[tableName][i]) {
                             reportData[tableName][i] = {};
+                            reportData[tableName][i]["id"] = "";
+                            reportData[tableName][i]["appendix3_x_id"] = reportData["id"];
+                            reportData[tableName][i]["created_at"] = now.getUTCFullYear() + '-' +
+                                String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
+                                String(now.getUTCDate()).padStart(2, '0') + ' ' +
+                                String(now.getUTCHours()).padStart(2, '0') + ':' +
+                                String(now.getUTCMinutes()).padStart(2, '0') + ':' +
+                                String(now.getUTCSeconds()).padStart(2, '0');
+
+                            reportData[tableName][i]["appendix3_x_id"] = reportData["id"];
+                            reportData[tableName][i][cellName] = points[i];
+                        } {
+                            reportData[tableName][i][cellName] = points[i];
                         }
-                        // reportData[tableName][i][i++] = reportData["id"];
-                        reportData[tableName][i]["appendix3_x_id"] = reportData["id"];
-                        reportData[tableName][i][cellName] = points[i];
                     }
                 } else {
                     reportData[tableName][rowIndex][cellName] = value;
@@ -484,7 +495,10 @@
             request.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // alert("Report Saved Successfully");
+                    console.log(this.responseText);
                     $response = JSON.parse(this.responseText);
+                    console.log($response);
+
                     if ($response['message'] == 'Update Complete') {
                         Swal.fire({
                             position: 'center',
@@ -494,7 +508,7 @@
                             timer: 2500,
                             showCloseButton: true
                         });
-                        window.location.reload();
+                        // window.location.reload();
                     } else {
                         Swal.fire({
                             position: 'center',
@@ -505,7 +519,7 @@
                             showCloseButton: true
                         });
                     }
-                    window.location.reload();
+                    // window.location.reload();
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -515,7 +529,7 @@
                         timer: 2500,
                         showCloseButton: true
                     });
-                    window.location.reload();
+                    // window.location.reload();
 
                 }
             }

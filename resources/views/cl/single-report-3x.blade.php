@@ -77,9 +77,11 @@
                             data-editable="true">
                             <tbody>
                                 <tr class="d-flex">
-                                    <th class="col-6 text-center">Number & class of securities</th>
+                                    <th class="col-6 text-center d-flex align-items-center justify-content-center">Number & class of securities</th>
                                     <td class="col-6 text-center">
-                                        {{ in_array(strtolower($reportData['part1s'][0]['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part1s'][0]['number_class_of_securities'] }}
+                                        @for ($index = 0; $index < count($reportData['part1s']); $index++)
+                                        {{ in_array(strtolower($reportData['part1s'][$index]['number_class_of_securities']), ['n/a', 'nil', 'null']) ? '-' : $reportData['part1s'][$index]['number_class_of_securities'] }}<br><br>
+                                        @endfor
                                     </td>
                                 </tr>
                             </tbody>

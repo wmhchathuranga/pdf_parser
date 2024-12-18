@@ -60,9 +60,9 @@
                                         @else
                                         @endif --}}
                                         <td class="text-center">{{ $log['status_message'] }}</td>
-                                    <td class="text-center">{{ $log['description'] }}</td>
+                                    <td class="">{{ $log['description'] }}</td>
                                     <td class="text-center">{{ $log['ip_address'] }}</td>
-                                    <td class="text-center">{{ $log['user_agent'] }}</td>
+                                    <td class="">{{ $log['user_agent'] }}</td>
                                     <td class="text-center">{{ $log['created_at'] }}</td>
                                     <td class="text-center">
                                         @if ($log['error_type'] == 4)
