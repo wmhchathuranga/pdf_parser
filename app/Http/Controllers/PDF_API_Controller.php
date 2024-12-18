@@ -125,7 +125,7 @@ class PDF_API_Controller extends Controller
         $abn_verified = false;
 
         $report = Appendix3X::find($report_id);
-        if ($report['abn'] != $json_object['abn']) {
+        if ($report['abn'] != $json_object['abn'] && $report['abn_verified'] == 0) {
             $is_valid_abn = $this->checkABN($json_object['abn']);
 
             if ($is_valid_abn) {
@@ -145,6 +145,8 @@ class PDF_API_Controller extends Controller
                     $company->save();
                 }
             }
+        } else {
+            $abn_verified = true;
         }
 
         foreach ($json_object['part1s'] as $part1Data) {
