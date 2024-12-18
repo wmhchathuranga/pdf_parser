@@ -508,7 +508,7 @@
                             timer: 2500,
                             showCloseButton: true
                         });
-                        // window.location.reload();
+                        window.location.reload();
                     } else {
                         Swal.fire({
                             position: 'center',
@@ -519,7 +519,7 @@
                             showCloseButton: true
                         });
                     }
-                    // window.location.reload();
+                    window.location.reload();
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -529,7 +529,7 @@
                         timer: 2500,
                         showCloseButton: true
                     });
-                    // window.location.reload();
+                    window.location.reload();
 
                 }
             }
