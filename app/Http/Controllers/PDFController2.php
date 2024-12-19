@@ -39,18 +39,41 @@ class PDFController2 extends Controller
         if ($return_var !== 0) {
             return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
         }
+
+        $text = file_get_contents($textFilePath);
+
+        $lines = explode("\n", $text);  // Split the text into an array of lines
+        $lines = array_map('trim', $lines);
+        $filtered_lines = array_filter($lines, 'strlen');
+
+        $record_count = 0;
+        $records[$record_count] = array();
+
+        for ($i = 0; $i < count($filtered_lines); $i++) {
+            array_push($records[$record_count], $filtered_lines[$i]);
+            if (strpos($filtered_lines[$i], 'Rule 3.19A.1') !== false) {
+                $record_count++;
+                $records[$record_count] = array();
+            }
+        }
+        $response_array = array();
+        for ($i = 1; $i < count($records); $i++) {
+            // dd($records[$i]);
+            $response = $this->scrap($request, $relativePath, $records[$i]);
+            array_push($response_array, $response);
+        }
+
+        return response()->json($response_array, 200);
+    }
+
+    public function scrap($request, $relativePath, $filtered_lines)
+    {
+        // dd($filtered_lines);
         $extracted_table_count = 0;
+        $page_count = 0;
+        $page[$page_count] = array();
 
         try {
-            $text = file_get_contents($textFilePath);
-
-            $lines = explode("\n", $text);  // Split the text into an array of lines
-            $lines = array_map('trim', $lines);
-            $filtered_lines = array_filter($lines, 'strlen');
-
-            $page_count = 0;
-            $page[$page_count] = array();
-
             for ($i = 0; $i < count($filtered_lines); $i++) {
                 array_push($page[$page_count], $filtered_lines[$i]);
                 if (strpos($filtered_lines[$i], 'Name of entity') !== false) {
@@ -63,7 +86,7 @@ class PDFController2 extends Controller
             // dd($meta_data);
             $document_number = $meta_data[0];
             $document_title = $meta_data[1];
-            $name_of_entity = preg_replace('/Name of entity[ :]/', '', $meta_data[8]);
+            $name_of_entity = preg_replace('/Name of entity[ :]/', '', $meta_data[5]);
             $stock_code = preg_split('/\(/', $name_of_entity);
             $stock_exchange = "";
             if (count($stock_code) > 1) {
@@ -108,7 +131,7 @@ class PDFController2 extends Controller
             // check if already exists
             $appendix3X = Appendix3X::where('abn', str_replace(' ', '', $abn))->where('name_of_director', $name_of_director)->where('date_of_appointment', Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'))->wherenull('deleted_at')->first();
             if ($appendix3X) {
-                return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '2', 'message' => 'Appendix 3X already exists'], 500);
+                return json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '2', 'message' => 'Appendix 3X already exists']);
             }
             $appendix3X = Appendix3X::create([
                 'document_number' => $document_number,
@@ -125,8 +148,8 @@ class PDFController2 extends Controller
             ]);
             $extracted_table_count++;
         } catch (\Exception $e) {
-            // dd($e);
-            return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
+            dd($e);
+            return json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF']);
         }
 
 
@@ -401,19 +424,19 @@ class PDFController2 extends Controller
         if ($extracted_table_count == 3) {
             Appendix3X::where('id', $appendix3X->id)->update(['is_upload_completed' => true]);
             if (!$abn_verified) {
-                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified'], 500);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified']);
             }
             if (!$column_count_matching) {
-                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!']);
             }
         } else {
             if (!$abn_verified) {
-                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified'], 500);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified']);
             } else {
-                return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!']);
             }
         }
-        return response()->json(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete'], 200);
+        return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete']);
     }
 
     public function checkABN($abn)

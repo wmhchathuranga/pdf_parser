@@ -1031,7 +1031,7 @@ class PDFController extends Controller
             ]);
         } else {
 
-            return response()->json(['report_id' => $pdfReport->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Upload!'], 500);
+            return response()->json(['report_id' => $pdfReport->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!'], 500);
         }
         // Logger($pdfReport->id . " " . $request->file('pdf')->getClientOriginalName());
         return response()->json(['report_id' => $pdfReport->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete!'], 200);
