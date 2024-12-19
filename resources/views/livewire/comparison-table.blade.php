@@ -188,7 +188,7 @@
                                         <th class="text-center align-middle table-light"
                                             colspan="{{ $timeType == '0' ? '2' : '1' }}"
                                             style="border-right:solid 2px #380092;">
-                                            Adjustments</th>
+                                            Manual Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '1')
@@ -233,7 +233,7 @@
                                             Activitie</th>
                                         <th class="text-center align-middle table-light"
                                             colspan="{{ $timeType == '0' ? '2' : '1' }}"
-                                            style="border-right:solid 2px #380092;">Adjustments</th>
+                                            style="border-right:solid 2px #380092;">Manual Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '2')
@@ -266,7 +266,7 @@
                                             Activities</th>
                                         <th class="text-center align-middle table-light"
                                             colspan="{{ $timeType == '0' ? '2' : '1' }}"
-                                            style="border-right:solid 2px #380092;">Adjustments</th>
+                                            style="border-right:solid 2px #380092;">Manual Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '3')
@@ -285,7 +285,7 @@
                                             colspan="{{ $timeType == '0' ? '2' : '1' }}">Ending Cash</th>
                                         <th class="text-center align-middle table-light"
                                             colspan="{{ $timeType == '0' ? '2' : '1' }}"
-                                            style="border-right:solid 2px #380092;">Adjustments</th>
+                                            style="border-right:solid 2px #380092;">Manual Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '4')
@@ -302,14 +302,14 @@
                                             Period</th>
                                         <th class="text-center align-middle table-light"
                                             colspan="{{ $timeType == '0' ? '2' : '1' }}"
-                                            style="border-right:solid 2px #380092;">Adjustments</th>
+                                            style="border-right:solid 2px #380092;">Manual Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '5')
                                         <th class="text-center align-middle" colspan="1">Aggregated Payment 1</th>
                                         <th class="text-center align-middle" colspan="1">Aggregated Payment 2</th>
                                         <th class="text-center align-middle table-light" colspan="1"
-                                            style="border-right:solid 2px #380092;">Adjustments</th>
+                                            style="border-right:solid 2px #380092;">Manual Adjustments</th>
                                     @endif
 
                                     @if ($tableTopic == 'all' || $tableTopic == '6')
@@ -501,8 +501,8 @@
                                     @foreach ($allReports as $index => $report)
                                         <tr>
                                             <td class="text-center align-middle"><a
-                                                    href="{{ route('user.single-report', $report['id']) }}"
-                                                    class="btn btn-sm btn-secondary">view</a></td>
+                                                    href="{{ route('user.report-edit', $report['id']) }}"
+                                                    class="btn btn-sm btn-primary"><i class="ri-pencil-fill"></i></a></td>
                                             <td>{{ $report['quarter_ending'] }}</td>
                                             <td>{{ $report['company_name'] }}</td>
                                             <td style="border-right:solid 2px #380092;">{{ $report['abn'] }}</td>

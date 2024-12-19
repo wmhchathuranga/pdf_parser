@@ -58,14 +58,11 @@
                                         style="border-right:solid 2px #380092;">ABN</th>
 
                                     <th colspan="2" class="text-center table-dark text-white"
-                                        style="border-right:solid 2px #380092;min-width: 250px;">Director’s relevant
-                                        interests in securities of which the director is the registered holder</th>
+                                        style="border-right:solid 2px #380092;min-width: 250px;">Part 1</th>
                                     <th colspan="3" class="text-center table-dark text-white"
-                                        style="border-right:solid 2px #380092;min-width: 300px;">Director’s relevant
-                                        interests in securities of which the director is not the registered holder</th>
+                                        style="border-right:solid 2px #380092;min-width: 300px;">Part 2</th>
                                     <th colspan="5" class="text-center table-dark text-white"
-                                        style="border-right:solid 2px #380092;min-width: 400px;"> Director’s interests
-                                        in contracts</th>
+                                        style="border-right:solid 2px #380092;min-width: 400px;">Part 3</th>
                                 </tr>
 
                                 <tr>
