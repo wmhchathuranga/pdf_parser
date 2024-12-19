@@ -103,7 +103,7 @@
             new DataTable('#activity-logs-table', {
                 dom: 'Bfrtip',
                 order: [
-                    [4, 'desc']
+                    [0, 'desc']
                 ],
                 pageLength: 12,
                 "scrollX": true
