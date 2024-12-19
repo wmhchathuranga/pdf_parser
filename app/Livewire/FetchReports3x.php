@@ -33,13 +33,19 @@ class FetchReports3x extends Component
 
         // dd($this->companies);
         if (!empty($this->companies)) {
+            // check has any cookie or not
+            if(isset($_COOKIE['3x_company_abn'])) {
+                $this->selectedCompany = $_COOKIE['3x_company_abn'];
+            }else{
+                $this->selectedCompany = $this->companies[0]['abn'];
+            }
+
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_3x/'. $this->companies[0]['abn'] );
+                ])->get(env('API_URL') . '/api/reports_3x/'. $this->selectedCompany );
 
                 if ($response->successful()) {
-                    $this->selectedCompany = $this->companies[0]['abn'];
                     $this->allReports = $response->json();
                 } else {
                     throw new Exception('Failed to fetch reports');
@@ -61,6 +67,8 @@ class FetchReports3x extends Component
     }
 
     public function changeCompany($abn){
+        //set cookie
+        setcookie('3x_company_abn', $abn, time() + (86400), "/");
         $this->selectedCompany = $abn;
         $this->loadData();
     }
@@ -74,6 +82,28 @@ class FetchReports3x extends Component
             ])->get(env('API_URL') . '/api/report_3x/delete/' . $id);
             // dd($response);
             if ($response->successful()) {
+
+                try {
+                    $response = Http::withHeaders([
+                        'Authorization' => env('API_TOKEN'),
+                    ])->get(env('API_URL') . '/api/companies/3x');
+        
+                    if ($response->successful()) {
+                        // dd($response->json());
+                        $this->companies = $response->json();
+                    } else {
+                        throw new Exception('Failed to fetch companies');
+                    }
+                } catch (Exception $e) {
+                    abort(500, 'Something went wrong');
+                }
+                
+                //i want to check companies has selected company
+                if(!in_array($this->selectedCompany, array_column($this->companies, 'abn'))){
+                    $this->selectedCompany = $this->companies[0]['abn'];
+                    setcookie('3x_company_abn', $this->selectedCompany, time() + (86400), "/");
+                }
+
                 $this->loadData();
             } else {
                 // dd($response);

@@ -61,8 +61,8 @@
                         <thead class="thead-dark">
                             <tr class="table-dark text-white" style="max-height: 30px">
                                 <th>Details</th>
-                                <th>Current Quarter</th>
-                                <th>Year to Date</th>
+                                <th class="text-center">Current Quarter</th>
+                                <th class="text-center">Year to Date</th>
                             </tr>
                         </thead>
                         <tbody>
