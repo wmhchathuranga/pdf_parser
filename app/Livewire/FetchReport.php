@@ -34,13 +34,17 @@ class FetchReport extends Component
         }
 
         if (!empty($this->companies)) {
+            if (isset($_COOKIE['5b_company_abn'])) {
+                $this->selectedCompany = $_COOKIE['5b_company_abn'];
+            }else {
+                $this->selectedCompany = $this->companies[0]['abn'];
+            }
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_5b/' . $this->companies[0]['abn']);
+                ])->get(env('API_URL') . '/api/reports_5b/' . $this->selectedCompany);
 
                 if ($response->successful()) {
-                    $this->selectedCompany = $this->companies[0]['abn'];
                     $this->allReports = $response->json();
                 } else {
                     throw new Exception('Failed to fetch reports');
@@ -57,8 +61,9 @@ class FetchReport extends Component
 
     public function changeCompany($abn)
     {
+        setcookie('5b_company_abn', $abn, time() + (86400), "/");
         $this->selectedCompany = $abn;
-        // $this->loadData();
+        $this->loadData();
     }
 
     public function changeStatus($status)
@@ -75,6 +80,28 @@ class FetchReport extends Component
             ])->get(env('API_URL') . '/api/report_5b/delete/' . $id);
             // dd($response);
             if ($response->successful()) {
+
+                try {
+                    $response = Http::withHeaders([
+                        'Authorization' => env('API_TOKEN'),
+                    ])->get(env('API_URL') . '/api/companies/5b');
+        
+                    if ($response->successful()) {
+                        // dd($response->json());
+                        $this->companies = $response->json();
+                    } else {
+                        throw new Exception('Failed to fetch companies');
+                    }
+                } catch (Exception $e) {
+                    abort(500, 'Something went wrong');
+                }
+                
+                //i want to check companies has selected company
+                if(!in_array($this->selectedCompany, array_column($this->companies, 'abn'))){
+                    $this->selectedCompany = $this->companies[0]['abn'];
+                    setcookie('5b_company_abn', $this->selectedCompany, time() + (86400), "/");
+                }
+
                 $this->loadData();
             } else {
                 // dd($response);
@@ -94,12 +121,9 @@ class FetchReport extends Component
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_' . $this->type . '/' . $this->selectedCompany);
+                ])->get(env('API_URL') . '/api/reports_5b/' . $this->selectedCompany);
 
                 if ($response->successful()) {
-                    if ($this->selectedStatus == null) {
-                        $this->selectedCompany = $this->companies[0]['abn'];
-                    }
                     $this->allReports = $response->json();
                 } else {
                     throw new Exception('Failed to fetch reports');
@@ -121,6 +145,8 @@ class FetchReport extends Component
     {
         $this->loadData();
         // dd($this->allReports);
-        return view('livewire.fetch-report');
+        return view('livewire.fetch-report', [
+            'allReports' => $this->allReports,
+        ]);
     }
 }

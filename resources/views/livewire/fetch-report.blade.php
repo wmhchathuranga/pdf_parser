@@ -73,12 +73,10 @@
                                             </td>
 
                                             <td class="text-center">
-                                                <a target="_blank"
-                                                    href="{{ route('user.single-report', $report['id']) }}"
+                                                {{-- <a href="{{ route('user.single-report', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-success"><i
-                                                        class="ri-eye-fill align-bottom"></i></a>
-                                                <a target="_blank"
-                                                    href="{{ route('user.report-edit', $report['id']) }}"
+                                                        class="ri-eye-fill align-bottom"></i></a> --}}
+                                                <a href="{{ route('user.report-edit', $report['id']) }}"
                                                     class="btn btn-sm btn-outline-primary"><i
                                                         class="ri-pencil-fill align-bottom"></i></a>
                                                 {{-- delete button  --}}
