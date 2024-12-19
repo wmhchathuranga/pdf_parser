@@ -131,7 +131,7 @@ class PDFController2 extends Controller
             // check if already exists
             $appendix3X = Appendix3X::where('abn', str_replace(' ', '', $abn))->where('name_of_director', $name_of_director)->where('date_of_appointment', Carbon::parse($date_of_appointment, 'Australia/Melbourne')->format('Y-m-d'))->wherenull('deleted_at')->first();
             if ($appendix3X) {
-                return json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '2', 'message' => 'Appendix 3X already exists']);
+                return json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '2', 'message' => 'Appendix 3X already exists', 'director' => $name_of_director, 'date_of_appointment' => $date_of_appointment]);
             }
             $appendix3X = Appendix3X::create([
                 'document_number' => $document_number,
@@ -148,7 +148,7 @@ class PDFController2 extends Controller
             ]);
             $extracted_table_count++;
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF']);
         }
 
@@ -238,11 +238,12 @@ class PDFController2 extends Controller
 
             $part_2 = array_values($part_2);
 
+
             $part_2_left = array();
             $part_2_right = array();
 
             for ($i = 0; $i < count($part_2); $i++) {
-                if (strpos(strtolower($part_2[$i]), 'fully paid') !== false || strpos(strtolower($part_2[$i]), 'partially paid') !== false || strpos(strtolower($part_2[$i]), 'exercisable') !== false || strpos(strtolower($part_2[$i]), 'expiring') !== false || strpos(strtolower($part_2[$i]), 'unlisted options') !== false) {
+                if (strpos(strtolower($part_2[$i]), 'fully paid') !== false || strpos(strtolower($part_2[$i]), 'partially paid') !== false || strpos(strtolower($part_2[$i]), 'exercisable') !== false || strpos(strtolower($part_2[$i]), 'expiring') !== false || strpos(strtolower($part_2[$i]), 'unlisted options') !== false || strpos(strtolower($part_2[$i]), 'ordinary shares') !== false) {
                     // no duplicates
                     if (in_array($part_2[$i], $part_2_right)) {
                         continue;
@@ -256,14 +257,13 @@ class PDFController2 extends Controller
 
             $part_2_right_records = array();
             for ($i = 0; $i < count($part_2_right); $i++) {
-                if (strpos(strtolower($part_2_right[$i]), 'fully paid') !== false) {
-                    array_push($part_2_right_records, $part_2_right[$i]);
-                } else if (strpos(strtolower($part_2_right[$i]), 'unlisted options') !== false) {
+                if (strpos(strtolower($part_2_right[$i]), 'fully paid') !== false || strpos(strtolower($part_2_right[$i]), 'unlisted options') !== false || strpos(strtolower($part_2_right[$i]), 'ordinary shares') !== false) {
                     array_push($part_2_right_records, $part_2_right[$i]);
                 } else {
                     $part_2_right_records[count($part_2_right_records) - 1] = $part_2_right_records[count($part_2_right_records) - 1] . " " . $part_2_right[$i];
                 }
             }
+
 
             $part_2_left_records = array();
             $part_2_left_record = "";
@@ -271,7 +271,7 @@ class PDFController2 extends Controller
             $part_2_left_record_end_point = 0;
 
             for ($i = 0; $i < count($part_2_left); $i++) {
-                if (strpos(strtolower($part_2_left[$i]), 'beneficiary') !== false) {
+                if (strpos(strtolower($part_2_left[$i]), ')') !== false) {
                     $part_2_left_record_end_point = $i;
                     for ($j = $part_2_left_record_start_point; $j <= $part_2_left_record_end_point; $j++) {
                         $part_2_left_record = $part_2_left_record . " " . $part_2_left[$j];
@@ -282,32 +282,34 @@ class PDFController2 extends Controller
                 }
             }
 
-            for ($i = 0; $i < count($part_2_left); $i++) {
-                if (strpos(strtolower($part_2_left[$i]), 'a/c>') !== false) {
-                    $part_2_left_record_end_point = $i;
-                    for ($j = $part_2_left_record_start_point; $j <= $part_2_left_record_end_point; $j++) {
-                        $part_2_left_record = $part_2_left_record . " " . $part_2_left[$j];
-                    }
-                    array_push($part_2_left_records, trim($part_2_left_record));
-                    $part_2_left_record_start_point = $i + 1;
-                    $part_2_left_record = "";
-                }
-            }
+            // for ($i = 0; $i < count($part_2_left); $i++) {
+            //     if (strpos(strtolower($part_2_left[$i]), 'a/c>') !== false) {
+            //         $part_2_left_record_end_point = $i;
+            //         for ($j = $part_2_left_record_start_point; $j <= $part_2_left_record_end_point; $j++) {
+            //             $part_2_left_record = $part_2_left_record . " " . $part_2_left[$j];
+            //         }
+            //         array_push($part_2_left_records, trim($part_2_left_record));
+            //         $part_2_left_record_start_point = $i + 1;
+            //         $part_2_left_record = "";
+            //     }
+            // }
 
-            for ($i = 0; $i < count($part_2_left_records); $i++) {
-                if (strpos(strtolower($part_2_left_records[$i]), '(') === 0) {
-                    $part_2_left_records[$i] = "";
-                }
-            }
+            // for ($i = 0; $i < count($part_2_left_records); $i++) {
+            //     if (strpos(strtolower($part_2_left_records[$i]), '(') === 0) {
+            //         $part_2_left_records[$i] = "";
+            //     }
+            // }
 
             $part_2_left_records = array_values(array_filter($part_2_left_records));
+
+            // dd($part_2_left_records);
 
             // dd($part_2_left_records, $part_2_right_records);
             if (count($part_2_left_records) == count($part_2_right_records)) {
                 $column_count_matching = true;
             }
             $record_count = max(count($part_2_left_records), count($part_2_right_records));
-            $part_2_left_records = array_pad($part_2_left_records, $record_count, "");
+            $part_2_left_records = array_pad($part_2_left_records, $record_count, $part_2_left_records[count($part_2_left_records) - 1]);
             $part_2_right_records = array_pad($part_2_right_records, $record_count, "");
 
             for ($i = 0; $i < $record_count; $i++) {
@@ -424,19 +426,19 @@ class PDFController2 extends Controller
         if ($extracted_table_count == 3) {
             Appendix3X::where('id', $appendix3X->id)->update(['is_upload_completed' => true]);
             if (!$abn_verified) {
-                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified']);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified', 'director' => $name_of_director, 'date_of_appointment' => $date_of_appointment]);
             }
             if (!$column_count_matching) {
-                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!']);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!', 'director' => $name_of_director, 'date_of_appointment' => $date_of_appointment]);
             }
         } else {
             if (!$abn_verified) {
-                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified']);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '4', 'message' => 'ABN Not Verified', 'director' => $name_of_director, 'date_of_appointment' => $date_of_appointment]);
             } else {
-                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!']);
+                return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '3', 'message' => 'Partial Data Scrapping!', 'director' => $name_of_director, 'date_of_appointment' => $date_of_appointment]);
             }
         }
-        return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete']);
+        return json_encode(['report_id' => $appendix3X->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete', 'director' => $name_of_director, 'date_of_appointment' => $date_of_appointment]);
     }
 
     public function checkABN($abn)
