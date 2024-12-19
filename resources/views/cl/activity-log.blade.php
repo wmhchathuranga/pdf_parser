@@ -37,6 +37,8 @@
                             <tr>
                                 <th class="text-info text-center">#Id</th>
                                 <th class="text-center">User Email</th>
+                                <th class="text-center">Director</th>
+                                <th class="text-center">Appointment Date</th>
                                 <th class="text-center">Status Message</th>
                                 <th class="text-center">Description</th>
                                 <th class="text-center">IP Address</th>
@@ -52,9 +54,11 @@
                                     <td class="text-center">
                                         @php
                                             $user = \App\Models\User::where('id', $log['user_id'])->first();
+                                            echo $user->email;
                                         @endphp
-                                        {{ $user->email }}
                                     </td>
+                                    <td class="text-center">{{ $log['director'] }}</td>
+                                    <td class="text-center">{{ $log['date_of_appointment'] }}</td>
                                     {{-- @if ($log['status_message'] == 'Upload Complete')
                                         <td class="text-center text-success"><span class="badge bg-success p-2">Upload Complete</span></td>
                                         @else
@@ -66,8 +70,8 @@
                                     <td class="text-center">{{ $log['created_at'] }}</td>
                                     <td class="text-center">
                                         @if ($log['error_type'] == 3 || $log['error_type'] == 4)
-                                            <a class="btn btn-primary btn-sm" target="_blank"
-                                                href="{{ route(auth()->user()->role['role_name'] . '.report-edit-' . $log['report_type'], ['id' => $log['report_id']]) }}"><i
+                                            <a class="btn btn-primary btn-sm"
+                                                href="{{ route(auth()->user()->role['role_name'] . '.report-edit-3x', ['id' => $log['report_id']]) }}"><i
                                                     class="mdi mdi-pencil"></i></a>
                                         @else
                                             -

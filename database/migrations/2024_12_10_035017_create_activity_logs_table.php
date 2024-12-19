@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('status_message')->nullable();
+            $table->string('director')->nullable();
+            $table->date('date_of_appointment')->nullable();
             $table->integer('error_type')->nullable();
             $table->string('description')->nullable();
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
             $table->string('report_id')->nullable();
-            $table->string('report_type')->nullable();
             $table->timestamps();
         });
     }

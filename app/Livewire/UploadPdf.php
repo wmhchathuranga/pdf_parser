@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\ActivityLog;
 use App\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -112,16 +113,42 @@ class UploadPdf extends Component
 
 
     public function saveActivity($response){
-        ActivityLog::create([
-            'user_id' => auth()->user()->id,
-            'status_message' => $response->json()['message'],
-            'error_type' => $response->json()['type'],
-            'description' => $response->json()['file_name'],
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->header('User-Agent'),
-            'report_id' => $response->json()['report_id'] ?? null,
-            'report_type' => $this->type
-        ]);
+        $responseAll = $response->json();
+        // dd($response);
+        // for($i = 0; $i < count($responseAll); $i++){
+        //     // dd($response[$i]);
+        //     $response = json_encode($responseAll[$i]);
+        //     ActivityLog::create([
+        //         'user_id' => auth()->user()->id,
+        //         'status_message' => $response[$i]['message'],
+        //         'director' => $response[$i]['director'],
+        //         'date_of_appointment' => $response[$i]['date_of_appointment'],
+        //         'error_type' => $response[$i]['type'],
+        //         'description' => $response[$i]['file_name'],
+        //         'ip_address' => request()->ip(),
+        //         'user_agent' => request()->header('User-Agent'),
+        //         'report_id' => $response[$i]['report_id'] ?? null,
+        //         'report_type' => $this->type
+        //     ]);
+        // }
+        
+        foreach($responseAll as $response){
+            // dd($response);
+            $response = json_decode($response, true);
+            ActivityLog::create([
+                'user_id' => auth()->user()->id,
+                'status_message' => $response['message'],
+                'director' => $response['director'],
+                'date_of_appointment' => Carbon::parse($response['date_of_appointment'])->format('Y-m-d'),
+                'error_type' => $response['type'],
+                'description' => $response['file_name'],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'report_id' => $response['report_id'] ?? null,
+                'report_type' => $this->type
+            ]);
+        }
+        
     }
 
 

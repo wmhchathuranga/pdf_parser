@@ -14,12 +14,13 @@ class ActivityLog extends Model
     protected $fillable = [
         'user_id',
         'status_message',
+        'director',
+        'date_of_appointment',
         'error_type',
         'description',
         'ip_address',
         'user_agent',
         'report_id',
-        'report_type',
         'created_at',
         'updated_at',
     ];
