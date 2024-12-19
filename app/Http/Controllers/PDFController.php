@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Carbon\Carbon;
+use App\Models\Companies;
 use App\Models\PDFReport;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Log\Logger;
 use Smalot\PdfParser\Parser;
+use Illuminate\Support\Facades\Http;
 
 class PDFController extends Controller
 {
@@ -1035,6 +1037,41 @@ class PDFController extends Controller
         }
         // Logger($pdfReport->id . " " . $request->file('pdf')->getClientOriginalName());
         return response()->json(['report_id' => $pdfReport->id, 'file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '0', 'message' => 'Upload Complete!'], 200);
+    }
+
+    public function checkABN($abn)
+    {
+
+        $abn = str_replace('-', '', $abn);
+        $abn = str_replace(' ', '', $abn);
+        $abn_suffix = substr($abn, -9);
+        $company = Companies::where('abn_suffix', $abn_suffix)->first();
+        if ($company) {
+            return true;
+        }
+        $URL = 'https://abr.business.gov.au/ABN/View?id=' . $abn;
+
+        $response = Http::get($URL);
+        Logger($response->body());
+
+        if ($response->status() == 200) {
+            // search for word "Error"
+            if (strpos($response->body(), 'Error') !== false | strpos($response->body(), 'Invalid') !== false) {
+                return false;
+            }
+            // check the http response body for "legalName"
+            if (strpos($response->body(), 'legalName') !== false) {
+                $company_name_string = preg_split("/legalName\">/", $response->body());
+                $company_name = preg_split("/<\//", $company_name_string[1])[0];
+                Companies::create([
+                    'abn' => $abn,
+                    'abn_suffix' => substr($abn, -9),
+                    'name' => $company_name,
+                ]);
+            }
+            return true;
+        }
+        return false;
     }
 
     public function convertBracketedToNegative($value)

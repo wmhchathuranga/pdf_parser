@@ -37,7 +37,8 @@ class PDFController2 extends Controller
 
 
         if ($return_var !== 0) {
-            return response()->json(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF'], 500);
+            $response = json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF']);
+            return response()->json($response, 500);
         }
 
         $text = file_get_contents($textFilePath);
@@ -57,6 +58,11 @@ class PDFController2 extends Controller
             }
         }
         $response_array = array();
+        if ($record_count == 0) {
+            $response = json_encode(['file_name' => $request->file('pdf')->getClientOriginalName(), 'type' => '1', 'message' => 'Failed to extract text from PDF']);
+            array_push($response_array, $response);
+            return response()->json($response_array, 500);
+        }
         for ($i = 1; $i < count($records); $i++) {
             // dd($records[$i]);
             $response = $this->scrap($request, $relativePath, $records[$i]);
