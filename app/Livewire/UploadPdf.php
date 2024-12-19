@@ -49,25 +49,43 @@ class UploadPdf extends Component
                 $fileContent,
                 $pdfFile->getClientOriginalName()
             )->post(env('API_URL') . '/api/upload-pdf/' . $this->type);
-                
+
             // fclose($fileContent);
             Storage::delete($filePath);
-            if ($response->successful()) {
-                $this->successCount++;
-            } else {
-                $errorDetail = [
-                    'name' => $pdfFile->getClientOriginalName(),
-                    'message' => $response->json()['message'],
-                ];
-                $this->createObject($response);
-                array_push($this->errorDetails, $errorDetail);
-                $this->errorCount++;
+            // dd($response->json());
+
+            $response = $response->json();
+            foreach ($response as $key => $report) {
+                $report = json_decode($report, true);
+                if ($report['type'] == 0) {
+                    $this->successCount++;
+                } else {
+                    $errorDetail = [
+                        'name' => $pdfFile->getClientOriginalName(),
+                        'message' => $report['message'],
+                    ];
+                    $this->createObject($report);
+                    array_push($this->errorDetails, $errorDetail);
+                    $this->errorCount++;
+                }
             }
+
+            // if ($response->successful()) {
+            //     $this->successCount++;
+            // } else {
+            //     $errorDetail = [
+            //         'name' => $pdfFile->getClientOriginalName(),
+            //         'message' => $response->json()['message'],
+            //     ];
+            //     $this->createObject($response);
+            //     array_push($this->errorDetails, $errorDetail);
+            //     $this->errorCount++;
+            // }
 
             $this->saveActivity($response);
         }
 
-        if($this->notifications != []){
+        if ($this->notifications != []) {
             $this->saveNotifications();
         }
 
@@ -80,15 +98,16 @@ class UploadPdf extends Component
 
 
 
-    public function createObject($errorData){
+    public function createObject($errorData)
+    {
         // dd($errorData->json());
-        $errorData = $errorData->json();
+        // $errorData = $errorData->json();
         $object = [
             'file_name' => $errorData['file_name'] ?? null,
             'report_id' => $errorData['report_id']  ?? null,
             'type' => $errorData['type'],
             'message' => $errorData['message'],
-        ];    
+        ];
         // $object = [
         //     'report_id' => '1',
         //     'type' => 'scrap faild',
@@ -98,7 +117,8 @@ class UploadPdf extends Component
         $this->notifications[] = $object;
     }
 
-    public function saveNotifications(){
+    public function saveNotifications()
+    {
         foreach ($this->notifications as $key => $object) {
             Notification::create([
                 'user_id' => auth()->user()->id,
@@ -112,8 +132,9 @@ class UploadPdf extends Component
     }
 
 
-    public function saveActivity($response){
-        $responseAll = $response->json();
+    public function saveActivity($responseAll)
+    {
+        // $responseAll = $response->json();
         // dd($response);
         // for($i = 0; $i < count($responseAll); $i++){
         //     // dd($response[$i]);
@@ -131,15 +152,20 @@ class UploadPdf extends Component
         //         'report_type' => $this->type
         //     ]);
         // }
-        
-        foreach($responseAll as $response){
+
+        foreach ($responseAll as $response) {
             // dd($response);
             $response = json_decode($response, true);
+            if (isset($response['date_of_appointment'])) {
+                $date_of_appointment = Carbon::parse($response['date_of_appointment'])->format('Y-m-d');
+            } else {
+                $date_of_appointment = null;
+            }
             ActivityLog::create([
                 'user_id' => auth()->user()->id,
                 'status_message' => $response['message'],
-                'director' => $response['director'],
-                'date_of_appointment' => Carbon::parse($response['date_of_appointment'])->format('Y-m-d'),
+                'director' => $response['director'] ?? null,
+                'date_of_appointment' => $date_of_appointment,
                 'error_type' => $response['type'],
                 'description' => $response['file_name'],
                 'ip_address' => request()->ip(),
@@ -148,7 +174,6 @@ class UploadPdf extends Component
                 'report_type' => $this->type
             ]);
         }
-        
     }
 
 

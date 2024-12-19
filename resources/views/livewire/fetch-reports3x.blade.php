@@ -14,7 +14,7 @@
                 <div class="col">
                     <div class="row justify-content-end">
                         <div class="col-3 col-lg-4 pe-3">
-                            <select onchange="refreshTableJs()" class="form-control my-auto" wire:change="changeCompany($event.target.value)">
+                            <select class="form-control my-auto" wire:change="changeCompany($event.target.value)">
                                 <option value="" disabled>Search by ABN</option>
                                 @if ($companies != null)
                                     @foreach ($companies as $company)
@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="col-auto">
-                            <select onchange="refreshTableJs()" class="form-select my-auto"
+                            <select class="form-select my-auto"
                                 wire:change="changeStatus($event.target.value)">
                                 <option value="all" {{ $selectedStatus == 'all' ? 'selected' : '' }}>All</option>
                                 <option value="0" {{ $selectedStatus == '0' ? 'selected' : '' }}>Failed</option>

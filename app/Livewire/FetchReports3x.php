@@ -68,7 +68,7 @@ class FetchReports3x extends Component
 
     public function changeCompany($abn){
         //set cookie
-        setcookie('3x_company_abn', $abn, time() + (86400), "/");
+        setcookie('3x_company_abn', $abn, 0, "/");
         $this->selectedCompany = $abn;
         $this->loadData();
     }
@@ -100,8 +100,11 @@ class FetchReports3x extends Component
                 
                 //i want to check companies has selected company
                 if(!in_array($this->selectedCompany, array_column($this->companies, 'abn'))){
-                    $this->selectedCompany = $this->companies[0]['abn'];
-                    setcookie('3x_company_abn', $this->selectedCompany, time() + (86400), "/");
+                    if(count($this->companies) > 0){
+                        $this->selectedCompany = $this->companies[0]['abn'];
+                    }
+                    setcookie('3x_company_abn', '', time() - 3600, "/");
+                    // setcookie('3x_company_abn', $this->selectedCompany, 0, "/");
                 }
 
                 $this->loadData();
