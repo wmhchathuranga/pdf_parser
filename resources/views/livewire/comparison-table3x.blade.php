@@ -59,7 +59,7 @@
 
                                     <th colspan="2" class="text-center table-dark text-white"
                                         style="border-right:solid 2px #380092;min-width: 250px;">Part 1</th>
-                                    <th colspan="3" class="text-center table-dark text-white"
+                                    <th colspan="4" class="text-center table-dark text-white"
                                         style="border-right:solid 2px #380092;min-width: 300px;">Part 2</th>
                                     <th colspan="5" class="text-center table-dark text-white"
                                         style="border-right:solid 2px #380092;min-width: 400px;">Part 3</th>
@@ -69,9 +69,10 @@
                                     <th class="text-center">Number</th>
                                     <th class="text-center" style="border-right:solid 2px #380092;">Class of securities
                                     </th>
-                                    <th class="text-center">Holder & nature of interest</th>
+                                    <th class="text-center">Holder</th>
+                                    <th class="text-center">Nature of interest</th>
                                     <th class="text-center">Number</th>
-                                    <th class="text-center" style="border-right:solid 2px #380092;">class of Securities
+                                    <th class="text-center" style="border-right:solid 2px #380092;">Class of securities
                                     </th>
                                     <th class="text-center">Detail of contract</th>
                                     <th class="text-center">Nature of interest</th>
@@ -103,7 +104,8 @@
                                                         class="btn btn-sm btn-secondary">View</a>
                                                 </td> --}}
                                                 <td class="text-center">{{ $report['date_of_appointment'] }}</td>
-                                                <td class="text-center" style="min-width: 130px; max-width: 250px;">{{ $report['name_of_director'] }}</td>
+                                                <td class="text-center" style="min-width: 130px; max-width: 250px;">
+                                                    {{ $report['name_of_director'] }}</td>
                                                 {{-- <td class="text-center" style="min-width: 200px; max-width: 250px;" data-bs-toggle="tooltip"
                                                     title="{{ $report['company_name'] }}">
                                                     {{ Str::limit($report['company_name'], 20, '...') }}</td> --}}
@@ -168,9 +170,48 @@
                                                 {{-- part2s  --}}
                                                 <td class="text-center" style="min-width: 200px; max-width: 250px">
                                                     @if (isset($report['part2s'][$i]))
+                                                        @php
+                                                            $name = strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']);
+
+                                                            if (in_array($name, ['n/a', 'nil', 'null'])) {
+                                                                $holder_name = '-';
+                                                            } else {
+                                                                // Remove text in brackets and echo the result
+                                                                preg_match('/^(.*?)\s*\(([^)]+)\)$/', $report['part2s'][$i]['name_of_holder_nature_of_interest'], $matches);
+                                                                if (!empty($matches)) {
+                                                                    $holder_name = trim($matches[1]);
+                                                                }
+                                                            }
+                                                        @endphp
                                                         <span data-bs-toggle="tooltip"
-                                                            title="{{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : $report['part2s'][$i]['name_of_holder_nature_of_interest'] }}">
-                                                            {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }}
+                                                            title="{{ $holder_name }}">
+                                                            {{ Str::limit($holder_name, 30, '...') }}
+                                                            {{-- {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }} --}}
+                                                        </span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+                                                
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px">
+                                                    @if (isset($report['part2s'][$i]))
+                                                        @php
+                                                            $name = strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']);
+
+                                                            if (in_array($name, ['n/a', 'nil', 'null'])) {
+                                                                $nature_of_interest = '-';
+                                                            } else {
+                                                                // Remove text in brackets and echo the result
+                                                                preg_match('/^(.*?)\s*\(([^)]+)\)$/', $report['part2s'][$i]['name_of_holder_nature_of_interest'], $matches);
+                                                                if (!empty($matches)) {
+                                                                    $nature_of_interest = trim($matches[2]);
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span data-bs-toggle="tooltip"
+                                                            title="{{ $nature_of_interest }}">
+                                                            {{ Str::limit($nature_of_interest, 30, '...') }}
+                                                            {{-- {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }} --}}
                                                         </span>
                                                     @else
                                                         <span>-</span>
