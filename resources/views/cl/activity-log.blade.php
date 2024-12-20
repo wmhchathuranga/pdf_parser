@@ -44,7 +44,7 @@
                                 <th class="text-center">IP Address</th>
                                 <th class="text-center">User Agent</th>
                                 <th class="text-center">Created</th>
-                                <th class="text-center">Action</th>
+                                {{-- <th class="text-center">Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +68,7 @@
                                     <td class="text-center">{{ $log['ip_address'] }}</td>
                                     <td class="">{{ $log['user_agent'] }}</td>
                                     <td class="text-center">{{ $log['created_at'] }}</td>
-                                    <td class="text-center">
+                                    {{-- <td class="text-center">
                                         @if ($log['error_type'] == 3 || $log['error_type'] == 4)
                                             <a class="btn btn-primary btn-sm"
                                                 href="{{ route(auth()->user()->role['role_name'] . '.report-edit-3x', ['id' => $log['report_id']]) }}"><i
@@ -76,7 +76,7 @@
                                         @else
                                             -
                                         @endif
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
