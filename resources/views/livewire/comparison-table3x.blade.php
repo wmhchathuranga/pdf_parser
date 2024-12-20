@@ -57,9 +57,9 @@
                                     <th rowspan="2" class="text-center align-items-center"
                                         style="border-right:solid 2px #380092;">ABN</th>
 
-                                    <th colspan="2" class="text-center table-dark text-white"
-                                        style="border-right:solid 2px #380092;min-width: 250px;">Part 1</th>
                                     <th colspan="4" class="text-center table-dark text-white"
+                                        style="border-right:solid 2px #380092;min-width: 250px;">Part 1</th>
+                                    <th colspan="6" class="text-center table-dark text-white"
                                         style="border-right:solid 2px #380092;min-width: 300px;">Part 2</th>
                                     <th colspan="5" class="text-center table-dark text-white"
                                         style="border-right:solid 2px #380092;min-width: 400px;">Part 3</th>
@@ -67,13 +67,17 @@
 
                                 <tr>
                                     <th class="text-center">Number</th>
-                                    <th class="text-center" style="border-right:solid 2px #380092;">Class of securities
-                                    </th>
+                                    <th class="text-center">Class of securities</th>
+                                    <th class="text-center">Exercisable</th>
+                                    <th class="text-center" style="border-right:solid 2px #380092;">Expiring</th>
+
                                     <th class="text-center">Holder</th>
                                     <th class="text-center">Nature of interest</th>
                                     <th class="text-center">Number</th>
-                                    <th class="text-center" style="border-right:solid 2px #380092;">Class of securities
-                                    </th>
+                                    <th class="text-center">Class of securities</th>
+                                    <th class="text-center">Exercisable</th>
+                                    <th class="text-center" style="border-right:solid 2px #380092;">Expiring</th>
+
                                     <th class="text-center">Detail of contract</th>
                                     <th class="text-center">Nature of interest</th>
                                     <th class="text-center">Name of registered holder (if issued securities)</th>
@@ -120,71 +124,94 @@
                                                 </td>
 
                                                 {{-- part1s  --}}
-                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
-                                                    @if (isset($report['part1s'][$i]))
-                                                        @php
-                                                            $matches = [];
-                                                            if (
-                                                                preg_match(
-                                                                    '/^([\d,]+)\s+(.+)$/',
-                                                                    $report['part1s'][$i]['number_class_of_securities'],
-                                                                    $matches,
-                                                                )
-                                                            ) {
-                                                                $number = $matches[1];
-                                                            } else {
+
+                                                @php
+                                                    $number = '-';
+                                                    $classOfSecurities = '-';
+                                                    $exercisable = '-';
+                                                    $expiring = '-';
+                                        
+                                                    if (isset($report['part1s'][$i])) {
+                                                        $securities = strtolower($report['part1s'][$i]['number_class_of_securities']);
+    
+                                                        if(!in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                            $pattern = "/\s+\(exercisable|exercisable\s+at\s+|\s+(?:expiring|expire)\s+/i";
+                                                            // $pattern = "/\s+exercisable\s+at\s+|\s+expiring\s+/i";
+                                                            $results = preg_split($pattern, $report['part1s'][$i]['number_class_of_securities']);
+                                                            
+                                                            if (isset($results[0])) {
+                                                                $number = preg_replace("/[^0-9,]+/", "", $results[0]);
+                                                            }else {
                                                                 $number = '-';
                                                             }
-                                                        @endphp
-                                                        <span>{{ $number }}</span>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
+
+                                                            if (isset($results[0])) {
+                                                                $classOfSecurities = preg_replace("/[{}[\]()\d,]+/", "", $results[0]);
+                                                            }else {
+                                                                $classOfSecurities = '-';
+                                                            }
+                                                            
+                                                            if (isset($results[1])) {
+                                                                $exercisable = preg_replace("/[^0-9.$]/", "" , $results[1]);
+                                                            }else {
+                                                                $exercisable = '-';
+                                                            }
+                                                            if (isset($results[2])) {
+                                                                $date = preg_replace("/[^0-9a-zA-Z.\s-]+/", "", $results[2]);
+                                                                $expiring = date('Y-m-d', strtotime($date));
+                                                            }else {
+                                                                $expiring = '-';
+                                                            }
+                                                        }
+                                                    }
+                                                @endphp
+
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    <span>{{ $number }}</span>
+                                                </td>
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    <span data-bs-toggle="tooltip"
+                                                        title="{{ $classOfSecurities }}">{{ Str::limit($classOfSecurities, 30, '...') }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    <span data-bs-toggle="tooltip" title="{{ $exercisable }}">{{ Str::limit($exercisable, 30, '...') }}</span>
                                                 </td>
 
                                                 <td class="text-center"
                                                     style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;">
-                                                    @if (isset($report['part1s'][$i]))
-                                                        @php
-                                                            $matches = [];
-                                                            if (
-                                                                preg_match(
-                                                                    '/^([\d,]+)\s+(.+)$/',
-                                                                    $report['part1s'][$i]['number_class_of_securities'],
-                                                                    $matches,
-                                                                )
-                                                            ) {
-                                                                $class_O_S = $matches[2];
-                                                            } else {
-                                                                $class_O_S = '-';
-                                                            }
-                                                        @endphp
-                                                        <span data-bs-toggle="tooltip" title="{{ $class_O_S }}">
-                                                            {{ Str::limit($class_O_S, 30, '...') }}
-                                                        </span>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
+                                                    <span data-bs-toggle="tooltip"
+                                                        title="{{ $expiring }}">{{ Str::limit($expiring, 30, '...') }}</span>
                                                 </td>
 
                                                 {{-- part2s  --}}
                                                 <td class="text-center" style="min-width: 200px; max-width: 250px">
                                                     @if (isset($report['part2s'][$i]))
                                                         @php
-                                                            $name = strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']);
+                                                            $holder_name = '-';
+                                                            $name = strtolower(
+                                                                $report['part2s'][$i][
+                                                                    'name_of_holder_nature_of_interest'
+                                                                ],
+                                                            );
 
                                                             if (in_array($name, ['n/a', 'nil', 'null'])) {
                                                                 $holder_name = '-';
                                                             } else {
                                                                 // Remove text in brackets and echo the result
-                                                                preg_match('/^(.*?)\s*\(([^)]+)\)$/', $report['part2s'][$i]['name_of_holder_nature_of_interest'], $matches);
+                                                                preg_match(
+                                                                    '/^(.*?)\s*\(([^)]+)\)$/',
+                                                                    $report['part2s'][$i][
+                                                                        'name_of_holder_nature_of_interest'
+                                                                    ],
+                                                                    $matches,
+                                                                );
                                                                 if (!empty($matches)) {
                                                                     $holder_name = trim($matches[1]);
                                                                 }
                                                             }
                                                         @endphp
-                                                        <span data-bs-toggle="tooltip"
-                                                            title="{{ $holder_name }}">
+                                                        <span data-bs-toggle="tooltip" title="{{ $holder_name }}">
                                                             {{ Str::limit($holder_name, 30, '...') }}
                                                             {{-- {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }} --}}
                                                         </span>
@@ -192,17 +219,28 @@
                                                         <span>-</span>
                                                     @endif
                                                 </td>
-                                                
+
                                                 <td class="text-center" style="min-width: 200px; max-width: 250px">
                                                     @if (isset($report['part2s'][$i]))
                                                         @php
-                                                            $name = strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']);
+                                                            $nature_of_interest = '-';
+                                                            $name = strtolower(
+                                                                $report['part2s'][$i][
+                                                                    'name_of_holder_nature_of_interest'
+                                                                ],
+                                                            );
 
                                                             if (in_array($name, ['n/a', 'nil', 'null'])) {
                                                                 $nature_of_interest = '-';
                                                             } else {
                                                                 // Remove text in brackets and echo the result
-                                                                preg_match('/^(.*?)\s*\(([^)]+)\)$/', $report['part2s'][$i]['name_of_holder_nature_of_interest'], $matches);
+                                                                preg_match(
+                                                                    '/^(.*?)\s*\(([^)]+)\)$/',
+                                                                    $report['part2s'][$i][
+                                                                        'name_of_holder_nature_of_interest'
+                                                                    ],
+                                                                    $matches,
+                                                                );
                                                                 if (!empty($matches)) {
                                                                     $nature_of_interest = trim($matches[2]);
                                                                 }
@@ -211,73 +249,71 @@
                                                         <span data-bs-toggle="tooltip"
                                                             title="{{ $nature_of_interest }}">
                                                             {{ Str::limit($nature_of_interest, 30, '...') }}
-                                                            {{-- {{ in_array(strtolower($report['part2s'][$i]['name_of_holder_nature_of_interest']), ['n/a', 'nil', 'null']) ? '-' : Str::limit($report['part2s'][$i]['name_of_holder_nature_of_interest'], 30, '...') }} --}}
                                                         </span>
                                                     @else
                                                         <span>-</span>
                                                     @endif
                                                 </td>
 
-                                                <td class="text-center" style="width: 350px; max-width: 450px;">
-                                                    @if (isset($report['part2s'][$i]))
-                                                        @php
-                                                            // Handle invalid securities values
-                                                            $securities = strtolower(
-                                                                $report['part2s'][$i]['number_class_of_securities'],
-                                                            );
-                                                            if (in_array($securities, ['n/a', 'nil', 'null'])) {
-                                                                $displayValue = '-';
-                                                            } else {
-                                                                $matches = [];
-                                                                if (
-                                                                    preg_match(
-                                                                        '/^([\d,]+)\s+(.+)$/',
-                                                                        $securities,
-                                                                        $matches,
-                                                                    )
-                                                                ) {
-                                                                    $displayValue = $matches[1]; // Extract the numeric part
-                                                                } else {
-                                                                    $displayValue = $securities; // Fallback to the original value
-                                                                }
+                                                @php
+                                                    $number = '-';
+                                                    $classOfSecurities = '-';
+                                                    $exercisable = '-';
+                                                    $expiring = '-';
+                                        
+                                                    if (isset($report['part2s'][$i])) {
+                                                        $securities = strtolower($report['part2s'][$i]['number_class_of_securities']);
+    
+                                                        if(!in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                            $pattern = "/\s+\(exercisable|exercisable\s+at\s+|\s+(?:expiring|expire)\s+/i";
+                                                            // $pattern = "/\s+exercisable\s+at\s+|\s+expiring\s+/i";
+                                                            $results = preg_split($pattern, $report['part2s'][$i]['number_class_of_securities']);
+                                                            
+                                                            if (isset($results[0])) {
+                                                                $number = preg_replace("/[^0-9,]+/", "", $results[0]);
+                                                            }else {
+                                                                $number = '-';
                                                             }
-                                                        @endphp
-                                                        <span>{{ $displayValue }}</span>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
+
+                                                            if (isset($results[0])) {
+                                                                $classOfSecurities = preg_replace("/[{}[\]()\d,]+/", "", $results[0]);
+                                                            }else {
+                                                                $classOfSecurities = '-';
+                                                            }
+                                                            
+                                                            if (isset($results[1])) {
+                                                                $exercisable = preg_replace("/[^0-9.$]/", "" , $results[1]);
+                                                            }else {
+                                                                $exercisable = '-';
+                                                            }
+                                                            if (isset($results[2])) {
+                                                                $date = preg_replace("/[^0-9a-zA-Z.\s-]+/", "", $results[2]);
+                                                                $expiring = date('Y-m-d', strtotime($date));
+                                                            }else {
+                                                                $expiring = '-';
+                                                            }
+                                                        }
+                                                    }
+                                                @endphp
+
+                                                <td class="text-center" style="width: 350px; max-width: 450px;">
+                                                    <span>{{ $number }}</span>
+                                                </td>
+
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    <span data-bs-toggle="tooltip"
+                                                        title="{{ $classOfSecurities }}">{{ Str::limit($classOfSecurities, 30, '...') }}
+                                                    </span>
+                                                </td>
+
+                                                <td class="text-center" style="min-width: 200px; max-width: 250px;">
+                                                    <span data-bs-toggle="tooltip" title="{{ $exercisable }}">{{ Str::limit($exercisable, 30, '...') }}</span>
                                                 </td>
 
                                                 <td class="text-center"
                                                     style="min-width: 200px; max-width: 250px; border-right: solid 2px #380092;">
-                                                    @if (isset($report['part2s'][$i]))
-                                                        @php
-                                                            // Handle invalid securities values
-                                                            $securities = strtolower(
-                                                                $report['part2s'][$i]['number_class_of_securities'],
-                                                            );
-                                                            if (in_array($securities, ['n/a', 'nil', 'null'])) {
-                                                                $displayValue = '-';
-                                                            } else {
-                                                                $matches = [];
-                                                                if (
-                                                                    preg_match(
-                                                                        '/^([\d,]+)\s+(.+)$/',
-                                                                        $securities,
-                                                                        $matches,
-                                                                    )
-                                                                ) {
-                                                                    $displayValue = $matches[2]; // Extract the numeric part
-                                                                } else {
-                                                                    $displayValue = $securities; // Fallback to the original value
-                                                                }
-                                                            }
-                                                        @endphp
-                                                        <span data-bs-toggle="tooltip"
-                                                            title="{{ $displayValue }}">{{ Str::limit($displayValue, 30, '...') }}</span>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
+                                                    <span data-bs-toggle="tooltip"
+                                                        title="{{ $expiring }}">{{ Str::limit($expiring, 30, '...') }}</span>
                                                 </td>
 
                                                 {{-- part3s  --}}

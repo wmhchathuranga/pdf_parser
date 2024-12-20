@@ -30,13 +30,17 @@ class ComparisonTable3x extends Component
         }
 
         if (!empty($this->companies)) {
+            if (isset($_COOKIE['3x_company_comparison_abn'])) {
+                $this->selectedCompany = $_COOKIE['3x_company_comparison_abn'];
+            } else {
+                $this->selectedCompany = $this->companies[0]['abn'];
+            }
             try {
                 $response = Http::withHeaders([
                     'Authorization' => env('API_TOKEN'),
-                ])->get(env('API_URL') . '/api/reports_3x/' . $this->companies[0]['abn']);
+                ])->get(env('API_URL') . '/api/reports_3x/' . $this->selectedCompany);
 
                 if ($response->successful()) {
-                    $this->selectedCompany = $this->companies[0]['abn'];
                     $this->allReports = $response->json();
                 } else {
                     throw new Exception('Failed to fetch reports');
@@ -52,6 +56,7 @@ class ComparisonTable3x extends Component
     public function changeCompany($abn)
     {
         $this->selectedCompany = $abn;
+        setcookie('3x_company_comparison_abn', $abn, 0, "/");
         $this->loadData();
     }
 

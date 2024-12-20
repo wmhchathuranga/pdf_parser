@@ -106,6 +106,12 @@ class FetchReports3x extends Component
                     setcookie('3x_company_abn', '', time() - 3600, "/");
                     // setcookie('3x_company_abn', $this->selectedCompany, 0, "/");
                 }
+                // if (isset($_SESSION['3x_company_comparison_abn'])) {
+                //     if (!in_array($_SESSION['3x_company_comparison_abn'], array_column($this->companies, 'abn'))) {
+                //         setcookie('3x_company_comparison_abn', '', time() - 3600, "/");
+                //     }
+                // }
+                
 
                 $this->loadData();
             } else {
