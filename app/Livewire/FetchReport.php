@@ -101,6 +101,14 @@ class FetchReport extends Component
                     $this->selectedCompany = $this->companies[0]['abn'];
                     setcookie('5b_company_abn', $this->selectedCompany, time() + (86400), "/");
                 }
+                if (!empty($_COOKIE['5b_company_comparison_abn']) && count($this->companies) > 0) {
+                    $cookieValue = $_COOKIE['5b_company_comparison_abn'];
+                    $abnList = array_column($this->companies, 'abn');
+                
+                    if (!in_array($cookieValue, $abnList)) {
+                        setcookie('5b_company_comparison_abn', '', time() - 3600, "/");
+                    }
+                }
 
                 $this->loadData();
             } else {

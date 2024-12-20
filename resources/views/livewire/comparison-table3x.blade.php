@@ -130,36 +130,54 @@
                                                     $classOfSecurities = '-';
                                                     $exercisable = '-';
                                                     $expiring = '-';
-                                        
+
                                                     if (isset($report['part1s'][$i])) {
-                                                        $securities = strtolower($report['part1s'][$i]['number_class_of_securities']);
-    
-                                                        if(!in_array($securities, ['n/a', 'nil', 'null'])) {
-                                                            $pattern = "/\s+\(exercisable|exercisable\s+at\s+|\s+(?:expiring|expire)\s+/i";
+                                                        $securities = strtolower(
+                                                            $report['part1s'][$i]['number_class_of_securities'],
+                                                        );
+
+                                                        if (!in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                            $pattern =
+                                                                '/\s+\(exercisable|exercisable\s+at\s+|\s+(?:expiring|expire)\s+/i';
                                                             // $pattern = "/\s+exercisable\s+at\s+|\s+expiring\s+/i";
-                                                            $results = preg_split($pattern, $report['part1s'][$i]['number_class_of_securities']);
-                                                            
+                                                            $results = preg_split(
+                                                                $pattern,
+                                                                $report['part1s'][$i]['number_class_of_securities'],
+                                                            );
+
                                                             if (isset($results[0])) {
-                                                                $number = preg_replace("/[^0-9,]+/", "", $results[0]);
-                                                            }else {
+                                                                $number = preg_replace('/[^0-9,]+/', '', $results[0]);
+                                                            } else {
                                                                 $number = '-';
                                                             }
 
                                                             if (isset($results[0])) {
-                                                                $classOfSecurities = preg_replace("/[{}[\]()\d,]+/", "", $results[0]);
-                                                            }else {
+                                                                $classOfSecurities = preg_replace(
+                                                                    '/[{}[\]()\d,]+/',
+                                                                    '',
+                                                                    $results[0],
+                                                                );
+                                                            } else {
                                                                 $classOfSecurities = '-';
                                                             }
-                                                            
+
                                                             if (isset($results[1])) {
-                                                                $exercisable = preg_replace("/[^0-9.$]/", "" , $results[1]);
-                                                            }else {
+                                                                $exercisable = preg_replace(
+                                                                    "/[^0-9.$]/",
+                                                                    '',
+                                                                    $results[1],
+                                                                );
+                                                            } else {
                                                                 $exercisable = '-';
                                                             }
                                                             if (isset($results[2])) {
-                                                                $date = preg_replace("/[^0-9a-zA-Z.\s-]+/", "", $results[2]);
+                                                                $date = preg_replace(
+                                                                    '/[^0-9a-zA-Z.\s-]+/',
+                                                                    '',
+                                                                    $results[2],
+                                                                );
                                                                 $expiring = date('Y-m-d', strtotime($date));
-                                                            }else {
+                                                            } else {
                                                                 $expiring = '-';
                                                             }
                                                         }
@@ -175,7 +193,8 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center" style="min-width: 200px; max-width: 250px;">
-                                                    <span data-bs-toggle="tooltip" title="{{ $exercisable }}">{{ Str::limit($exercisable, 30, '...') }}</span>
+                                                    <span data-bs-toggle="tooltip"
+                                                        title="{{ $exercisable }}">{{ Str::limit($exercisable, 30, '...') }}</span>
                                                 </td>
 
                                                 <td class="text-center"
@@ -260,36 +279,54 @@
                                                     $classOfSecurities = '-';
                                                     $exercisable = '-';
                                                     $expiring = '-';
-                                        
+
                                                     if (isset($report['part2s'][$i])) {
-                                                        $securities = strtolower($report['part2s'][$i]['number_class_of_securities']);
-    
-                                                        if(!in_array($securities, ['n/a', 'nil', 'null'])) {
-                                                            $pattern = "/\s+\(exercisable|exercisable\s+at\s+|\s+(?:expiring|expire)\s+/i";
+                                                        $securities = strtolower(
+                                                            $report['part2s'][$i]['number_class_of_securities'],
+                                                        );
+
+                                                        if (!in_array($securities, ['n/a', 'nil', 'null'])) {
+                                                            $pattern =
+                                                                '/\s+\(exercisable|exercisable\s+at\s+|\s+(?:expiring|expire)\s+/i';
                                                             // $pattern = "/\s+exercisable\s+at\s+|\s+expiring\s+/i";
-                                                            $results = preg_split($pattern, $report['part2s'][$i]['number_class_of_securities']);
-                                                            
+                                                            $results = preg_split(
+                                                                $pattern,
+                                                                $report['part2s'][$i]['number_class_of_securities'],
+                                                            );
+
                                                             if (isset($results[0])) {
-                                                                $number = preg_replace("/[^0-9,]+/", "", $results[0]);
-                                                            }else {
+                                                                $number = preg_replace('/[^0-9,]+/', '', $results[0]);
+                                                            } else {
                                                                 $number = '-';
                                                             }
 
                                                             if (isset($results[0])) {
-                                                                $classOfSecurities = preg_replace("/[{}[\]()\d,]+/", "", $results[0]);
-                                                            }else {
+                                                                $classOfSecurities = preg_replace(
+                                                                    '/[{}[\]()\d,]+/',
+                                                                    '',
+                                                                    $results[0],
+                                                                );
+                                                            } else {
                                                                 $classOfSecurities = '-';
                                                             }
-                                                            
+
                                                             if (isset($results[1])) {
-                                                                $exercisable = preg_replace("/[^0-9.$]/", "" , $results[1]);
-                                                            }else {
+                                                                $exercisable = preg_replace(
+                                                                    "/[^0-9.$]/",
+                                                                    '',
+                                                                    $results[1],
+                                                                );
+                                                            } else {
                                                                 $exercisable = '-';
                                                             }
                                                             if (isset($results[2])) {
-                                                                $date = preg_replace("/[^0-9a-zA-Z.\s-]+/", "", $results[2]);
+                                                                $date = preg_replace(
+                                                                    '/[^0-9a-zA-Z.\s-]+/',
+                                                                    '',
+                                                                    $results[2],
+                                                                );
                                                                 $expiring = date('Y-m-d', strtotime($date));
-                                                            }else {
+                                                            } else {
                                                                 $expiring = '-';
                                                             }
                                                         }
@@ -307,7 +344,8 @@
                                                 </td>
 
                                                 <td class="text-center" style="min-width: 200px; max-width: 250px;">
-                                                    <span data-bs-toggle="tooltip" title="{{ $exercisable }}">{{ Str::limit($exercisable, 30, '...') }}</span>
+                                                    <span data-bs-toggle="tooltip"
+                                                        title="{{ $exercisable }}">{{ Str::limit($exercisable, 30, '...') }}</span>
                                                 </td>
 
                                                 <td class="text-center"
@@ -429,6 +467,12 @@
         function inizializeDataTable() {
             let buttonsDataTables = new DataTable('#report-table-3x', {
                 dom: 'Bfrtip',
+                // layout: {
+                //     topStart: 'pageLength',
+                //     topEnd: 'search',
+                //     bottomStart: 'info',
+                //     bottomEnd: 'paging'
+                // },
                 buttons: ['copy', 'csv', 'excel', 'print'],
                 scrollX: true, // Enable horizontal scrolling
                 fixedColumns: {
