@@ -219,8 +219,15 @@ class PDFController2 extends Controller
                 }
             }
             for ($i = $part_2_start_point + 1; $i < $part_2_end_point; $i++) {
+                // split $page_1[$i] by .
+                if(strpos($page_1[$i], '. ') !== false){
+                    $part_2 = array_merge($part_2, explode('. ', $page_1[$i]));
+                    continue;
+                }
                 array_push($part_2, $page_1[$i]);
             }
+
+            Logger($part_2);
 
             for ($i = 0; $i < count($part_2); $i++) {
                 if (strpos($part_2[$i], 'holder') !== false) {
@@ -278,6 +285,14 @@ class PDFController2 extends Controller
 
             for ($i = 0; $i < count($part_2_left); $i++) {
                 if (strpos(strtolower($part_2_left[$i]), ')') !== false) {
+                    $part_2_left_record_end_point = $i;
+                    for ($j = $part_2_left_record_start_point; $j <= $part_2_left_record_end_point; $j++) {
+                        $part_2_left_record = $part_2_left_record . " " . $part_2_left[$j];
+                    }
+                    array_push($part_2_left_records, trim($part_2_left_record));
+                    $part_2_left_record_start_point = $i + 1;
+                    $part_2_left_record = "";
+                } else if (strpos(strtolower($part_2_left[$i]), '>') !== false) {
                     $part_2_left_record_end_point = $i;
                     for ($j = $part_2_left_record_start_point; $j <= $part_2_left_record_end_point; $j++) {
                         $part_2_left_record = $part_2_left_record . " " . $part_2_left[$j];
